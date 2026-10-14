@@ -1,5 +1,7 @@
 # Functiefoto
 
+[![Buy me a book](https://img.shields.io/badge/Buy%20me%20a%20book-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/halloz)
+
 Neem een foto van een functie uit je schrift, of schrijf ze met je pen of vinger op het tekenblad, en krijg meteen:
 
 - de **grafiek**, met nulpunten en asymptoten, om in te zoomen en waarden af te lezen;
@@ -47,3 +49,7 @@ Kies rechtsboven een stijl: **Athene**, **Minecraft**, **Galileo**, **Escher** o
 ## Voor ontwikkelaars
 
 Zie [CLAUDE.md](CLAUDE.md) voor de opbouw en de commando's.
+
+## Steun
+
+Vind je Functiefoto handig? Met een boek via [Buy Me a Coffee](https://buymeacoffee.com/halloz) help je de kosten dragen en blijven er nieuwe apps komen.

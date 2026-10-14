@@ -567,7 +567,15 @@ summary {
 }
 
 .steun {
-  margin-top: 1rem;
+  margin-top: 0.75rem;
+}
+
+/* Een kleinere knop, bijvoorbeeld voor de steunlink in de voettekst. */
+.knop-klein {
+  min-height: 40px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.92rem;
+  text-decoration: none;
 }
 
 /* Instellingen */
