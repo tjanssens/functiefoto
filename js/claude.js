@@ -1,9 +1,20 @@
 /**
  * De enige plek waar AI gebruikt wordt: Claude leest de functie van een foto of van het tekenblad.
  * De afbeelding gaat met de API-sleutel van dit toestel rechtstreeks naar de Claude API.
+ * Eerst leest het snelle model (Haiku); alleen als dat niet lukt, het grondige (Opus). Zie leesbeleid.js.
  */
+import { POGING, leesMetTerugval } from './leesbeleid.js';
+
 const SDK_URL = 'https://cdn.jsdelivr.net/npm/@anthropic-ai/sdk@0.129.0/+esm';
-const MODEL = 'claude-opus-5-5';
+
+/**
+ * Het grondige model krijgt de server-side terugval bij een weigering. Het snelle model kent
+ * die niet, dus daar vangt leesbeleid.js een weigering op door het grondige model te vragen.
+ */
+const MODELLEN = Object.freeze({
+  [POGING.SNEL]: { id: 'claude-haiku-5-5', extra: null },
+  [POGING.GRONDIG]: { id: 'claude-opus-5-5', extra: { betas: ['server-side-fallback-2026-07-01'], fallbacks: 'default' } },
+});
 /** Langste zijde van een afbeelding voor Claude, in pixels. */
 export const MAX_ZIJDE = 1568;
 const JPEG_KWALITEIT = 0.88;
@@ -15,8 +26,9 @@ const SCHEMA = {
     gevonden: { type: 'boolean' },
     functie: { type: 'string' },
     twijfel: { type: 'string' },
+    keuze: { type: 'string' },
   },
-  required: ['gevonden', 'functie', 'twijfel'],
+  required: ['gevonden', 'functie', 'twijfel', 'keuze'],
   additionalProperties: false,
 };
 
@@ -37,7 +49,8 @@ Schrijf het voorschrift, zonder "f(x) =", in deze schrijfwijze:
 Vul in:
 - gevonden: true als je een functievoorschrift ziet, anders false
 - functie: het voorschrift in die schrijfwijze, of een lege tekst
-- twijfel: één korte Nederlandse zin als je een teken niet zeker kon lezen (welk teken en wat het anders zou kunnen zijn), of als er meerdere functies op de afbeelding staan (welke je nam). Anders een lege tekst.`;
+- twijfel: één korte Nederlandse zin als je een teken niet zeker kon lezen (welk teken en wat het anders zou kunnen zijn). Anders een lege tekst.
+- keuze: één korte Nederlandse zin als er meerdere functies op de afbeelding staan (welke je nam). Anders een lege tekst.`;
 
 export class LeesFout extends Error {
   /** @param {'geannuleerd'|'sleutel'|'limiet'|'tegoed'|'overbelast'|'verbinding'|'weigering'|'onleesbaar'|'onbekend'} soort */
@@ -108,33 +121,7 @@ function vertaalFout(Anthropic, fout) {
   return fout;
 }
 
-/**
- * Leest de functie van een afbeelding (foto of tekenblad).
- * @returns {Promise<{gevonden: boolean, functie: string, twijfel: string}>}
- */
-export async function leesFunctie(bestand, apiSleutel, signal) {
-  const Anthropic = await laadSdk();
-  const afbeelding = await verkleinAfbeelding(bestand);
-  const client = maakClient(Anthropic, apiSleutel);
-  let antwoord;
-  try {
-    antwoord = await client.beta.messages.create({
-      model: MODEL,
-      max_tokens: MAX_TOKENS,
-      betas: ['server-side-fallback-2026-07-01'],
-      fallbacks: 'default',
-      output_config: { effort: 'medium', format: { type: 'json_schema', schema: SCHEMA } },
-      messages: [{
-        role: 'user',
-        content: [
-          { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: afbeelding } },
-          { type: 'text', text: OPDRACHT },
-        ],
-      }],
-    }, { signal });
-  } catch (fout) {
-    throw vertaalFout(Anthropic, fout);
-  }
+function leesAntwoord(antwoord) {
   if (antwoord.stop_reason === 'refusal') {
     throw new LeesFout('weigering', 'Claude wilde deze afbeelding niet lezen. Probeer opnieuw of typ de functie.');
   }
@@ -143,21 +130,57 @@ export async function leesFunctie(bestand, apiSleutel, signal) {
   try {
     resultaat = JSON.parse(tekst ?? '');
   } catch (fout) {
-    console.warn('Het antwoord van Claude was geen geldige JSON', { stop_reason: antwoord.stop_reason, tekst }, fout);
+    console.warn('Het antwoord van Claude was geen geldige JSON', { model: antwoord.model, stop_reason: antwoord.stop_reason, tekst }, fout);
     throw new LeesFout('onleesbaar', 'Het antwoord van Claude was onvolledig. Probeer opnieuw.');
   }
   return {
     gevonden: resultaat.gevonden === true,
     functie: typeof resultaat.functie === 'string' ? resultaat.functie.trim() : '',
     twijfel: typeof resultaat.twijfel === 'string' ? resultaat.twijfel.trim() : '',
+    keuze: typeof resultaat.keuze === 'string' ? resultaat.keuze.trim() : '',
   };
+}
+
+async function vraagModel(Anthropic, client, model, afbeelding, signal) {
+  const vraag = {
+    model: model.id,
+    max_tokens: MAX_TOKENS,
+    output_config: { effort: 'medium', format: { type: 'json_schema', schema: SCHEMA } },
+    messages: [{
+      role: 'user',
+      content: [
+        { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: afbeelding } },
+        { type: 'text', text: OPDRACHT },
+      ],
+    }],
+  };
+  try {
+    const antwoord = model.extra
+      ? await client.beta.messages.create({ ...vraag, ...model.extra }, { signal })
+      : await client.messages.create(vraag, { signal });
+    return leesAntwoord(antwoord);
+  } catch (fout) {
+    throw vertaalFout(Anthropic, fout);
+  }
+}
+
+/**
+ * Leest de functie van een afbeelding (foto of tekenblad): eerst snel, zo nodig grondig.
+ * @param {{ isLeesbaar?: (functie: string) => boolean, bijTweedePoging?: () => void }} opties
+ * @returns {Promise<{gevonden: boolean, functie: string, twijfel: string, keuze: string, poging: string}>}
+ */
+export async function leesFunctie(bestand, apiSleutel, signal, opties = {}) {
+  const Anthropic = await laadSdk();
+  const afbeelding = await verkleinAfbeelding(bestand);
+  const client = maakClient(Anthropic, apiSleutel);
+  return leesMetTerugval((poging) => vraagModel(Anthropic, client, MODELLEN[poging], afbeelding, signal), opties);
 }
 
 /** Controleert of de sleutel werkt, zonder een afbeelding te versturen. */
 export async function testSleutel(apiSleutel) {
   const Anthropic = await laadSdk();
   try {
-    await maakClient(Anthropic, apiSleutel).models.retrieve(MODEL);
+    await maakClient(Anthropic, apiSleutel).models.retrieve(MODELLEN[POGING.SNEL].id);
   } catch (fout) {
     throw vertaalFout(Anthropic, fout);
   }

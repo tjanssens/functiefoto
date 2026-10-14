@@ -29,7 +29,7 @@ De sleutel moet in de app op het beginscherm ingevuld worden: die bewaart haar g
 
 - Maak een sleutel aan op [console.anthropic.com](https://console.anthropic.com), bij voorkeur in een eigen workspace met een maandlimiet van een paar euro.
 - De sleutel blijft alleen op het toestel waar ze ingevuld is. Wie dat toestel gebruikt, kan ze wel achterhalen; daarom die limiet.
-- Een foto of tekenblad lezen kost ongeveer 1 à 2 cent.
+- Eerst leest Claude Haiku de functie: dat kost minder dan 0,1 cent. Vindt Haiku niets of twijfelt het over een teken, dan kijkt Claude Opus nog eens: dat kost 1 à 2 cent.
 
 ## Welke functies?
 

@@ -1,7 +1,7 @@
 /**
  * Verbindt de pagina: functie inlezen (typen, foto of tekenblad), analyseren, tekenen en tonen.
  */
-import { ontleed, ExpressieFout } from './expressie.js';
+import { ontleed, ExpressieFout, isLeesbaar } from './expressie.js';
 import { analyseer } from './analyse.js';
 import { controleerTabel, controleerAsymptoot } from './numeriek.js';
 import { TEKEN } from './tabel.js';
@@ -140,7 +140,12 @@ async function leesAfbeelding(afbeelding, bron) {
   el.annuleer.hidden = false;
   zetStatus(el.fotoStatus, bron.bezig, 'bezig');
   try {
-    const resultaat = await leesFunctie(afbeelding, sleutel, dezeLezing.signal);
+    const resultaat = await leesFunctie(afbeelding, sleutel, dezeLezing.signal, {
+      isLeesbaar,
+      bijTweedePoging: () => {
+        if (isActueel()) zetStatus(el.fotoStatus, 'Dat was niet helemaal duidelijk. Claude kijkt nog eens grondiger…', 'bezig');
+      },
+    });
     if (!isActueel()) return;
     if (!resultaat.gevonden || !resultaat.functie) {
       zetStatus(el.fotoStatus, resultaat.twijfel || bron.leeg, 'fout');
@@ -151,7 +156,9 @@ async function leesAfbeelding(afbeelding, bron) {
     if (!gelukt) {
       zetStatus(el.fotoStatus, 'De gelezen formule klopt niet helemaal. Pas ze aan en kies Teken.', 'let-op');
     } else if (resultaat.twijfel) {
-      zetStatus(el.fotoStatus, `Gelezen, maar kijk dit na: ${resultaat.twijfel}`, 'let-op');
+      zetStatus(el.fotoStatus, `Gelezen, maar kijk dit na: ${resultaat.twijfel}${resultaat.keuze ? ` ${resultaat.keuze}` : ''}`, 'let-op');
+    } else if (resultaat.keuze) {
+      zetStatus(el.fotoStatus, `Gelezen. ${resultaat.keuze}`, 'let-op');
     } else {
       zetStatus(el.fotoStatus, `Gelezen. Vergelijk de formule hieronder nog even met ${bron.vergelijk}.`, 'ok');
     }

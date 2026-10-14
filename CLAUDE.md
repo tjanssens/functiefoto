@@ -29,7 +29,8 @@ Gewone ES-modules zonder bundler; alles in het Nederlands benoemd.
 | `js/numeriek.js` | Nulpunten zoeken, tabel nacontroleren, venster en lijnstukken van de grafiek |
 | `js/grafiek.js` | SVG-grafiek met slepen, knijpen, Ctrl+wiel en aflezen |
 | `js/weergave.js` | HTML voor formule, tekentabel en stappen |
-| `js/claude.js` | Enige AI-aanroep: foto of tekenblad → functievoorschrift (Anthropic SDK via jsDelivr) |
+| `js/claude.js` | Enige AI-aanroep: foto of tekenblad → functievoorschrift (Anthropic SDK via jsDelivr), met Haiku 5.5 en Opus 5.5 |
+| `js/leesbeleid.js` | Eerst Haiku; Opus alleen als Haiku niets vindt, over een teken twijfelt, een onleesbare formule geeft, weigert of onvolledig antwoordt. Kiezen tussen meerdere functies (veld `keuze`) is geen twijfel. Faalt Opus, dan blijft een leesbare lezing van Haiku over. |
 | `js/tekenblad.js` | Tekenblad over het hele scherm: pen en vinger, handpalm negeren, gom, ongedaan maken, export als PNG |
 | `js/tekenblad-logica.js` | Puur rekenwerk van het tekenblad: lijndikte, omhullende, gom, inpassen na draaien, geschiedenis |
 | `js/instellingen.js` | API-sleutel en stijl in localStorage |

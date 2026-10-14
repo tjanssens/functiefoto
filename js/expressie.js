@@ -198,6 +198,17 @@ export function ontleed(tekst) {
   return boom;
 }
 
+/** Kan de pagina dit voorschrift lezen? Een schrijffout geeft false, andere fouten gaan door. */
+export function isLeesbaar(tekst) {
+  try {
+    ontleed(tekst);
+    return true;
+  } catch (fout) {
+    if (fout instanceof ExpressieFout) return false;
+    throw fout;
+  }
+}
+
 /** Exacte waarde van een knoop zonder x (zoals 1/3 of -2), anders null. */
 export function constanteBreuk(k) {
   switch (k.soort) {
