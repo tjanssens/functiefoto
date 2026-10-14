@@ -1,5 +1,5 @@
 /*
- * De vier stijlen. Elke stijl vult de tokens uit basis.css en versiert de kop,
+ * De vijf stijlen. Elke stijl vult de tokens uit basis.css en versiert de kop,
  * de band, de sectietitels en het kader. Het papier binnen het kader blijft neutraal.
  */
 
@@ -328,4 +328,224 @@
 
 [data-stijl='escher'] .foto-voorbeeld {
   border: 2px solid #111;
+}
+
+/* ---------- Mario: zachte 16-bit hemel met wolken, vraagtekenblokken, groene buizen en ronde heuvels ---------- */
+:root[data-stijl='mario'] {
+  --achtergrond: #c4e7fb;
+  /* De hemel zelf is effen. Wolken en heuvels staan enkel in de body-regel, zo blijft de balk van het tekenblad gewoon hemelblauw. */
+  --achtergrond-beeld: none;
+  --inkt: #1d2747;
+  --inkt-zacht: #3d4b6e;
+  --accent: #c62f28;
+  --accent-inkt: #fff;
+  --lijn: #1d2747;
+  --font-kop: 'Fredoka', ui-rounded, 'Arial Rounded MT Bold', 'Trebuchet MS', sans-serif;
+  --font-tekst: 'Nunito', ui-rounded, 'Avenir Next', 'Segoe UI', sans-serif;
+  --font-pixel: 'Press Start 2P', 'Courier New', monospace;
+  --kop-gewicht: 400;
+  --kop-spatiering: 0;
+  --radius: 12px;
+  --knop-achtergrond: #fffdf6;
+  --knop-inkt: #1d2747;
+  --knop-rand: 3px solid #1d2747;
+  --kader: linear-gradient(90deg, #3f9a52 0 3px, #a8e89a 3px 5px, #dff7cf 5px 9px, #8fdc84 9px 14px, #6ccf6e 14px calc(100% - 14px), #4fb05c calc(100% - 14px) calc(100% - 10px), #6ccf6e calc(100% - 10px) calc(100% - 6px), #3f9a52 calc(100% - 6px));
+  --kader-padding: 26px 10px 10px;
+  --kader-radius: 6px;
+  --kader-rand: 3px solid #1f5f30;
+  --kader-schaduw: 0 6px 0 rgb(29 39 71 / 0.14);
+  --focus: #1f4fd0;
+  --dialoog: #fffaf0;
+  --band-hoogte: 48px;
+  --fout: #a3161a;
+  --let-op: #7a4a00;
+  --ok: #1a5e2c;
+  --heuvels: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 480 160' width='480' height='160'%3E%3Cg transform='translate(178 23) scale(0.5)'%3E%3Cg fill='%23ffffff' stroke='%23a9d8f5' stroke-width='8.0'%3E%3Crect x='0' y='26' width='150' height='34' rx='17'/%3E%3Ccircle cx='44' cy='28' r='24'/%3E%3Ccircle cx='82' cy='18' r='30'/%3E%3Ccircle cx='120' cy='32' r='20'/%3E%3C/g%3E%3Cg fill='%23ffffff'%3E%3Crect x='0' y='26' width='150' height='34' rx='17'/%3E%3Ccircle cx='44' cy='28' r='24'/%3E%3Ccircle cx='82' cy='18' r='30'/%3E%3Ccircle cx='120' cy='32' r='20'/%3E%3C/g%3E%3Crect x='14' y='46' width='122' height='9' rx='4.5' fill='%23e6f4fd'/%3E%3C/g%3E%3Cg transform='translate(398 12) scale(0.36)'%3E%3Cg fill='%23ffffff' stroke='%23a9d8f5' stroke-width='11.11'%3E%3Crect x='0' y='26' width='150' height='34' rx='17'/%3E%3Ccircle cx='44' cy='28' r='24'/%3E%3Ccircle cx='82' cy='18' r='30'/%3E%3Ccircle cx='120' cy='32' r='20'/%3E%3C/g%3E%3Cg fill='%23ffffff'%3E%3Crect x='0' y='26' width='150' height='34' rx='17'/%3E%3Ccircle cx='44' cy='28' r='24'/%3E%3Ccircle cx='82' cy='18' r='30'/%3E%3Ccircle cx='120' cy='32' r='20'/%3E%3C/g%3E%3Crect x='14' y='46' width='122' height='9' rx='4.5' fill='%23e6f4fd'/%3E%3C/g%3E%3Cg transform='translate(0 32)'%3E%3Cpath d='M16 108V86A50 50 0 0 1 116 86V108Z' fill='%23b5e3a1' stroke='%234e9a52' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M36 92V74' fill='none' stroke='%23e2f6d4' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M92 108V96A34 34 0 0 1 160 96V108Z' fill='%238fd18a' stroke='%233f8a48' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M106 100V92' fill='none' stroke='%23e2f6d4' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M262 108A60 60 0 0 1 382 108Z' fill='%23b5e3a1' stroke='%234e9a52' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M284 96V84' fill='none' stroke='%23e2f6d4' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M360 108V100A30 30 0 0 1 420 100V108Z' fill='%238fd18a' stroke='%233f8a48' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M373 102V96' fill='none' stroke='%23e2f6d4' stroke-width='6' stroke-linecap='round'/%3E%3Cdefs%3E%3Cpattern id='g' width='24' height='22' patternUnits='userSpaceOnUse' x='0' y='106'%3E%3Crect width='24' height='22' fill='%23b86a36'/%3E%3Crect x='1.5' y='1.5' width='21' height='19' rx='4' fill='%23dc9a62'/%3E%3Cpath d='M5 6V12' stroke='%23f2c08f' stroke-width='2' stroke-linecap='round'/%3E%3C/pattern%3E%3C/defs%3E%3Crect y='106' width='480' height='22' fill='url(%23g)'/%3E%3Crect y='102' width='480' height='7' fill='%236cc04a'/%3E%3Cpath d='M0 108.5H480' stroke='%233f8a48' stroke-width='1.5'/%3E%3C/g%3E%3C/svg%3E");
+  --wolken: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 560 64' width='560' height='64'%3E%3Cg transform='translate(36 17) scale(0.6)'%3E%3Cg fill='%23ffffff' stroke='%23a9d8f5' stroke-width='6.67'%3E%3Crect x='0' y='26' width='150' height='34' rx='17'/%3E%3Ccircle cx='44' cy='28' r='24'/%3E%3Ccircle cx='82' cy='18' r='30'/%3E%3Ccircle cx='120' cy='32' r='20'/%3E%3C/g%3E%3Cg fill='%23ffffff'%3E%3Crect x='0' y='26' width='150' height='34' rx='17'/%3E%3Ccircle cx='44' cy='28' r='24'/%3E%3Ccircle cx='82' cy='18' r='30'/%3E%3Ccircle cx='120' cy='32' r='20'/%3E%3C/g%3E%3Crect x='14' y='46' width='122' height='9' rx='4.5' fill='%23e6f4fd'/%3E%3C/g%3E%3Cg transform='translate(262 10) scale(0.4)'%3E%3Cg fill='%23ffffff' stroke='%23a9d8f5' stroke-width='10.0'%3E%3Crect x='0' y='26' width='150' height='34' rx='17'/%3E%3Ccircle cx='44' cy='28' r='24'/%3E%3Ccircle cx='82' cy='18' r='30'/%3E%3Ccircle cx='120' cy='32' r='20'/%3E%3C/g%3E%3Cg fill='%23ffffff'%3E%3Crect x='0' y='26' width='150' height='34' rx='17'/%3E%3Ccircle cx='44' cy='28' r='24'/%3E%3Ccircle cx='82' cy='18' r='30'/%3E%3Ccircle cx='120' cy='32' r='20'/%3E%3C/g%3E%3Crect x='14' y='46' width='122' height='9' rx='4.5' fill='%23e6f4fd'/%3E%3C/g%3E%3Cg transform='translate(420 21) scale(0.5)'%3E%3Cg fill='%23ffffff' stroke='%23a9d8f5' stroke-width='8.0'%3E%3Crect x='0' y='26' width='150' height='34' rx='17'/%3E%3Ccircle cx='44' cy='28' r='24'/%3E%3Ccircle cx='82' cy='18' r='30'/%3E%3Ccircle cx='120' cy='32' r='20'/%3E%3C/g%3E%3Cg fill='%23ffffff'%3E%3Crect x='0' y='26' width='150' height='34' rx='17'/%3E%3Ccircle cx='44' cy='28' r='24'/%3E%3Ccircle cx='82' cy='18' r='30'/%3E%3Ccircle cx='120' cy='32' r='20'/%3E%3C/g%3E%3Crect x='14' y='46' width='122' height='9' rx='4.5' fill='%23e6f4fd'/%3E%3C/g%3E%3C/svg%3E");
+  --blok: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='1' y='1' width='30' height='30' rx='5' fill='%23f7c13a' stroke='%238a4b08' stroke-width='2'/%3E%3Cpath d='M4.6 25V7.2Q4.6 4.6 7.2 4.6H25' fill='none' stroke='%23ffe38a' stroke-width='1.8' stroke-linecap='round'/%3E%3Cpath d='M27.4 7V24.8Q27.4 27.4 24.8 27.4H7' fill='none' stroke='%23e0901c' stroke-width='1.8' stroke-linecap='round'/%3E%3Cg fill='%238a4b08'%3E%3Ccircle cx='7.6' cy='7.6' r='1.4'/%3E%3Ccircle cx='24.4' cy='7.6' r='1.4'/%3E%3Ccircle cx='7.6' cy='24.4' r='1.4'/%3E%3Ccircle cx='24.4' cy='24.4' r='1.4'/%3E%3C/g%3E%3C/svg%3E");
+  --blokken: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 48' preserveAspectRatio='none'%3E%3Cg transform='translate(48 7) scale(0.8) translate(-32 -7.6)'%3E%3Cellipse cx='32' cy='7.6' rx='5.2' ry='6.8' fill='%23f9d24a' stroke='%23a86a00' stroke-width='1.6'/%3E%3Crect x='30.7' y='3.9' width='2.6' height='7.4' rx='1.3' fill='%23d99a12'/%3E%3Cpath d='M29 5.2Q29.4 3.4 30.6 2.8' fill='none' stroke='%23fff6c8' stroke-width='1.2' stroke-linecap='round'/%3E%3C/g%3E%3Cg transform='translate(0 16)'%3E%3Crect x='1' y='1' width='30' height='30' rx='4' fill='%23e0874a' stroke='%237a3512' stroke-width='2'/%3E%3Cpath d='M2 11.3H30M2 21H30M16 2V11.3M9 11.3V21M23 11.3V21M16 21V30' fill='none' stroke='%237a3512' stroke-width='1.6'/%3E%3Cpath d='M4.4 4.6H13M19 4.6H27.6M4.4 14.4H6.4M12 14.4H20M25.6 14.4H27.6M4.4 24.2H13M19 24.2H27.6' fill='none' stroke='%23f6b27e' stroke-width='1.6' stroke-linecap='round'/%3E%3C/g%3E%3Cg transform='translate(32 16)'%3E%3Crect x='1' y='1' width='30' height='30' rx='5' fill='%23f7c13a' stroke='%238a4b08' stroke-width='2'/%3E%3Cpath d='M4.6 25V7.2Q4.6 4.6 7.2 4.6H25' fill='none' stroke='%23ffe38a' stroke-width='1.8' stroke-linecap='round'/%3E%3Cpath d='M27.4 7V24.8Q27.4 27.4 24.8 27.4H7' fill='none' stroke='%23e0901c' stroke-width='1.8' stroke-linecap='round'/%3E%3Cg fill='%238a4b08'%3E%3Ccircle cx='7.6' cy='7.6' r='1.4'/%3E%3Ccircle cx='24.4' cy='7.6' r='1.4'/%3E%3Ccircle cx='7.6' cy='24.4' r='1.4'/%3E%3Ccircle cx='24.4' cy='24.4' r='1.4'/%3E%3C/g%3E%3Cg transform='translate(1.2 1.2)' fill='none' stroke='%238a4b08' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12.6 12.6C12.6 10.2 14.1 8.6 16.2 8.6C18.4 8.6 19.9 10 19.9 12C19.9 14 18.7 14.8 17.5 15.6C16.6 16.2 16.2 16.8 16.2 18V18.8'/%3E%3C/g%3E%3Ccircle cx='17.4' cy='24.3' r='1.9' fill='%238a4b08'/%3E%3Cg fill='none' stroke='%23fff8e0' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12.6 12.6C12.6 10.2 14.1 8.6 16.2 8.6C18.4 8.6 19.9 10 19.9 12C19.9 14 18.7 14.8 17.5 15.6C16.6 16.2 16.2 16.8 16.2 18V18.8'/%3E%3C/g%3E%3Ccircle cx='16.2' cy='23.1' r='1.9' fill='%23fff8e0'/%3E%3C/g%3E%3Cg transform='translate(64 16)'%3E%3Crect x='1' y='1' width='30' height='30' rx='4' fill='%23e0874a' stroke='%237a3512' stroke-width='2'/%3E%3Cpath d='M2 11.3H30M2 21H30M16 2V11.3M9 11.3V21M23 11.3V21M16 21V30' fill='none' stroke='%237a3512' stroke-width='1.6'/%3E%3Cpath d='M4.4 4.6H13M19 4.6H27.6M4.4 14.4H6.4M12 14.4H20M25.6 14.4H27.6M4.4 24.2H13M19 24.2H27.6' fill='none' stroke='%23f6b27e' stroke-width='1.6' stroke-linecap='round'/%3E%3C/g%3E%3Cg transform='translate(96 16)'%3E%3Crect x='1' y='1' width='30' height='30' rx='4' fill='%23e0874a' stroke='%237a3512' stroke-width='2'/%3E%3Cpath d='M2 11.3H30M2 21H30M16 2V11.3M9 11.3V21M23 11.3V21M16 21V30' fill='none' stroke='%237a3512' stroke-width='1.6'/%3E%3Cpath d='M4.4 4.6H13M19 4.6H27.6M4.4 14.4H6.4M12 14.4H20M25.6 14.4H27.6M4.4 24.2H13M19 24.2H27.6' fill='none' stroke='%23f6b27e' stroke-width='1.6' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E");
+  --embleem: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cellipse cx='32' cy='7.6' rx='5.2' ry='6.8' fill='%23f9d24a' stroke='%23a86a00' stroke-width='1.6'/%3E%3Crect x='30.7' y='3.9' width='2.6' height='7.4' rx='1.3' fill='%23d99a12'/%3E%3Cpath d='M29 5.2Q29.4 3.4 30.6 2.8' fill='none' stroke='%23fff6c8' stroke-width='1.2' stroke-linecap='round'/%3E%3Cpath d='M21.5 10.5 18 7.5M42.5 10.5 46 7.5M20.5 14.5H16.5M43.5 14.5H47.5' fill='none' stroke='%23e0901c' stroke-width='2' stroke-linecap='round'/%3E%3Cg transform='translate(8 15.5) scale(1.5)'%3E%3Crect x='1' y='1' width='30' height='30' rx='5' fill='%23f7c13a' stroke='%238a4b08' stroke-width='2'/%3E%3Cpath d='M4.6 25V7.2Q4.6 4.6 7.2 4.6H25' fill='none' stroke='%23ffe38a' stroke-width='1.8' stroke-linecap='round'/%3E%3Cpath d='M27.4 7V24.8Q27.4 27.4 24.8 27.4H7' fill='none' stroke='%23e0901c' stroke-width='1.8' stroke-linecap='round'/%3E%3Cg fill='%238a4b08'%3E%3Ccircle cx='7.6' cy='7.6' r='1.4'/%3E%3Ccircle cx='24.4' cy='7.6' r='1.4'/%3E%3Ccircle cx='7.6' cy='24.4' r='1.4'/%3E%3Ccircle cx='24.4' cy='24.4' r='1.4'/%3E%3C/g%3E%3Cg transform='translate(1.2 1.2)' fill='none' stroke='%238a4b08' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12.6 12.6C12.6 10.2 14.1 8.6 16.2 8.6C18.4 8.6 19.9 10 19.9 12C19.9 14 18.7 14.8 17.5 15.6C16.6 16.2 16.2 16.8 16.2 18V18.8'/%3E%3C/g%3E%3Ccircle cx='17.4' cy='24.3' r='1.9' fill='%238a4b08'/%3E%3Cg fill='none' stroke='%23fff8e0' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12.6 12.6C12.6 10.2 14.1 8.6 16.2 8.6C18.4 8.6 19.9 10 19.9 12C19.9 14 18.7 14.8 17.5 15.6C16.6 16.2 16.2 16.8 16.2 18V18.8'/%3E%3C/g%3E%3Ccircle cx='16.2' cy='23.1' r='1.9' fill='%23fff8e0'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Op smalle schermen krijgt het papier zoveel mogelijk plaats: een smallere buis met dezelfde glans. */
+@media (max-width: 520px) {
+  :root[data-stijl='mario'] {
+    --kader: linear-gradient(90deg, #3f9a52 0 2px, #a8e89a 2px 3px, #dff7cf 3px 5px, #6ccf6e 5px calc(100% - 4px), #3f9a52 calc(100% - 4px));
+    --kader-padding: 26px 6px 6px;
+  }
+}
+
+/*
+ * Wolken staan alleen in een strook boven de kop en net boven de heuvels, nooit achter tekst.
+ * Beide lagen hangen aan de linkerrand, dus hun plaats verandert niet met de schermbreedte.
+ */
+[data-stijl='mario'] body {
+  background-image: var(--heuvels), var(--wolken);
+  background-repeat: repeat-x, repeat-x;
+  background-position: left bottom, left top;
+  background-size: 480px 160px, 560px 64px;
+}
+
+/* Ruimte voor de strook wolken boven de kop. */
+[data-stijl='mario'] .app {
+  padding-top: 64px;
+}
+
+/* De titel past op één regel naast het embleem, ook in het brede pixellettertype. */
+[data-stijl='mario'] .kop-tekst {
+  flex-basis: min(22rem, calc(100% - 80px));
+}
+
+/* Het pixellettertype krijgt vaste groottes in veelvouden van 4 px, zodat de pixels scherp blijven. */
+[data-stijl='mario'] h1 {
+  font-family: var(--font-pixel);
+  font-size: 20px;
+  line-height: 1.25;
+  color: #c62f28;
+  text-shadow: 0.125em 0.125em 0 #fff;
+}
+
+[data-stijl='mario'] .stijlkiezer {
+  font-weight: 600;
+}
+
+/* Een rij zwevende blokken met een munt boven het vraagtekenblok, altijd in hele blokken. */
+[data-stijl='mario'] .band {
+  margin-top: 0.5rem;
+  background: var(--blokken) left top / 128px 48px round no-repeat;
+}
+
+[data-stijl='mario'] .sectie > h2 {
+  align-items: center;
+  font-family: var(--font-pixel);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+@media (min-width: 380px) {
+  [data-stijl='mario'] h1 {
+    font-size: 24px;
+  }
+}
+
+@media (min-width: 521px) {
+  [data-stijl='mario'] h1 {
+    font-size: 32px;
+  }
+
+  [data-stijl='mario'] .sectie > h2 {
+    font-size: 20px;
+  }
+}
+
+/* Het sectienummer zit in een leeg vraagtekenblok. */
+[data-stijl='mario'] .sectie > h2::before {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding-top: 0.15rem;
+  background: var(--blok) center / 100% 100% no-repeat;
+  color: #5a2e02;
+  font-size: 16px;
+  line-height: 1;
+  text-shadow: 2px 2px 0 #ffe38a;
+  filter: drop-shadow(0 4px 0 rgb(29 39 71 / 0.18));
+}
+
+/* Het kader is een groene buis: een brede rand bovenaan en strepen glans langs de zijkant. */
+[data-stijl='mario'] .kader::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -10px;
+  right: -10px;
+  height: 24px;
+  border: 3px solid #1f5f30;
+  border-radius: 6px;
+  background: var(--kader);
+  box-shadow: 0 3px 0 rgb(31 95 48 / 0.35);
+}
+
+[data-stijl='mario'] .knop {
+  font-weight: 600;
+  box-shadow: 0 4px 0 #1d2747;
+}
+
+[data-stijl='mario'] .knop:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #1d2747;
+}
+
+[data-stijl='mario'] .knop-hoofd {
+  border-color: #7d1712;
+  box-shadow: 0 4px 0 #7d1712;
+}
+
+[data-stijl='mario'] .knop-hoofd:active {
+  box-shadow: 0 1px 0 #7d1712;
+}
+
+/*
+ * Het gekozen gereedschap (Pen of Gom) is een toestand: goud en ingezakt, met het vinkje en de streep uit basis.css.
+ * Zo blijft Lees de functie de enige rode knop. Het gewicht blijft 600, dan verspringt de tekst niet bij het wisselen.
+ */
+[data-stijl='mario'] .tekenblad-gereedschap .knop[aria-pressed='true'],
+[data-stijl='mario'] .tekenblad-gereedschap .knop[aria-pressed='true']:hover {
+  background: #ffc21a;
+  color: var(--knop-inkt);
+  font-weight: 600;
+  box-shadow: 0 1px 0 #1d2747;
+  transform: translateY(3px);
+}
+
+/* Hover alleen met een muis of trackpad, zodat er op de iPad na een tik niets blijft hangen. */
+@media (hover: hover) {
+  [data-stijl='mario'] .knop:hover {
+    background: #fff3c4;
+  }
+
+  [data-stijl='mario'] .knop-hoofd:hover {
+    background: #b52a23;
+  }
+}
+
+[data-stijl='mario'] .veld-label {
+  font-weight: 500;
+}
+
+[data-stijl='mario'] input[type='text'],
+[data-stijl='mario'] input[type='password'],
+[data-stijl='mario'] select {
+  border-width: 3px;
+  background: #fff;
+  color: #1d2747;
+  box-shadow: inset 0 3px 0 rgb(29 39 71 / 0.1);
+}
+
+[data-stijl='mario'] .foto-voorbeeld {
+  border: 3px solid #1d2747;
+}
+
+/* Ruimte onder de voettekst, zodat die op de hemel staat en niet op de wolken of de heuvels. */
+[data-stijl='mario'] .voet {
+  padding-bottom: 6.5rem;
+}
+
+[data-stijl='mario'] dialog {
+  border: 4px solid #1d2747;
+  border-radius: 16px;
+  box-shadow: 0 8px 0 rgb(29 39 71 / 0.35);
+}
+
+[data-stijl='mario'] dialog::backdrop {
+  background: rgb(29 39 71 / 0.5);
+}
+
+[data-stijl='mario'] .dialoog-inhoud h2 {
+  font-family: var(--font-pixel);
+  font-size: 16px;
+  line-height: 1.5;
+  color: #c62f28;
 }

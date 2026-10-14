@@ -1,6 +1,6 @@
 # Functiefoto
 
-Webpagina voor Mil (secundair onderwijs, Vlaanderen): een foto van een functie wordt door Claude gelezen; de pagina rekent zelf de grafiek, de tekentabel, de nulpunten (met stappen) en de asymptoten uit. Draait als statische site op GitHub Pages en wordt op een iPad aan het beginscherm toegevoegd.
+Webpagina voor Mil (secundair onderwijs, Vlaanderen): een foto van een functie, of wat op het tekenblad met pen of vinger geschreven is, wordt door Claude gelezen; de pagina rekent zelf de grafiek, de tekentabel, de nulpunten (met stappen) en de asymptoten uit. Draait als statische site op GitHub Pages en wordt op een iPad aan het beginscherm toegevoegd.
 
 Volg ook de globale codekwaliteitsregels uit `~/.claude/CLAUDE.md`.
 
@@ -29,11 +29,13 @@ Gewone ES-modules zonder bundler; alles in het Nederlands benoemd.
 | `js/numeriek.js` | Nulpunten zoeken, tabel nacontroleren, venster en lijnstukken van de grafiek |
 | `js/grafiek.js` | SVG-grafiek met slepen, knijpen, Ctrl+wiel en aflezen |
 | `js/weergave.js` | HTML voor formule, tekentabel en stappen |
-| `js/claude.js` | Enige AI-aanroep: foto → functievoorschrift (Anthropic SDK via jsDelivr) |
+| `js/claude.js` | Enige AI-aanroep: foto of tekenblad → functievoorschrift (Anthropic SDK via jsDelivr) |
+| `js/tekenblad.js` | Tekenblad over het hele scherm: pen en vinger, handpalm negeren, gom, ongedaan maken, export als PNG |
+| `js/tekenblad-logica.js` | Puur rekenwerk van het tekenblad: lijndikte, omhullende, gom, inpassen na draaien, geschiedenis |
 | `js/instellingen.js` | API-sleutel en stijl in localStorage |
 | `js/app.js` | Koppelt alles aan de pagina |
 | `css/basis.css` | Opbouw en neutrale onderdelen |
-| `css/stijlen.css` | De vier stijlen: Athene, Minecraft, Galileo, Escher |
+| `css/stijlen.css` | De vijf stijlen: Athene, Minecraft, Galileo, Escher, Mario |
 
 ## Afspraken
 

@@ -27,6 +27,11 @@ export const STIJLEN = Object.freeze({
     lettertypes: `${LETTERTYPES}Federo&family=Spectral:ital,wght@0,400;0,600;1,400`,
     themaKleur: '#fbfaf6',
   },
+  mario: {
+    naam: 'Mario',
+    lettertypes: `${LETTERTYPES}Fredoka:wght@500;600&family=Nunito:ital,wght@0,400;0,600;1,400&family=Press+Start+2P`,
+    themaKleur: '#c4e7fb',
+  },
 });
 
 export const STANDAARD_STIJL = 'athene';
