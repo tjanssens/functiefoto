@@ -566,6 +566,10 @@ summary {
   color: var(--inkt-zacht);
 }
 
+.steun {
+  margin-top: 1rem;
+}
+
 /* Instellingen */
 dialog {
   width: min(32rem, calc(100vw - 32px));
