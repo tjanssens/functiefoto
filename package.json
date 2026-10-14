@@ -1,0 +1,9 @@
+{
+  "name": "functiefoto",
+  "private": true,
+  "type": "module",
+  "description": "Foto van een functie: grafiek, tekentabel en berekening voor het middelbaar.",
+  "scripts": {
+    "test": "node --test"
+  }
+}

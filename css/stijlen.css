@@ -1,0 +1,331 @@
+/*
+ * De vier stijlen. Elke stijl vult de tokens uit basis.css en versiert de kop,
+ * de band, de sectietitels en het kader. Het papier binnen het kader blijft neutraal.
+ */
+
+/* Griekse cijfers met keraia: Α΄ = 1, Β΄ = 2, Γ΄ = 3, Δ΄ = 4. */
+@counter-style griekse-cijfers {
+  system: fixed;
+  symbols: 'Α΄' 'Β΄' 'Γ΄' 'Δ΄' 'Ε΄' 'Ϛ΄' 'Ζ΄' 'Η΄' 'Θ΄';
+  suffix: '';
+}
+
+/* ---------- Athene: marmer, zwart vernis en terracotta, met meanders ---------- */
+:root[data-stijl='athene'] {
+  --achtergrond: #ebe6dc;
+  --inkt: #231d18;
+  --inkt-zacht: #5f564c;
+  --accent: #a84b24;
+  --accent-inkt: #f7f1e6;
+  --lijn: #c9bfae;
+  --font-kop: 'Tenor Sans', 'Gill Sans', 'Trebuchet MS', sans-serif;
+  --font-tekst: 'Gentium Book Plus', Georgia, serif;
+  --kop-gewicht: 400;
+  --kop-spatiering: 0.12em;
+  --radius: 3px;
+  --knop-achtergrond: transparent;
+  --knop-inkt: #231d18;
+  --knop-rand: 1px solid #231d18;
+  --kader: #1e1915;
+  --kader-padding: 24px 10px;
+  --kader-radius: 10px;
+  --focus: #a84b24;
+  --dialoog: #f4f0e8;
+  --band-hoogte: 14px;
+  --meander: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M0 11H12M10 11V1H2V8H7V5H5' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E");
+  --embleem: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23cdc7ba' stroke='%23857e71' stroke-width='2'/%3E%3Ccircle cx='32' cy='32' r='26.5' fill='none' stroke='%23a29b8e' stroke-width='1' stroke-dasharray='2 2'/%3E%3Cellipse cx='28' cy='40' rx='10' ry='13' fill='%23736c60'/%3E%3Ccircle cx='28' cy='25' r='9' fill='%23736c60'/%3E%3Cpath d='M20 19l1.5-6 4 5zM36 19l-1.5-6-4 5z' fill='%23736c60'/%3E%3Ccircle cx='24.5' cy='25' r='3.8' fill='%23ece6da'/%3E%3Ccircle cx='31.5' cy='25' r='3.8' fill='%23ece6da'/%3E%3Ccircle cx='24.5' cy='25' r='1.6' fill='%231e1915'/%3E%3Ccircle cx='31.5' cy='25' r='1.6' fill='%231e1915'/%3E%3Cpath d='M28 27.5l-1.4 3h2.8z' fill='%23ece6da'/%3E%3Cpath d='M24 52l2 3 2-3 2 3 2-3' fill='none' stroke='%23736c60' stroke-width='1.4'/%3E%3Cpath d='M8 20c4-5 9-7 14-6' fill='none' stroke='%23736c60' stroke-width='1.4'/%3E%3Cellipse cx='12' cy='15.5' rx='3.2' ry='1.4' transform='rotate(-35 12 15.5)' fill='%23736c60'/%3E%3Cellipse cx='17.5' cy='13' rx='3.2' ry='1.4' transform='rotate(-15 17.5 13)' fill='%23736c60'/%3E%3Cg font-family='Georgia,serif' font-size='9' fill='%2357503f' text-anchor='middle'%3E%3Ctext x='48' y='26'%3E%CE%91%3C/text%3E%3Ctext x='48' y='36'%3E%CE%98%3C/text%3E%3Ctext x='48' y='46'%3E%CE%95%3C/text%3E%3C/g%3E%3C/svg%3E");
+}
+
+[data-stijl='athene'] h1 {
+  text-transform: uppercase;
+}
+
+[data-stijl='athene'] .band,
+[data-stijl='athene'] .kader::before,
+[data-stijl='athene'] .kader::after {
+  background: var(--accent);
+  -webkit-mask: var(--meander) repeat-x left center / 14px 14px;
+  mask: var(--meander) repeat-x left center / 14px 14px;
+}
+
+[data-stijl='athene'] .kader::before,
+[data-stijl='athene'] .kader::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  height: 10px;
+  -webkit-mask-size: 10px 10px;
+  mask-size: 10px 10px;
+}
+
+[data-stijl='athene'] .kader::before { top: 7px; }
+[data-stijl='athene'] .kader::after { bottom: 7px; }
+
+[data-stijl='athene'] .sectie > h2 {
+  text-transform: uppercase;
+  font-size: 1.35rem;
+}
+
+[data-stijl='athene'] .sectie > h2::before {
+  content: counter(sectie, griekse-cijfers);
+  color: var(--accent);
+  letter-spacing: 0;
+}
+
+[data-stijl='athene'] .grafiek-knoppen .knop,
+[data-stijl='athene'] .kop-knoppen .knop {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.85rem;
+}
+
+/* ---------- Minecraft: aarde, gras en stenen menuvensters ---------- */
+:root[data-stijl='minecraft'] {
+  --achtergrond: #79553a;
+  --achtergrond-beeld: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Crect width='8' height='8' fill='%23866043'/%3E%3Cpath fill='%2379553a' d='M0 1h1v1H0zM3 0h1v1H3zM6 2h1v1H6zM2 4h1v1H2zM5 5h2v1H5zM1 7h1v1H1zM7 6h1v1H7z'/%3E%3Cpath fill='%23966c4a' d='M1 2h1v1H1zM4 3h1v1H4zM6 0h1v1H6zM0 5h1v1H0zM3 6h1v1H3z'/%3E%3Cpath fill='%23593d29' d='M5 1h1v1H5zM2 2h1v1H2zM7 4h1v1H7zM4 7h1v1H4zM1 5h1v1H1z'/%3E%3Cpath fill='%23b9855c' d='M3 3h1v1H3zM6 7h1v1H6z'/%3E%3C/svg%3E");
+  --inkt: #3f3f3f;
+  --inkt-zacht: #555;
+  --accent: #5d9b2f;
+  --accent-inkt: #fff;
+  --lijn: #555;
+  --font-kop: 'Pixelify Sans', 'Courier New', monospace;
+  --font-tekst: 'Pixelify Sans', 'Courier New', monospace;
+  --kop-gewicht: 600;
+  --radius: 0;
+  --knop-achtergrond: #8b8b8b;
+  --knop-inkt: #fff;
+  --knop-rand: 3px solid;
+  --kader: #8b8b8b;
+  --kader-padding: 6px;
+  --kader-radius: 0;
+  --kader-rand: 3px solid;
+  --focus: #ffff55;
+  --dialoog: #c6c6c6;
+  --band-hoogte: 24px;
+  --fout: #a4161a;
+  --let-op: #7a4a00;
+  --ok: #1d5e0f;
+  --embleem: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Crect width='8' height='8' fill='%23866043'/%3E%3Cpath fill='%235d9b2f' d='M0 0h8v2H0zM0 2h1v1H0zM2 2h2v1H2zM5 2h1v2H5zM7 2h1v1H7z'/%3E%3Cpath fill='%2378b83a' d='M0 0h1v1H0zM3 0h1v1H3zM6 1h1v1H6zM2 1h1v1H2z'/%3E%3Cpath fill='%23593d29' d='M1 4h1v1H1zM6 6h1v1H6zM3 7h1v1H3z'/%3E%3Cpath fill='%23b9855c' d='M3 5h1v1H3zM6 4h1v1H6z'/%3E%3Cpath fill='%23966c4a' d='M2 7h1v1H2zM4 3h1v1H4zM0 6h1v1H0z'/%3E%3C/svg%3E");
+}
+
+[data-stijl='minecraft'] body {
+  background-size: 64px 64px;
+  image-rendering: pixelated;
+}
+
+[data-stijl='minecraft'] .embleem {
+  image-rendering: pixelated;
+  box-shadow: 0 0 0 3px #000;
+}
+
+[data-stijl='minecraft'] .kop {
+  color: #fff;
+}
+
+[data-stijl='minecraft'] h1 {
+  color: #fff;
+  text-shadow: 4px 4px 0 #3f3f3f;
+}
+
+[data-stijl='minecraft'] .ondertitel,
+[data-stijl='minecraft'] .stijlkiezer,
+[data-stijl='minecraft'] .voet {
+  color: #f2f2f2;
+  text-shadow: 2px 2px 0 #3f3f3f;
+}
+
+[data-stijl='minecraft'] .band {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 3' shape-rendering='crispEdges'%3E%3Crect width='8' height='3' fill='%23866043'/%3E%3Cpath fill='%235d9b2f' d='M0 0h8v1H0zM0 1h1v1H0zM2 1h2v1H2zM5 1h1v2H5zM7 1h1v1H7z'/%3E%3Cpath fill='%2378b83a' d='M1 0h1v1H1zM4 0h1v1H4z'/%3E%3C/svg%3E") repeat-x left top / 64px 24px;
+  image-rendering: pixelated;
+}
+
+[data-stijl='minecraft'] .sectie {
+  padding: 14px;
+  background: #c6c6c6;
+  border: 3px solid;
+  border-color: #fff #555 #555 #fff;
+  box-shadow: 0 0 0 3px #000;
+}
+
+[data-stijl='minecraft'] .sectie > h2::before {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.7em;
+  height: 1.7em;
+  background: #8b8b8b;
+  border: 3px solid;
+  border-color: #373737 #fff #fff #373737;
+  color: #fff;
+  text-shadow: 2px 2px 0 #3f3f3f;
+  font-size: 0.85em;
+}
+
+[data-stijl='minecraft'] .kader {
+  border-color: #373737 #fff #fff #373737;
+}
+
+[data-stijl='minecraft'] .knop {
+  border-color: #c6c6c6 #555 #555 #c6c6c6;
+  box-shadow: 0 0 0 2px #000;
+  text-shadow: 2px 2px 0 #3f3f3f;
+}
+
+[data-stijl='minecraft'] .knop:hover {
+  background: #7e88bf;
+}
+
+[data-stijl='minecraft'] .knop-hoofd {
+  background: var(--accent);
+  border-color: #8fd14f #3b6b18 #3b6b18 #8fd14f;
+}
+
+[data-stijl='minecraft'] input[type='text'],
+[data-stijl='minecraft'] input[type='password'],
+[data-stijl='minecraft'] select {
+  border: 3px solid;
+  border-color: #373737 #fff #fff #373737;
+  background: #000;
+  color: #fff;
+}
+
+[data-stijl='minecraft'] .foto-voorbeeld {
+  border: 3px solid #373737;
+}
+
+[data-stijl='minecraft'] dialog {
+  border: 3px solid;
+  border-color: #fff #555 #555 #fff;
+  box-shadow: 0 0 0 3px #000;
+}
+
+/* ---------- Galileo: perkament, ijzergalinkt en de sterrenhemel van Padua ---------- */
+:root[data-stijl='galileo'] {
+  --achtergrond: #eadcbc;
+  --inkt: #3a2a1a;
+  --inkt-zacht: #6b5641;
+  --accent: #7a3b1d;
+  --accent-inkt: #f6ecd6;
+  --lijn: #b49a6d;
+  --font-kop: 'IM Fell English SC', 'Book Antiqua', Georgia, serif;
+  --font-tekst: 'EB Garamond', Garamond, Georgia, serif;
+  --kop-gewicht: 400;
+  --kop-spatiering: 0.02em;
+  --radius: 2px;
+  --knop-achtergrond: #f6ecd6;
+  --knop-inkt: #3a2a1a;
+  --knop-rand: 1px solid #6b5641;
+  --kader: #a8843e;
+  --kader-padding: 7px;
+  --kader-radius: 3px;
+  --kader-rand: 1px solid #5c431b;
+  --focus: #1d2340;
+  --dialoog: #f3e8cf;
+  --band-hoogte: 22px;
+  --embleem: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='27' fill='%23f2e6c9'/%3E%3Cpath d='M32 5a27 27 0 0 1 0 54a13 27 0 0 0 0-54z' fill='%233d3326'/%3E%3Cg fill='none' stroke='%23a08a63' stroke-width='1.2'%3E%3Ccircle cx='21' cy='20' r='3'/%3E%3Ccircle cx='16' cy='36' r='2'/%3E%3Ccircle cx='25' cy='46' r='3.5'/%3E%3Ccircle cx='28' cy='30' r='1.6'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='27' fill='none' stroke='%23c9b68c' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+[data-stijl='galileo'] .kop {
+  padding: 1.1rem 1.25rem;
+  border-radius: 4px;
+  color: #f2e6c9;
+  background-color: #1d2340;
+  background-image:
+    radial-gradient(circle at 12% 30%, #f2e6c9 0 1px, transparent 1.5px),
+    radial-gradient(circle at 34% 78%, #f2e6c9 0 1px, transparent 1.5px),
+    radial-gradient(circle at 58% 18%, #f2e6c9 0 1.2px, transparent 1.7px),
+    radial-gradient(circle at 76% 64%, #f2e6c9 0 1px, transparent 1.5px),
+    radial-gradient(circle at 90% 26%, #f2e6c9 0 1.4px, transparent 1.9px),
+    radial-gradient(circle at 47% 52%, #f2e6c9 0 0.8px, transparent 1.3px);
+}
+
+[data-stijl='galileo'] .ondertitel,
+[data-stijl='galileo'] .stijlkiezer {
+  color: #d9c9a3;
+}
+
+[data-stijl='galileo'] .kop .knop {
+  background: transparent;
+  color: #f2e6c9;
+  border-color: #d9c9a3;
+}
+
+[data-stijl='galileo'] .band {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 22'%3E%3Cg fill='%233a2a1a'%3E%3Ccircle cx='38' cy='11' r='1.8'/%3E%3Ccircle cx='58' cy='11' r='1.8'/%3E%3Ccircle cx='104' cy='11' r='1.8'/%3E%3C/g%3E%3Ccircle cx='80' cy='11' r='5.5' fill='none' stroke='%233a2a1a' stroke-width='1.4'/%3E%3Cpath d='M0 21.5H160' stroke='%23b49a6d'/%3E%3C/svg%3E") repeat-x left center / 160px 22px;
+}
+
+[data-stijl='galileo'] .sectie > h2::before {
+  content: counter(sectie, upper-roman) '.';
+  color: var(--accent);
+}
+
+[data-stijl='galileo'] .sectie > h2 {
+  font-size: 1.65rem;
+}
+
+[data-stijl='galileo'] .knop-hoofd {
+  background: var(--accent);
+  color: var(--accent-inkt);
+  border-color: #4d230f;
+}
+
+/* ---------- Escher: zwart-witte houtsnede met kubussen in vlakvulling ---------- */
+:root[data-stijl='escher'] {
+  --achtergrond: #fbfaf6;
+  --inkt: #111;
+  --inkt-zacht: #4a4a46;
+  --accent: #2f5d50;
+  --accent-inkt: #fff;
+  --lijn: #111;
+  --font-kop: 'Federo', 'Futura', 'Century Gothic', sans-serif;
+  --font-tekst: 'Spectral', Georgia, serif;
+  --kop-gewicht: 400;
+  --kop-spatiering: 0.04em;
+  --radius: 0;
+  --knop-achtergrond: #fff;
+  --knop-inkt: #111;
+  --knop-rand: 2px solid #111;
+  --kader: #111;
+  --kader-padding: 5px;
+  --kader-radius: 0;
+  --kader-schaduw: 6px 6px 0 #c9c7bf;
+  --focus: #2f5d50;
+  --dialoog: #fbfaf6;
+  --band-hoogte: 45px;
+  --kubussen: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17.32 30'%3E%3Cg%3E%3Cpath fill='%23fff' d='M8.66 0 17.32 5 8.66 10 0 5zM0 15 8.66 20 0 25-8.66 20zM17.32 15 25.98 20 17.32 25 8.66 20zM0-15 8.66-10 0-5-8.66-10zM17.32-15 25.98-10 17.32-5 8.66-10z'/%3E%3Cpath fill='%23111' d='M0 5 8.66 10 8.66 20 0 15zM-8.66 20 0 25 0 35-8.66 30zM8.66 20 17.32 25 17.32 35 8.66 30zM-8.66-10 0-5 0 5-8.66 0zM8.66-10 17.32-5 17.32 5 8.66 0z'/%3E%3Cpath fill='%237a7a74' d='M8.66 10 17.32 5 17.32 15 8.66 20zM0 25 8.66 20 8.66 30 0 35zM17.32 25 25.98 20 25.98 30 17.32 35zM0-5 8.66-10 8.66 0 0 5zM17.32-5 25.98-10 25.98 0 17.32 5z'/%3E%3C/g%3E%3C/svg%3E");
+  --embleem: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23fff' stroke='%23111' stroke-width='2' stroke-linejoin='round' d='M32 6 54.5 19 32 32 9.5 19z'/%3E%3Cpath fill='%23111' d='M9.5 19 32 32 32 58 9.5 45z'/%3E%3Cpath fill='%237a7a74' stroke='%23111' stroke-width='2' stroke-linejoin='round' d='M32 32 54.5 19 54.5 45 32 58z'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='1.5' d='M14 28 27 35.5 27 50'/%3E%3C/svg%3E");
+}
+
+[data-stijl='escher'] .band {
+  border-block: 2px solid #111;
+  background: var(--kubussen) repeat left top / 26px 45px;
+}
+
+[data-stijl='escher'] .sectie > h2::before {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.6em;
+  height: 1.6em;
+  background: #111;
+  color: #fbfaf6;
+  font-size: 0.8em;
+}
+
+[data-stijl='escher'] .knop-hoofd {
+  background: var(--accent);
+  color: var(--accent-inkt);
+  border-color: #111;
+}
+
+[data-stijl='escher'] .knop:hover {
+  background: #111;
+  color: #fbfaf6;
+}
+
+[data-stijl='escher'] .knop-hoofd:hover {
+  background: #1f4037;
+}
+
+[data-stijl='escher'] .foto-voorbeeld {
+  border: 2px solid #111;
+}

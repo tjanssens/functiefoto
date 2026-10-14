@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="nl" data-stijl="athene">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Functiefoto</title>
+  <meta name="description" content="Neem een foto van een functie en krijg de grafiek, de tekentabel en de berekening.">
+  <meta name="theme-color" content="#ebe6dc">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Functiefoto">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="iconen/icoon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="iconen/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link id="stijl-lettertypes" rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=Tenor+Sans">
+  <link rel="stylesheet" href="css/basis.css">
+  <link rel="stylesheet" href="css/stijlen.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="kop">
+      <div class="embleem" aria-hidden="true"></div>
+      <div class="kop-tekst">
+        <h1>Functiefoto</h1>
+        <p class="ondertitel">Neem een foto van een functie en krijg de grafiek, de tekentabel en de berekening.</p>
+      </div>
+      <div class="kop-knoppen">
+        <label class="stijlkiezer" for="stijl">Stijl</label>
+        <select id="stijl"></select>
+        <button id="open-instellingen" class="knop" type="button">Instellingen</button>
+      </div>
+    </header>
+    <div class="band" aria-hidden="true"></div>
+
+    <main>
+      <section class="sectie" aria-labelledby="opgave-titel">
+        <h2 id="opgave-titel">De opgave</h2>
+        <div class="foto-rij">
+          <label class="knop knop-hoofd foto-knop" for="foto">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M9 4 7.5 6H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3.5L15 4zm3 4.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/></svg>
+            Foto nemen of kiezen
+          </label>
+          <input id="foto" class="verborgen-invoer" type="file" accept="image/*">
+          <img id="foto-voorbeeld" class="foto-voorbeeld" alt="Je foto van de functie" hidden>
+          <button id="annuleer-lezen" class="knop" type="button" hidden>Stoppen</button>
+        </div>
+        <p id="foto-status" class="status" role="status" aria-live="polite" hidden></p>
+
+        <form id="functie-form" class="functie-form" novalidate>
+          <label for="functie" class="veld-label">Functie</label>
+          <div class="invoer-rij">
+            <input id="functie" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-describedby="functie-hulp functie-fout">
+            <button type="submit" class="knop">Teken</button>
+          </div>
+          <p id="functie-hulp" class="hulp">Typ bijvoorbeeld (x^2 - 1)/(x + 2) of sqrt(2x + 5) - x - 1.</p>
+          <p id="functie-fout" class="status" data-soort="fout" role="alert" hidden></p>
+        </form>
+
+        <div class="kader">
+          <div id="formule" class="papier formule" aria-live="polite"></div>
+        </div>
+        <p id="voorbeeld-label" class="voorbeeld">Dit is een voorbeeld. Neem een foto of typ een functie om te beginnen.</p>
+      </section>
+
+      <section class="sectie" aria-labelledby="grafiek-titel">
+        <h2 id="grafiek-titel">De grafiek</h2>
+        <div class="kader">
+          <div id="grafiek" class="papier grafiek"></div>
+        </div>
+        <div class="grafiek-knoppen">
+          <button id="zoom-in" class="knop" type="button">Inzoomen</button>
+          <button id="zoom-uit" class="knop" type="button">Uitzoomen</button>
+          <button id="zoom-terug" class="knop" type="button">Beginbeeld</button>
+          <p id="aflezing" class="aflezing" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="sectie" aria-labelledby="tabel-titel">
+        <h2 id="tabel-titel">De tekentabel</h2>
+        <div class="kader">
+          <div id="tekentabel" class="papier inhoud"></div>
+        </div>
+      </section>
+
+      <section class="sectie" aria-labelledby="berekening-titel">
+        <h2 id="berekening-titel">De berekening</h2>
+        <div class="kader">
+          <div id="berekening" class="papier inhoud"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="voet">
+      <p>De grafiek, de tekentabel en de berekening rekent deze pagina zelf uit. Alleen de foto gaat naar Claude om de functie te lezen.</p>
+    </footer>
+  </div>
+
+  <dialog id="instellingen" aria-labelledby="instellingen-titel">
+    <div class="dialoog-inhoud">
+      <h2 id="instellingen-titel">Instellingen</h2>
+      <label for="api-sleutel" class="veld-label">API-sleutel van Anthropic</label>
+      <input id="api-sleutel" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…">
+      <p class="hulp">Nodig om foto’s te lezen. De sleutel blijft alleen op dit toestel. Gebruik een aparte sleutel met een maandlimiet.</p>
+      <div class="knoppen-rij">
+        <button id="sleutel-bewaar" class="knop knop-hoofd" type="button">Bewaren</button>
+        <button id="sleutel-test" class="knop" type="button">Testen</button>
+        <button id="sleutel-wis" class="knop" type="button">Wissen</button>
+      </div>
+      <p id="sleutel-status" class="status" role="status" aria-live="polite" hidden></p>
+      <div class="knoppen-rij rechts">
+        <button id="sluit-instellingen" class="knop" type="button">Sluiten</button>
+      </div>
+    </div>
+  </dialog>
+</body>
+</html>

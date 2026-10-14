@@ -1,0 +1,610 @@
+/*
+ * Opbouw van de pagina en de neutrale onderdelen (grafiek, tekentabel, berekening).
+ * De stijlen in stijlen.css vullen alleen de tokens en de versiering rond het "papier".
+ */
+:root {
+  --achtergrond: #f4f4f2;
+  --achtergrond-beeld: none;
+  --inkt: #1f2328;
+  --inkt-zacht: #555b63;
+  --accent: #1c64c8;
+  --accent-inkt: #fff;
+  --lijn: #c9ccd1;
+  --font-kop: system-ui, sans-serif;
+  --font-tekst: system-ui, sans-serif;
+  --radius: 8px;
+  --knop-achtergrond: #fff;
+  --knop-inkt: var(--inkt);
+  --knop-rand: 1px solid var(--lijn);
+  --kader: transparent;
+  --kader-padding: 0;
+  --kader-radius: 8px;
+  --kader-rand: none;
+  --kader-schaduw: none;
+  --focus: #1c64c8;
+  --fout: #b42318;
+  --let-op: #8a5300;
+  --ok: #1e6b35;
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--achtergrond);
+  background-image: var(--achtergrond-beeld);
+  color: var(--inkt);
+  font-family: var(--font-tekst);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.app {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding-inline: max(16px, env(safe-area-inset-left, 0px));
+  padding-block: 1.25rem 3rem;
+}
+
+/* Kop */
+.kop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.embleem {
+  width: 64px;
+  height: 64px;
+  flex: none;
+  background: var(--embleem, none) center / contain no-repeat;
+}
+
+.kop-tekst {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+h1 {
+  margin: 0;
+  font-family: var(--font-kop);
+  font-size: clamp(1.9rem, 5vw, 2.7rem);
+  font-weight: var(--kop-gewicht, 600);
+  line-height: 1.1;
+  letter-spacing: var(--kop-spatiering, 0);
+  text-wrap: balance;
+}
+
+.ondertitel {
+  margin: 0.35rem 0 0;
+  color: var(--inkt-zacht);
+  max-width: 40rem;
+}
+
+.kop-knoppen {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stijlkiezer {
+  font-family: var(--font-kop);
+}
+
+.band {
+  height: var(--band-hoogte, 0);
+  margin-block: 1rem 1.75rem;
+}
+
+/* Secties */
+main {
+  display: grid;
+  gap: 2.25rem;
+  counter-reset: sectie;
+}
+
+.sectie {
+  counter-increment: sectie;
+  min-width: 0;
+}
+
+.sectie > h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin: 0 0 0.85rem;
+  font-family: var(--font-kop);
+  font-size: 1.55rem;
+  font-weight: var(--kop-gewicht, 600);
+  letter-spacing: var(--kop-spatiering, 0);
+  line-height: 1.2;
+}
+
+.sectie > h2::before {
+  content: counter(sectie);
+}
+
+/* Knoppen en velden */
+.knop {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.55rem 1rem;
+  border: var(--knop-rand);
+  border-radius: var(--radius);
+  background: var(--knop-achtergrond);
+  color: var(--knop-inkt);
+  font: inherit;
+  font-family: var(--font-kop);
+  line-height: 1.2;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.knop-hoofd {
+  background: var(--accent);
+  color: var(--accent-inkt);
+  border-color: var(--accent);
+}
+
+.knop:active {
+  transform: translateY(1px);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+input[type='text'],
+input[type='password'],
+select {
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--lijn);
+  border-radius: var(--radius);
+  background: #fff;
+  color: #1f2328;
+  font: inherit;
+  font-size: 1rem;
+}
+
+.verborgen-invoer {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.verborgen-invoer:focus-visible + .foto-voorbeeld,
+.foto-rij:focus-within .foto-knop {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* De opgave */
+.foto-rij {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.foto-knop {
+  font-size: 1.1rem;
+  padding-inline: 1.25rem;
+}
+
+.foto-voorbeeld {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--lijn);
+}
+
+.functie-form {
+  margin-top: 1rem;
+}
+
+.veld-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-kop);
+}
+
+.invoer-rij {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.invoer-rij input {
+  flex: 1;
+  min-width: 0;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+.hulp {
+  margin: 0.35rem 0 0;
+  font-size: 0.92rem;
+  color: var(--inkt-zacht);
+}
+
+.status {
+  margin: 0.6rem 0 0;
+  font-weight: 600;
+}
+
+.status[data-soort='fout'] { color: var(--fout); }
+.status[data-soort='let-op'] { color: var(--let-op); }
+.status[data-soort='ok'] { color: var(--ok); }
+.status[data-soort='bezig'] { color: var(--inkt-zacht); }
+
+.voorbeeld {
+  margin: 0.6rem 0 0;
+  font-style: italic;
+  color: var(--inkt-zacht);
+}
+
+/* Het kader rond het papier draagt de stijl; het papier zelf blijft neutraal. */
+.kader {
+  position: relative;
+  margin-top: 1rem;
+  padding: var(--kader-padding);
+  border: var(--kader-rand);
+  border-radius: var(--kader-radius);
+  background: var(--kader);
+  box-shadow: var(--kader-schaduw);
+}
+
+.sectie > h2 + .kader {
+  margin-top: 0;
+}
+
+.papier {
+  background: #fff;
+  color: #1f2328;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  border-radius: 4px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.papier math {
+  font-family: 'STIX Two Math', 'Cambria Math', 'Latin Modern Math', math, serif;
+  font-size: 1.12em;
+}
+
+.formule {
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 1.35rem;
+}
+
+/* Grafiek */
+.grafiek {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: crosshair;
+}
+
+.grafiek svg {
+  display: block;
+}
+
+.grafiek-knoppen {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.aflezing {
+  flex: 1 1 14rem;
+  margin: 0;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--inkt-zacht);
+}
+
+/* Tekentabel en berekening */
+.inhoud {
+  padding: 1rem 1.1rem 1.2rem;
+}
+
+.inhoud > :first-child {
+  margin-top: 0;
+}
+
+.domein {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+}
+
+.opmerking {
+  margin: 0 0 0.75rem;
+  color: #4a5059;
+}
+
+.waarschuwing {
+  margin: 0 0 0.75rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid #f0b46c;
+  border-radius: 6px;
+  background: #fff4e5;
+  color: #7a4100;
+}
+
+.tabel-schuif {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tekentabel {
+  border-collapse: collapse;
+  font-size: 1.08rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.tekentabel th,
+.tekentabel td {
+  padding: 0.5rem 0.65rem;
+  border: 1px solid #d0d4d9;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.tekentabel thead th {
+  background: #f4f5f7;
+  font-weight: 600;
+}
+
+.tekentabel tbody th {
+  text-align: left;
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+.tekentabel .interval {
+  min-width: 2.4rem;
+}
+
+.tekentabel .punt {
+  white-space: nowrap;
+}
+
+.benadering {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #5b626b;
+}
+
+.tekentabel .herkomst,
+.kolom-herkomst {
+  font-size: 0.82rem;
+  color: #5b626b;
+  white-space: nowrap;
+}
+
+.teken-plus { color: #217a3c; font-weight: 700; }
+.teken-min { color: #c0392b; font-weight: 700; }
+.teken-nul { font-weight: 700; }
+.teken-niet,
+.teken-buiten { color: #6b7280; }
+
+.f-rij th,
+.f-rij td {
+  background: #f7f8fa;
+  border-top: 2px solid #8f96a0;
+}
+
+.verschil {
+  outline: 2px dashed #d9480f;
+  outline-offset: -4px;
+}
+
+.legende {
+  margin: 0.5rem 0 0;
+  font-size: 0.88rem;
+  color: #5b626b;
+}
+
+.uitleg,
+.besluit {
+  margin: 0.75rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.uitleg li + li,
+.besluit li + li {
+  margin-top: 0.3rem;
+}
+
+.besluit-titel {
+  margin: 1.1rem 0 0.25rem;
+  font-size: 1.05rem;
+}
+
+details + details {
+  border-top: 1px solid #e3e5e8;
+}
+
+summary {
+  padding: 0.8rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.stappen {
+  display: grid;
+  gap: 1.1rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  counter-reset: stap;
+}
+
+.stap {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  column-gap: 0.75rem;
+  counter-increment: stap;
+}
+
+.stap::before {
+  content: counter(stap);
+  grid-row: 1 / span 3;
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  background: #eef1f5;
+  color: #3b4048;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.stap-titel {
+  margin: 0.15rem 0 0.2rem;
+  font-size: 1rem;
+}
+
+.stap-formules {
+  overflow-x: auto;
+  padding: 0.15rem 0;
+}
+
+.formule-regel {
+  margin: 0.35rem 0;
+  white-space: nowrap;
+}
+
+.stap-uitleg {
+  margin: 0.2rem 0 0;
+  color: #4a5059;
+}
+
+.besluit-zin {
+  margin: 0 0 1rem;
+  font-weight: 600;
+}
+
+.leeg {
+  color: #5b626b;
+}
+
+.horner {
+  margin: 0.5rem 0;
+  border-collapse: collapse;
+}
+
+.horner td {
+  min-width: 2.6rem;
+  padding: 0.25rem 0.5rem;
+  text-align: center;
+}
+
+.horner .deler {
+  border-right: 2px solid #3b4048;
+}
+
+.horner .rest-kolom {
+  border-left: 2px solid #3b4048;
+}
+
+.horner .onder td {
+  border-top: 2px solid #3b4048;
+}
+
+/* Voet */
+.voet {
+  margin-top: 2.5rem;
+  font-size: 0.92rem;
+  color: var(--inkt-zacht);
+}
+
+/* Instellingen */
+dialog {
+  width: min(32rem, calc(100vw - 32px));
+  padding: 0;
+  border: var(--kader-rand, none);
+  border-radius: 12px;
+  background: var(--dialoog, #fff);
+  color: var(--inkt);
+  font-family: var(--font-tekst);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.dialoog-inhoud {
+  display: grid;
+  gap: 0.6rem;
+  padding: 1.25rem;
+}
+
+.dialoog-inhoud h2 {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-kop);
+  font-weight: var(--kop-gewicht, 600);
+}
+
+.dialoog-inhoud input {
+  width: 100%;
+}
+
+.knoppen-rij {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.knoppen-rij.rechts {
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 520px) {
+  .kop-knoppen {
+    width: 100%;
+  }
+
+  .aflezing {
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+  }
+}
