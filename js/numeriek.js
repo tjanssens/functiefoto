@@ -109,7 +109,9 @@ export function controleerTabel(tabel, f) {
       if (!zelfdeTeken(verwachtPunt, gevonden)) verschillen.push({ x, verwacht: verwachtPunt, gevonden });
     }
   }
-  const { nulpunten } = zoekBijzonderePunten(f, -50, 50, 40000);
+  // Is f op een heel interval 0, dan zijn er oneindig veel nulpunten en valt er niets na te tellen.
+  const nulOpInterval = tekens.some((t, k) => k % 2 === 0 && t === TEKEN.NUL);
+  const { nulpunten } = nulOpInterval ? { nulpunten: [] } : zoekBijzonderePunten(f, -50, 50, 40000);
   for (const z of nulpunten) {
     const index = punten.findIndex((p) => Math.abs(p.waarde - z) < 1e-5 * Math.max(1, Math.abs(z)));
     if (index === -1 || tekens[2 * index + 1] !== TEKEN.NUL) {

@@ -82,6 +82,12 @@ test('numeriek_andereFunctiesGebruikenBenaderingen', () => {
   assert.deepEqual(a.tabel.f, ['-', '0', '+']);
 });
 
+test('veelterm_nulfunctieGeeftGeenValseVerschillen', () => {
+  const a = analyse('0');
+  assert.deepEqual(a.tabel.f, ['0']);
+  assert.deepEqual(controleerTabel(a.tabel, a.f), []);
+});
+
 test('numeriek_besluitBlijftBinnenHetOnderzochteStuk', () => {
   const a = analyse('sin(x)');
   assert.ok(a.besluit.length > 0);
