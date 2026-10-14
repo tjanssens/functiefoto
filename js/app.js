@@ -21,6 +21,7 @@ const el = {
   foto: $('foto'),
   fotoVoorbeeld: $('foto-voorbeeld'),
   fotoStatus: $('foto-status'),
+  laden: $('laden'),
   annuleer: $('annuleer-lezen'),
   form: $('functie-form'),
   functie: $('functie'),
@@ -139,11 +140,19 @@ async function leesAfbeelding(afbeelding, bron) {
   const isActueel = () => lezen === dezeLezing;
   el.annuleer.hidden = false;
   zetStatus(el.fotoStatus, bron.bezig, 'bezig');
+  // De laadanimatie begint telkens vooraan en in de eerste fase, ook als een vorige lezing nog liep:
+  // even verbergen en de browser dat laten verwerken, dan starten de animaties opnieuw.
+  el.laden.hidden = true;
+  delete el.laden.dataset.fase;
+  void el.laden.offsetWidth;
+  el.laden.hidden = false;
   try {
     const resultaat = await leesFunctie(afbeelding, sleutel, dezeLezing.signal, {
       isLeesbaar,
       bijTweedePoging: () => {
-        if (isActueel()) zetStatus(el.fotoStatus, 'Dat was niet helemaal duidelijk. Claude kijkt nog eens grondiger…', 'bezig');
+        if (!isActueel()) return;
+        zetStatus(el.fotoStatus, 'Dat was niet helemaal duidelijk. Claude kijkt nog eens grondiger…', 'bezig');
+        el.laden.dataset.fase = 'grondig';
       },
     });
     if (!isActueel()) return;
@@ -173,6 +182,7 @@ async function leesAfbeelding(afbeelding, bron) {
   } finally {
     if (isActueel()) {
       el.annuleer.hidden = true;
+      el.laden.hidden = true;
       lezen = null;
     }
   }

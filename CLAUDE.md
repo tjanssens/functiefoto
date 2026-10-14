@@ -34,7 +34,7 @@ Gewone ES-modules zonder bundler; alles in het Nederlands benoemd.
 | `js/tekenblad.js` | Tekenblad over het hele scherm: pen en vinger, handpalm negeren, gom, ongedaan maken, export als PNG |
 | `js/tekenblad-logica.js` | Puur rekenwerk van het tekenblad: lijndikte, omhullende, gom, inpassen na draaien, geschiedenis |
 | `js/instellingen.js` | API-sleutel en stijl in localStorage |
-| `js/verrassing.js` | Verborgen: een tik op het embleem speelt de kopanimatie meteen af (Athene en Mario, via `.embleem.tik` in `css/stijlen.css`). Bewust zonder aanwijzing in de pagina of de README. |
+| `js/verrassing.js` | Verborgen: een tik op het embleem speelt de kopanimatie meteen af (Athene en Mario, via `.embleem.tik` in `css/stijlen.css`). Een tik op de kop zelf geeft in Galileo een vallende ster: de stijl zet `--kop-verrassing: vallende-ster`, de vorm staat in `css/stijlen.css`, de baan in `kiesVallendeSter` (met tests). Bewust zonder aanwijzing in de pagina of de README. |
 | `js/app.js` | Koppelt alles aan de pagina |
 | `css/basis.css` | Opbouw en neutrale onderdelen |
 | `css/stijlen.css` | De vijf stijlen: Athene, Minecraft, Galileo, Escher, Mario |
@@ -46,6 +46,7 @@ Gewone ES-modules zonder bundler; alles in het Nederlands benoemd.
 - **Tekentabel:** enkel rijen van graad 1 of 2, telkens met de herkomst (teller, noemer, onder de wortel, buiten de wortel, na kwadrateren). De f-rij wordt exact afgeleid en daarna numeriek nagecontroleerd (`controleerTabel`); een verschil wordt in de pagina gemarkeerd.
 - **Stappen:** elke stap heeft een titel, formules en precies één zin uitleg. Schoolnotatie: BV, KV, ]a, b[, decimale komma.
 - **Stijlen** kleuren alleen het scherm rond het "papier"; grafiek, tabel en berekening blijven neutraal. Een nieuwe stijl = tokens + versiering in `css/stijlen.css` en een item in `STIJLEN` (`js/instellingen.js`).
-- **Kopanimaties** (blok "kopanimatie" per stijl): alleen in de kop en de band, alleen CSS met transform en opacity op absolute pseudo-elementen met `pointer-events: none`, lange cycli die meestal stilstaan of heel traag gaan, keyframes `<stijl>-...`. Het stilstaande beeld moet kloppen: de gezamenlijke regel onderaan `css/stijlen.css` zet alles stil bij `prefers-reduced-motion`.
+- **Kopanimaties** (blok "kopanimatie" per stijl): alleen in de kop en de band, alleen CSS met transform en opacity op absolute pseudo-elementen met `pointer-events: none`, lange cycli die meestal stilstaan of heel traag gaan, keyframes `<stijl>-...`. Het stilstaande beeld moet kloppen: de gezamenlijke regel onderaan `css/stijlen.css` zet alles stil bij `prefers-reduced-motion`. Uitzondering: een verrassing op een tik (zoals de vallende ster) mag een tijdelijk element met `Element.animate` gebruiken, met `pointer-events: none`, en speelt niet bij `prefers-reduced-motion`.
+- **Laadanimaties** (blok "laadanimatie" per stijl in `css/stijlen.css`, de SVG's in `#laden` onder `#foto-status`): te zien zolang Claude leest, met `data-fase="grondig"` op `.laden` als het grondige model het overneemt. Alleen SVG en CSS met transform en opacity, `transform-box: fill-box` met een `transform-origin` op alles wat draait of schaalt, id's met de stijl als voorvoegsel, keyframes `<stijl>-laden-...`, elke selector met `[data-stijl='...']`, geen personages of sprites uit games, en een kloppend stilstaand beeld bij `prefers-reduced-motion`.
 - **Geen sleutels in de code.** De API-sleutel wordt op het toestel ingevuld en blijft in localStorage.
 - Nederlandse teksten zonder gedachtestreepjes.

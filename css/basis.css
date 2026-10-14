@@ -68,6 +68,13 @@ body {
   flex-wrap: wrap;
   align-items: center;
   gap: 1rem;
+  /* De kop reageert op een tik (js/verrassing.js); dat mag niets verraden, dus geen grijze flits. */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Een vallende ster bestaat alleen in de stijlen die ze vormgeven; elders, ook na een stijlwissel tijdens de vlucht, is ze weg. */
+.vallende-ster {
+  display: none;
 }
 
 .embleem {
@@ -275,6 +282,24 @@ select {
 .status[data-soort='let-op'] { color: var(--let-op); }
 .status[data-soort='ok'] { color: var(--ok); }
 .status[data-soort='bezig'] { color: var(--inkt-zacht); }
+
+/*
+ * Laadanimatie onder de melding, zolang Claude de afbeelding leest (js/app.js).
+ * Elke stijl heeft er een eigen tekening van 200 bij 120 in; stijlen.css toont die van de gekozen stijl.
+ * Ze verschijnt telkens opnieuw als de container zichtbaar wordt, dus de animaties starten dan vooraan.
+ */
+.laden {
+  margin-top: 0.6rem;
+}
+
+.laden > svg {
+  display: none;
+  width: 200px;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 5 / 3;
+  overflow: hidden;
+}
 
 .voorbeeld {
   margin: 0.6rem 0 0;
@@ -757,5 +782,13 @@ dialog::backdrop {
 @media (prefers-reduced-motion: reduce) {
   * {
     scroll-behavior: auto !important;
+  }
+
+  /* De laadanimaties staan stil; elke stijl toont dan een stilstaand beeld (zie stijlen.css). */
+  .laden *,
+  .laden *::before,
+  .laden *::after {
+    animation: none !important;
+    transition: none !important;
   }
 }
