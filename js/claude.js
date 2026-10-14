@@ -1,10 +1,11 @@
 /**
- * De enige plek waar AI gebruikt wordt: Claude leest de functie van een foto.
- * De foto gaat met de API-sleutel van dit toestel rechtstreeks naar de Claude API.
+ * De enige plek waar AI gebruikt wordt: Claude leest de functie van een foto of van het tekenblad.
+ * De afbeelding gaat met de API-sleutel van dit toestel rechtstreeks naar de Claude API.
  */
 const SDK_URL = 'https://cdn.jsdelivr.net/npm/@anthropic-ai/sdk@0.129.0/+esm';
 const MODEL = 'claude-opus-5-5';
-const MAX_ZIJDE = 1568;
+/** Langste zijde van een afbeelding voor Claude, in pixels. */
+export const MAX_ZIJDE = 1568;
 const JPEG_KWALITEIT = 0.88;
 const MAX_TOKENS = 8000;
 
@@ -19,9 +20,9 @@ const SCHEMA = {
   additionalProperties: false,
 };
 
-const OPDRACHT = `Op deze foto staat wiskunde uit het schrift of handboek van een leerling uit het secundair onderwijs in Vlaanderen. De foto kan gedraaid, scheef of wat onscherp zijn.
+const OPDRACHT = `Op deze afbeelding staat wiskunde van een leerling uit het secundair onderwijs in Vlaanderen: een foto uit een schrift of handboek, of iets dat met een pen of vinger op een tablet geschreven is. Een foto kan gedraaid, scheef of wat onscherp zijn.
 
-Zoek het functievoorschrift. Het staat er bijvoorbeeld als f: x ↦ …, als f(x) = …, of als een losse breuk of uitdrukking in x.
+Zoek het functievoorschrift. Het staat er bijvoorbeeld als f: x ↦ …, als f(x) = …, of als een losse breuk of uitdrukking in x. Staan er ook berekeningen bij, neem dan het functievoorschrift en niet een tussenstap.
 
 Schrijf het voorschrift, zonder "f(x) =", in deze schrijfwijze:
 - x is de enige variabele
@@ -36,7 +37,7 @@ Schrijf het voorschrift, zonder "f(x) =", in deze schrijfwijze:
 Vul in:
 - gevonden: true als je een functievoorschrift ziet, anders false
 - functie: het voorschrift in die schrijfwijze, of een lege tekst
-- twijfel: één korte Nederlandse zin als je een teken niet zeker kon lezen (welk teken en wat het anders zou kunnen zijn), of als er meerdere functies op de foto staan (welke je nam). Anders een lege tekst.`;
+- twijfel: één korte Nederlandse zin als je een teken niet zeker kon lezen (welk teken en wat het anders zou kunnen zijn), of als er meerdere functies op de afbeelding staan (welke je nam). Anders een lege tekst.`;
 
 export class LeesFout extends Error {
   /** @param {'geannuleerd'|'sleutel'|'limiet'|'tegoed'|'overbelast'|'verbinding'|'weigering'|'onleesbaar'|'onbekend'} soort */
@@ -70,8 +71,8 @@ function naarBase64(blob) {
   });
 }
 
-/** Verkleint de foto tot hoogstens MAX_ZIJDE pixels en maakt er een JPEG van. */
-async function verkleinFoto(bestand) {
+/** Verkleint de afbeelding tot hoogstens MAX_ZIJDE pixels en maakt er een JPEG van. */
+async function verkleinAfbeelding(bestand) {
   const beeld = await createImageBitmap(bestand, { imageOrientation: 'from-image' });
   try {
     const schaal = Math.min(1, MAX_ZIJDE / Math.max(beeld.width, beeld.height));
@@ -80,7 +81,7 @@ async function verkleinFoto(bestand) {
     doek.height = Math.round(beeld.height * schaal);
     doek.getContext('2d').drawImage(beeld, 0, 0, doek.width, doek.height);
     const blob = await new Promise((resolve) => doek.toBlob(resolve, 'image/jpeg', JPEG_KWALITEIT));
-    if (!blob) throw new LeesFout('onleesbaar', 'Deze foto kan niet gelezen worden. Probeer een andere foto.');
+    if (!blob) throw new LeesFout('onleesbaar', 'Deze afbeelding kan niet gelezen worden. Probeer een andere foto of schrijf de functie opnieuw.');
     return naarBase64(blob);
   } finally {
     beeld.close();
@@ -96,7 +97,7 @@ function vertaalFout(Anthropic, fout) {
   if (fout instanceof Anthropic.APIUserAbortError) return new LeesFout('geannuleerd', 'Lezen gestopt.');
   if (fout instanceof Anthropic.AuthenticationError) return new LeesFout('sleutel', 'De API-sleutel klopt niet. Kijk hem na bij Instellingen.');
   if (fout instanceof Anthropic.PermissionDeniedError) return new LeesFout('sleutel', 'Deze API-sleutel mag het model niet gebruiken. Kijk de sleutel na bij Instellingen.');
-  if (fout instanceof Anthropic.RateLimitError) return new LeesFout('limiet', 'Even te veel foto’s na elkaar. Wacht een minuut en probeer opnieuw.');
+  if (fout instanceof Anthropic.RateLimitError) return new LeesFout('limiet', 'Even te veel vragen na elkaar. Wacht een minuut en probeer opnieuw.');
   if (fout instanceof Anthropic.BadRequestError) {
     console.error('Claude weigerde de vraag (400)', fout);
     return new LeesFout('tegoed', 'Claude kon de vraag niet verwerken. Kijk na of er nog tegoed op het API-account staat.');
@@ -108,12 +109,12 @@ function vertaalFout(Anthropic, fout) {
 }
 
 /**
- * Leest de functie van een foto.
+ * Leest de functie van een afbeelding (foto of tekenblad).
  * @returns {Promise<{gevonden: boolean, functie: string, twijfel: string}>}
  */
 export async function leesFunctie(bestand, apiSleutel, signal) {
   const Anthropic = await laadSdk();
-  const afbeelding = await verkleinFoto(bestand);
+  const afbeelding = await verkleinAfbeelding(bestand);
   const client = maakClient(Anthropic, apiSleutel);
   let antwoord;
   try {
@@ -135,7 +136,7 @@ export async function leesFunctie(bestand, apiSleutel, signal) {
     throw vertaalFout(Anthropic, fout);
   }
   if (antwoord.stop_reason === 'refusal') {
-    throw new LeesFout('weigering', 'Claude wilde deze foto niet lezen. Probeer een andere foto of typ de functie.');
+    throw new LeesFout('weigering', 'Claude wilde deze afbeelding niet lezen. Probeer opnieuw of typ de functie.');
   }
   const tekst = antwoord.content.find((blok) => blok.type === 'text')?.text;
   let resultaat;
@@ -152,7 +153,7 @@ export async function leesFunctie(bestand, apiSleutel, signal) {
   };
 }
 
-/** Controleert of de sleutel werkt, zonder een foto te versturen. */
+/** Controleert of de sleutel werkt, zonder een afbeelding te versturen. */
 export async function testSleutel(apiSleutel) {
   const Anthropic = await laadSdk();
   try {

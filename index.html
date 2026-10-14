@@ -26,7 +26,7 @@
       <div class="embleem" aria-hidden="true"></div>
       <div class="kop-tekst">
         <h1>Functiefoto</h1>
-        <p class="ondertitel">Neem een foto van een functie en krijg de grafiek, de tekentabel en de berekening.</p>
+        <p class="ondertitel">Neem een foto van een functie of schrijf ze op het tekenblad, en krijg de grafiek, de tekentabel en de berekening.</p>
       </div>
       <div class="kop-knoppen">
         <label class="stijlkiezer" for="stijl">Stijl</label>
@@ -45,6 +45,10 @@
             Foto nemen of kiezen
           </label>
           <input id="foto" class="verborgen-invoer" type="file" accept="image/*">
+          <button id="open-tekenblad" class="knop foto-knop" type="button">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16.9 2.6a2 2 0 0 1 2.8 0l1.7 1.7a2 2 0 0 1 0 2.8L9.2 19.3l-5.6 1.9a.6.6 0 0 1-.8-.8l1.9-5.6zM5.9 15.6l-1 3 3-1z"/></svg>
+            Tekenblad
+          </button>
           <img id="foto-voorbeeld" class="foto-voorbeeld" alt="Je foto van de functie" hidden>
           <button id="annuleer-lezen" class="knop" type="button" hidden>Stoppen</button>
         </div>
@@ -63,7 +67,7 @@
         <div class="kader">
           <div id="formule" class="papier formule" aria-live="polite"></div>
         </div>
-        <p id="voorbeeld-label" class="voorbeeld">Dit is een voorbeeld. Neem een foto of typ een functie om te beginnen.</p>
+        <p id="voorbeeld-label" class="voorbeeld">Dit is een voorbeeld. Neem een foto, schrijf op het tekenblad of typ een functie om te beginnen.</p>
       </section>
 
       <section class="sectie" aria-labelledby="grafiek-titel">
@@ -95,16 +99,34 @@
     </main>
 
     <footer class="voet">
-      <p>De grafiek, de tekentabel en de berekening rekent deze pagina zelf uit. Alleen de foto gaat naar Claude om de functie te lezen.</p>
+      <p>De grafiek, de tekentabel en de berekening rekent deze pagina zelf uit. Alleen de foto of wat je op het tekenblad schreef, gaat naar Claude om de functie te lezen.</p>
     </footer>
   </div>
+
+  <dialog id="tekenblad" class="tekenblad" aria-label="Tekenblad">
+    <div class="tekenblad-balk">
+      <button class="knop" type="button" data-actie="sluit">Sluiten</button>
+      <div class="tekenblad-gereedschap" role="group" aria-label="Gereedschap">
+        <button class="knop" type="button" data-actie="pen" aria-pressed="true">Pen</button>
+        <button class="knop" type="button" data-actie="gom" aria-pressed="false">Gom</button>
+        <button class="knop" type="button" data-actie="ongedaan">Ongedaan maken</button>
+        <button class="knop" type="button" data-actie="wis">Alles wissen</button>
+      </div>
+      <button class="knop knop-hoofd" type="button" data-actie="klaar">Lees de functie</button>
+    </div>
+    <div class="tekenblad-vel">
+      <canvas aria-label="Schrijf hier de functie met je pen of vinger" data-modus="pen"></canvas>
+      <p class="tekenblad-hint">Schrijf hier de functie met je pen of vinger, bijvoorbeeld f(x) = (x² − 1)/(x + 2).</p>
+      <p class="tekenblad-melding status" data-soort="fout" role="status" aria-live="polite"></p>
+    </div>
+  </dialog>
 
   <dialog id="instellingen" aria-labelledby="instellingen-titel">
     <div class="dialoog-inhoud">
       <h2 id="instellingen-titel">Instellingen</h2>
       <label for="api-sleutel" class="veld-label">API-sleutel van Anthropic</label>
       <input id="api-sleutel" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…">
-      <p class="hulp">Nodig om foto’s te lezen. De sleutel blijft alleen op dit toestel. Gebruik een aparte sleutel met een maandlimiet.</p>
+      <p class="hulp">Nodig om foto’s en het tekenblad te lezen. De sleutel blijft alleen op dit toestel. Gebruik een aparte sleutel met een maandlimiet.</p>
       <div class="knoppen-rij">
         <button id="sleutel-bewaar" class="knop knop-hoofd" type="button">Bewaren</button>
         <button id="sleutel-test" class="knop" type="button">Testen</button>

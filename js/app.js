@@ -1,5 +1,5 @@
 /**
- * Verbindt de pagina: functie inlezen (typen of foto), analyseren, tekenen en tonen.
+ * Verbindt de pagina: functie inlezen (typen, foto of tekenblad), analyseren, tekenen en tonen.
  */
 import { ontleed, ExpressieFout } from './expressie.js';
 import { analyseer } from './analyse.js';
@@ -10,6 +10,7 @@ import { Grafiek, ZOOMSTAP } from './grafiek.js';
 import { toonFormule, toonTekentabel, toonBerekening } from './weergave.js';
 import { instellingen, isGeldigeSleutel, pasStijlToe, STIJLEN } from './instellingen.js';
 import { leesFunctie, testSleutel, LeesFout } from './claude.js';
+import { Tekenblad } from './tekenblad.js';
 
 const VOORBEELD = '(2x^3 - 3x + 1)/(x^2 + 1)';
 
@@ -33,6 +34,9 @@ const el = {
 };
 
 const grafiek = new Grafiek($('grafiek'), $('aflezing'));
+const tekenblad = new Tekenblad($('tekenblad'), {
+  onKlaar: (afbeelding) => leesAfbeelding(afbeelding, BRONNEN.tekenblad),
+});
 let lezen = null;
 let fotoUrl = null;
 
@@ -92,29 +96,53 @@ function verwerk(tekst, { isVoorbeeld = false } = {}) {
   return true;
 }
 
-function toonFoto(bestand) {
+/** Waar de afbeelding vandaan komt bepaalt de meldingen en de miniatuur. */
+const BRONNEN = Object.freeze({
+  foto: {
+    soort: 'foto',
+    alt: 'Je foto van de functie',
+    bezig: 'Claude leest de functie op je foto…',
+    leeg: 'Op deze foto staat geen functie die ik kan lezen. Probeer een scherpere foto, of typ de functie.',
+    vergelijk: 'je foto',
+  },
+  tekenblad: {
+    soort: 'tekenblad',
+    alt: 'Wat je op het tekenblad schreef',
+    bezig: 'Claude leest de functie op je tekenblad…',
+    leeg: 'Op het tekenblad staat geen functie die ik kan lezen. Schrijf ze wat groter en duidelijker, of typ de functie.',
+    vergelijk: 'wat je schreef',
+  },
+});
+
+function toonAfbeelding(afbeelding, bron) {
   if (fotoUrl) URL.revokeObjectURL(fotoUrl);
-  fotoUrl = URL.createObjectURL(bestand);
+  fotoUrl = URL.createObjectURL(afbeelding);
   el.fotoVoorbeeld.src = fotoUrl;
+  el.fotoVoorbeeld.alt = bron.alt;
+  el.fotoVoorbeeld.dataset.bron = bron.soort;
   el.fotoVoorbeeld.hidden = false;
 }
 
-async function leesFoto(bestand) {
+async function leesAfbeelding(afbeelding, bron) {
   const sleutel = instellingen.apiSleutel();
   if (!sleutel) {
-    zetStatus(el.fotoStatus, 'Vul eerst de API-sleutel in bij Instellingen. Daarna kan de foto gelezen worden.', 'fout');
+    zetStatus(el.fotoStatus, 'Vul eerst de API-sleutel in bij Instellingen. Daarna kan Claude de functie lezen.', 'fout');
     openInstellingen();
     return;
   }
-  toonFoto(bestand);
+  toonAfbeelding(afbeelding, bron);
+  // Een nieuwe lezing vervangt een lopende; alleen de nieuwste mag nog meldingen tonen.
   lezen?.abort();
-  lezen = new AbortController();
+  const dezeLezing = new AbortController();
+  lezen = dezeLezing;
+  const isActueel = () => lezen === dezeLezing;
   el.annuleer.hidden = false;
-  zetStatus(el.fotoStatus, 'Claude leest de functie op je foto…', 'bezig');
+  zetStatus(el.fotoStatus, bron.bezig, 'bezig');
   try {
-    const resultaat = await leesFunctie(bestand, sleutel, lezen.signal);
+    const resultaat = await leesFunctie(afbeelding, sleutel, dezeLezing.signal);
+    if (!isActueel()) return;
     if (!resultaat.gevonden || !resultaat.functie) {
-      zetStatus(el.fotoStatus, resultaat.twijfel || 'Op deze foto staat geen functie die ik kan lezen. Probeer een scherpere foto, of typ de functie.', 'fout');
+      zetStatus(el.fotoStatus, resultaat.twijfel || bron.leeg, 'fout');
       return;
     }
     el.functie.value = resultaat.functie;
@@ -124,17 +152,21 @@ async function leesFoto(bestand) {
     } else if (resultaat.twijfel) {
       zetStatus(el.fotoStatus, `Gelezen, maar kijk dit na: ${resultaat.twijfel}`, 'let-op');
     } else {
-      zetStatus(el.fotoStatus, 'Gelezen. Vergelijk de formule hieronder nog even met je foto.', 'ok');
+      zetStatus(el.fotoStatus, `Gelezen. Vergelijk de formule hieronder nog even met ${bron.vergelijk}.`, 'ok');
     }
   } catch (fout) {
+    if (!(fout instanceof LeesFout)) console.error('Onverwachte fout bij het lezen van de functie', fout);
+    if (!isActueel()) return;
     if (fout instanceof LeesFout) {
       zetStatus(el.fotoStatus, fout.message, fout.soort === 'geannuleerd' ? '' : 'fout');
     } else {
-      console.error('Onverwachte fout bij het lezen van de foto', fout);
-      zetStatus(el.fotoStatus, 'Er liep iets mis bij het lezen van de foto. Probeer opnieuw.', 'fout');
+      zetStatus(el.fotoStatus, 'Er liep iets mis bij het lezen van de functie. Probeer opnieuw.', 'fout');
     }
   } finally {
-    el.annuleer.hidden = true;
+    if (isActueel()) {
+      el.annuleer.hidden = true;
+      lezen = null;
+    }
   }
 }
 
@@ -212,8 +244,9 @@ function start() {
   el.foto.addEventListener('change', () => {
     const bestand = el.foto.files?.[0];
     el.foto.value = '';
-    if (bestand) leesFoto(bestand);
+    if (bestand) leesAfbeelding(bestand, BRONNEN.foto);
   });
+  $('open-tekenblad').addEventListener('click', () => tekenblad.open());
   el.annuleer.addEventListener('click', () => lezen?.abort());
   $('zoom-in').addEventListener('click', () => grafiek.zoom(1 / ZOOMSTAP));
   $('zoom-uit').addEventListener('click', () => grafiek.zoom(ZOOMSTAP));
