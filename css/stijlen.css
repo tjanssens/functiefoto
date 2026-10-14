@@ -98,6 +98,7 @@
  * de beweging uit staat (prefers-reduced-motion). Alleen transform beweegt.
  */
 [data-stijl='athene'] .embleem {
+  --athene-cyclus: 48s;
   position: relative;
 }
 
@@ -113,7 +114,7 @@
   transform: scaleY(0);
   transform-origin: 50% 0;
   pointer-events: none;
-  animation: athene-knipperen 48s ease-in-out infinite;
+  animation: athene-knipperen var(--athene-cyclus) ease-in-out infinite;
 }
 
 [data-stijl='athene'] .embleem::before {
@@ -121,7 +122,7 @@
   clip-path: inset(0 calc(100% * 0.7 / 8.8) 0 0);
 }
 
-/* Het rechteroog volgt dezelfde klok (ook 48 s) en knipoogt in de tweede helft. */
+/* Het rechteroog volgt dezelfde klok en knipoogt in de tweede helft. */
 [data-stijl='athene'] .embleem::after {
   left: calc(100% * 27.3 / 64);
   clip-path: inset(0 0 0 calc(100% * 0.7 / 8.8));
@@ -139,6 +140,15 @@
   0%, 44%, 46.9%, 94%, 97.6%, 100% { transform: scaleY(0); }
   45.25%, 45.6% { transform: scaleY(0.55); }
   95.25%, 96.3% { transform: scaleY(1); }
+}
+
+/* Wie op de uil tikt, krijgt meteen de knipoog: het stuk vanaf 94 % van de klok, één keer. */
+[data-stijl='athene'] .embleem.tik::before {
+  animation: none;
+}
+
+[data-stijl='athene'] .embleem.tik::after {
+  animation: athene-knipoog var(--athene-cyclus) ease-in-out 1 calc(var(--athene-cyclus) * -0.94);
 }
 
 /* ---------- Minecraft: aarde, gras en stenen menuvensters ---------- */
@@ -895,6 +905,15 @@
   100% {
     transform: translateY(0) rotateY(360deg);
   }
+}
+
+/* Wie op het vraagtekenblok tikt, laat het meteen opwippen: het stuk vanaf 87 % van de klok, één keer. */
+[data-stijl='mario'] .embleem.tik::before {
+  animation: mario-blok-tik var(--mario-cyclus) 1 calc(var(--mario-cyclus) * -0.87);
+}
+
+[data-stijl='mario'] .embleem.tik::after {
+  animation: mario-munt-sprong var(--mario-cyclus) linear 1 calc(var(--mario-cyclus) * -0.87);
 }
 
 /* ---------- Alle stijlen: kop en band stil bij minder beweging ----------

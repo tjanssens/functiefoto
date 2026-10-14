@@ -33,6 +33,7 @@ Gewone ES-modules zonder bundler; alles in het Nederlands benoemd.
 | `js/tekenblad.js` | Tekenblad over het hele scherm: pen en vinger, handpalm negeren, gom, ongedaan maken, export als PNG |
 | `js/tekenblad-logica.js` | Puur rekenwerk van het tekenblad: lijndikte, omhullende, gom, inpassen na draaien, geschiedenis |
 | `js/instellingen.js` | API-sleutel en stijl in localStorage |
+| `js/verrassing.js` | Verborgen: een tik op het embleem speelt de kopanimatie meteen af (Athene en Mario, via `.embleem.tik` in `css/stijlen.css`). Bewust zonder aanwijzing in de pagina of de README. |
 | `js/app.js` | Koppelt alles aan de pagina |
 | `css/basis.css` | Opbouw en neutrale onderdelen |
 | `css/stijlen.css` | De vijf stijlen: Athene, Minecraft, Galileo, Escher, Mario |

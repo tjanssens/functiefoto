@@ -11,6 +11,7 @@ import { toonFormule, toonTekentabel, toonBerekening } from './weergave.js';
 import { instellingen, isGeldigeSleutel, pasStijlToe, STIJLEN } from './instellingen.js';
 import { leesFunctie, testSleutel, LeesFout } from './claude.js';
 import { Tekenblad } from './tekenblad.js';
+import { koppelVerrassing } from './verrassing.js';
 
 const VOORBEELD = '(2x^3 - 3x + 1)/(x^2 + 1)';
 
@@ -247,6 +248,7 @@ function start() {
     if (bestand) leesAfbeelding(bestand, BRONNEN.foto);
   });
   $('open-tekenblad').addEventListener('click', () => tekenblad.open());
+  koppelVerrassing(document.querySelector('.embleem'));
   el.annuleer.addEventListener('click', () => lezen?.abort());
   $('zoom-in').addEventListener('click', () => grafiek.zoom(1 / ZOOMSTAP));
   $('zoom-uit').addEventListener('click', () => grafiek.zoom(ZOOMSTAP));

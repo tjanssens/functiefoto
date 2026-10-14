@@ -75,6 +75,15 @@ body {
   height: 64px;
   flex: none;
   background: var(--embleem, none) center / contain no-repeat;
+  /* Een tik op het embleem mag niets verraden: geen grijze flits en geen zoom bij dubbeltikken. */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Hulpklasse voor de verrassing op het embleem (js/verrassing.js): zet de animaties even stil, zodat ze opnieuw starten. */
+.embleem.stil::before,
+.embleem.stil::after {
+  animation: none !important;
 }
 
 .kop-tekst {
