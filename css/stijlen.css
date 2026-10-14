@@ -80,6 +80,67 @@
   font-size: 0.85rem;
 }
 
+/* ---------- Athene: kopanimatie ----------
+ * De uil op de zilveren munt (de "uil" van Athene, vandaar "uilen naar Athene
+ * dragen") doet om de 48 seconden traag zijn ogen half dicht, als een slaperige
+ * uil. Een halve cyclus later knipoogt hij met één oog. Er gebeurt dus hoogstens
+ * om de 24 s iets, en de rest van de tijd staat alles stil.
+ *
+ * De oogleden liggen precies op de ogen van het embleem. Het embleem is 64 px en
+ * de viewBox 64 eenheden, dus elke maat is "coördinaat / 64". De ogen hebben
+ * straal 3,8 rond (24,5 25) en (31,5 25). Een ooglid heeft straal 4,4 in de kleur
+ * van de kop (#736c60): zo blijft er van een gesloten oog geen lichte rand over,
+ * en wat over de kop valt, zie je niet. Het middelpunt ligt 0,2 naar buiten, zodat
+ * de punt van de snavel vrij blijft. Elk ooglid is afgeknipt op de middellijn
+ * x = 28 tussen de ogen, zodat de knipoog het open oog niet raakt.
+ *
+ * In rust is een ooglid platgedrukt tot hoogte nul: de ogen staan open, ook als
+ * de beweging uit staat (prefers-reduced-motion). Alleen transform beweegt.
+ */
+[data-stijl='athene'] .embleem {
+  position: relative;
+}
+
+[data-stijl='athene'] .embleem::before,
+[data-stijl='athene'] .embleem::after {
+  content: '';
+  position: absolute;
+  top: calc(100% * 20.6 / 64);
+  width: calc(100% * 8.8 / 64);
+  height: calc(100% * 8.8 / 64);
+  border-radius: 50%;
+  background: #736c60;
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+  pointer-events: none;
+  animation: athene-knipperen 48s ease-in-out infinite;
+}
+
+[data-stijl='athene'] .embleem::before {
+  left: calc(100% * 19.9 / 64);
+  clip-path: inset(0 calc(100% * 0.7 / 8.8) 0 0);
+}
+
+/* Het rechteroog volgt dezelfde klok (ook 48 s) en knipoogt in de tweede helft. */
+[data-stijl='athene'] .embleem::after {
+  left: calc(100% * 27.3 / 64);
+  clip-path: inset(0 0 0 calc(100% * 0.7 / 8.8));
+  animation-name: athene-knipoog;
+}
+
+/* Eén slaperige knippering: in 0,6 s half dicht, even zo blijven, in 0,6 s weer open. */
+@keyframes athene-knipperen {
+  0%, 44%, 46.9%, 100% { transform: scaleY(0); }
+  45.25%, 45.6% { transform: scaleY(0.55); }
+}
+
+/* Dezelfde knippering, en een halve cyclus later een knipoog die even dicht blijft. */
+@keyframes athene-knipoog {
+  0%, 44%, 46.9%, 94%, 97.6%, 100% { transform: scaleY(0); }
+  45.25%, 45.6% { transform: scaleY(0.55); }
+  95.25%, 96.3% { transform: scaleY(1); }
+}
+
 /* ---------- Minecraft: aarde, gras en stenen menuvensters ---------- */
 :root[data-stijl='minecraft'] {
   --achtergrond: #79553a;
@@ -112,11 +173,6 @@
 [data-stijl='minecraft'] body {
   background-size: 64px 64px;
   image-rendering: pixelated;
-}
-
-[data-stijl='minecraft'] .embleem {
-  image-rendering: pixelated;
-  box-shadow: 0 0 0 3px #000;
 }
 
 [data-stijl='minecraft'] .kop {
@@ -199,6 +255,65 @@
   box-shadow: 0 0 0 3px #000;
 }
 
+/* ---------- Minecraft: kopanimatie ----------
+ * Het grasblok zweeft zacht op en neer, zoals een voorwerp dat in het spel op de grond
+ * gevallen is, met de ronde schaduw eronder die smaller en lichter wordt als het blok stijgt.
+ * Het blok (met zijn zwarte rand) zit in ::before en de schaduw in ::after. De doos van het
+ * embleem zelf tekent niets en blijft staan, zodat de lay-out niet verschuift.
+ */
+[data-stijl='minecraft'] .embleem {
+  position: relative;
+  background: none;
+}
+
+[data-stijl='minecraft'] .embleem::before,
+[data-stijl='minecraft'] .embleem::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+[data-stijl='minecraft'] .embleem::before {
+  inset: 0;
+  background: var(--embleem) center / contain no-repeat;
+  image-rendering: pixelated;
+  box-shadow: 0 0 0 3px #000;
+  animation: minecraft-zweven 8s ease-in-out infinite;
+}
+
+/* De schaduw ligt op de grond en beweegt niet mee: ze krimpt en vervaagt een beetje. */
+[data-stijl='minecraft'] .embleem::after {
+  left: 8px;
+  right: 8px;
+  top: calc(100% + 7px);
+  height: 8px;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.38), rgba(0, 0, 0, 0));
+  animation: minecraft-schaduw 8s ease-in-out infinite;
+}
+
+/* Hoogstens 3 px omhoog, heen en terug in 8 s. Stil staat het blok in zijn gewone plaats. */
+@keyframes minecraft-zweven {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes minecraft-schaduw {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleX(0.82);
+    opacity: 0.65;
+  }
+}
+
 /* ---------- Galileo: perkament, ijzergalinkt en de sterrenhemel van Padua ---------- */
 :root[data-stijl='galileo'] {
   --achtergrond: #eadcbc;
@@ -225,18 +340,19 @@
   --embleem: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='27' fill='%23f2e6c9'/%3E%3Cpath d='M32 5a27 27 0 0 1 0 54a13 27 0 0 0 0-54z' fill='%233d3326'/%3E%3Cg fill='none' stroke='%23a08a63' stroke-width='1.2'%3E%3Ccircle cx='21' cy='20' r='3'/%3E%3Ccircle cx='16' cy='36' r='2'/%3E%3Ccircle cx='25' cy='46' r='3.5'/%3E%3Ccircle cx='28' cy='30' r='1.6'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='27' fill='none' stroke='%23c9b68c' stroke-width='1.5'/%3E%3C/svg%3E");
 }
 
+/* De vaste sterren staan in de rand boven en onder, waar nooit tekst staat. */
 [data-stijl='galileo'] .kop {
   padding: 1.1rem 1.25rem;
   border-radius: 4px;
   color: #f2e6c9;
   background-color: #1d2340;
   background-image:
-    radial-gradient(circle at 12% 30%, #f2e6c9 0 1px, transparent 1.5px),
-    radial-gradient(circle at 34% 78%, #f2e6c9 0 1px, transparent 1.5px),
-    radial-gradient(circle at 58% 18%, #f2e6c9 0 1.2px, transparent 1.7px),
-    radial-gradient(circle at 76% 64%, #f2e6c9 0 1px, transparent 1.5px),
-    radial-gradient(circle at 90% 26%, #f2e6c9 0 1.4px, transparent 1.9px),
-    radial-gradient(circle at 47% 52%, #f2e6c9 0 0.8px, transparent 1.3px);
+    radial-gradient(circle at 12% 10px, #f2e6c9 0 1px, transparent 1.5px),
+    radial-gradient(circle at 31% calc(100% - 10px), #f2e6c9 0 1px, transparent 1.5px),
+    radial-gradient(circle at 60% 7px, #f2e6c9 0 1.2px, transparent 1.7px),
+    radial-gradient(circle at 79% calc(100% - 8px), #f2e6c9 0 1px, transparent 1.5px),
+    radial-gradient(circle at 88% 12px, #f2e6c9 0 1.4px, transparent 1.9px),
+    radial-gradient(circle at 45% calc(100% - 12px), #f2e6c9 0 0.8px, transparent 1.3px);
 }
 
 [data-stijl='galileo'] .ondertitel,
@@ -250,8 +366,9 @@
   border-color: #d9c9a3;
 }
 
+/* Jupiter en de lijn onderaan. De drie manen staan op eigen lagen, zie de kopanimatie. */
 [data-stijl='galileo'] .band {
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 22'%3E%3Cg fill='%233a2a1a'%3E%3Ccircle cx='38' cy='11' r='1.8'/%3E%3Ccircle cx='58' cy='11' r='1.8'/%3E%3Ccircle cx='104' cy='11' r='1.8'/%3E%3C/g%3E%3Ccircle cx='80' cy='11' r='5.5' fill='none' stroke='%233a2a1a' stroke-width='1.4'/%3E%3Cpath d='M0 21.5H160' stroke='%23b49a6d'/%3E%3C/svg%3E") repeat-x left center / 160px 22px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 22'%3E%3Ccircle cx='80' cy='11' r='5.5' fill='none' stroke='%233a2a1a' stroke-width='1.4'/%3E%3Cpath d='M0 21.5H160' stroke='%23b49a6d'/%3E%3C/svg%3E") repeat-x left center / 160px 22px;
 }
 
 [data-stijl='galileo'] .sectie > h2::before {
@@ -267,6 +384,124 @@
   background: var(--accent);
   color: var(--accent-inkt);
   border-color: #4d230f;
+}
+
+/* ---------- Galileo: kopanimatie ----------
+ * Twee stille knipogen naar de Sidereus Nuncius (1610).
+ * 1. Door de kijker fonkelen de vaste sterren, de planeten niet. Zes extra sterretjes
+ *    in de nachthemel van de kop worden af en toe even zwakker, in twee groepjes met
+ *    elk een eigen traag ritme, zodat het nooit gelijk loopt.
+ * 2. De band toont Jupiter met de drie "sterretjes" die Galileo op 7 januari 1610 zag,
+ *    twee in het oosten en een in het westen. Nacht na nacht stonden ze anders: het
+ *    waren manen. Ze schuiven hier heel traag een paar pixels heen en weer en blijven
+ *    het langst hangen aan de uiteinden, zoals een maan die je van opzij ziet draaien.
+ * Staat beweging uit (prefers-reduced-motion), dan blijft de tekening van 7 januari
+ * precies staan en schijnen alle sterren voluit.
+ */
+[data-stijl='galileo'] .kop {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Twee lagen sterren achter de inhoud van de kop (z-index -1 binnen de kop). Ze staan
+ * in de bovenste en onderste rand van de kop, op vaste pixels van de rand, zodat ze
+ * op elke breedte buiten de tekst en de knoppen vallen. */
+[data-stijl='galileo'] .kop::before,
+[data-stijl='galileo'] .kop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: galileo-fonkelen 11s ease-in-out infinite;
+}
+
+[data-stijl='galileo'] .kop::before {
+  background-image:
+    radial-gradient(circle at 4% calc(100% - 7px), #f2e6c9 0 0.9px, transparent 1.4px),
+    radial-gradient(circle at 41% 6px, #f2e6c9 0 1px, transparent 1.5px),
+    radial-gradient(circle at 68% calc(100% - 9px), #f2e6c9 0 0.8px, transparent 1.3px);
+}
+
+[data-stijl='galileo'] .kop::after {
+  background-image:
+    radial-gradient(circle at 23% 9px, #f2e6c9 0 0.8px, transparent 1.3px),
+    radial-gradient(circle at 53% calc(100% - 6px), #f2e6c9 0 1px, transparent 1.5px),
+    radial-gradient(circle at 97% 8px, #f2e6c9 0 0.9px, transparent 1.4px);
+  animation-duration: 17s;
+  animation-delay: -7s;
+}
+
+/* Lang stil, dan een korte dubbele schommeling naar zwakker: nooit feller dan in rust. */
+@keyframes galileo-fonkelen {
+  0%,
+  58%,
+  100% {
+    opacity: 1;
+  }
+  63% {
+    opacity: 0.4;
+  }
+  67% {
+    opacity: 0.8;
+  }
+  71% {
+    opacity: 0.5;
+  }
+  78% {
+    opacity: 1;
+  }
+}
+
+/* De band zelf houdt alleen Jupiter en de lijn; de manen staan op twee eigen lagen
+ * met dezelfde tegel van 160 bij 22 px, dus op 0% precies op hun plaats. */
+[data-stijl='galileo'] .band {
+  position: relative;
+  overflow: hidden;
+}
+
+[data-stijl='galileo'] .band::before,
+[data-stijl='galileo'] .band::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-repeat: repeat-x;
+  background-position: left center;
+  background-size: 160px 22px;
+}
+
+/* De twee binnenste manen, een aan elke kant van Jupiter. */
+[data-stijl='galileo'] .band::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 22'%3E%3Cg fill='%233a2a1a'%3E%3Ccircle cx='58' cy='11' r='1.8'/%3E%3Ccircle cx='104' cy='11' r='1.8'/%3E%3C/g%3E%3C/svg%3E");
+  animation: galileo-manen 29s infinite;
+}
+
+/* De buitenste maan draait trager en begint de andere kant op. */
+[data-stijl='galileo'] .band::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 22'%3E%3Ccircle cx='38' cy='11' r='1.8' fill='%233a2a1a'/%3E%3C/svg%3E");
+  animation: galileo-manen 47s infinite reverse;
+}
+
+/* Een cirkelbaan van opzij gezien: sinusvormig, traag aan de uiteinden, en op 0% en 100%
+ * precies op de plaats uit de tekening. */
+@keyframes galileo-manen {
+  0% {
+    transform: translateX(0);
+    animation-timing-function: cubic-bezier(0.61, 1, 0.88, 1);
+  }
+  25% {
+    transform: translateX(-3px);
+    animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
+  }
+  75% {
+    transform: translateX(3px);
+    animation-timing-function: cubic-bezier(0.12, 0, 0.39, 0);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 /* ---------- Escher: zwart-witte houtsnede met kubussen in vlakvulling ---------- */
@@ -296,9 +531,9 @@
   --embleem: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23fff' stroke='%23111' stroke-width='2' stroke-linejoin='round' d='M32 6 54.5 19 32 32 9.5 19z'/%3E%3Cpath fill='%23111' d='M9.5 19 32 32 32 58 9.5 45z'/%3E%3Cpath fill='%237a7a74' stroke='%23111' stroke-width='2' stroke-linejoin='round' d='M32 32 54.5 19 54.5 45 32 58z'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='1.5' d='M14 28 27 35.5 27 50'/%3E%3C/svg%3E");
 }
 
+/* De kubussen zelf staan op een eigen laag, zie de kopanimatie. */
 [data-stijl='escher'] .band {
   border-block: 2px solid #111;
-  background: var(--kubussen) repeat left top / 26px 45px;
 }
 
 [data-stijl='escher'] .sectie > h2::before {
@@ -328,6 +563,33 @@
 
 [data-stijl='escher'] .foto-voorbeeld {
   border: 2px solid #111;
+}
+
+/* ---------- Escher: kopanimatie ----------
+ * De kubussen in de band klimmen heel traag een trap op die nooit hoger komt, zoals in
+ * Klimmen en dalen. In 30 s schuift de vlakvulling gelijkmatig één trede schuin omhoog
+ * (13 px opzij, 22,5 px omhoog: een halve tegel van 26 bij 45 px) en valt dan naadloos op
+ * zichzelf. De tegels staan op een pseudo-element dat een tegel ruimer is; de band knipt het
+ * af binnen zijn randen. Zonder beweging is het beeld gelijk aan de vroegere stilstaande band.
+ */
+[data-stijl='escher'] .band {
+  position: relative;
+  overflow: hidden;
+}
+
+[data-stijl='escher'] .band::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 -45px -26px;
+  background: var(--kubussen) repeat left top / 26px 45px;
+  pointer-events: none;
+  animation: escher-klimmen 30s linear infinite;
+}
+
+@keyframes escher-klimmen {
+  to {
+    transform: translate(13px, -22.5px);
+  }
 }
 
 /* ---------- Mario: zachte 16-bit hemel met wolken, vraagtekenblokken, groene buizen en ronde heuvels ---------- */
@@ -364,7 +626,9 @@
   --wolken: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 560 64' width='560' height='64'%3E%3Cg transform='translate(36 17) scale(0.6)'%3E%3Cg fill='%23ffffff' stroke='%23a9d8f5' stroke-width='6.67'%3E%3Crect x='0' y='26' width='150' height='34' rx='17'/%3E%3Ccircle cx='44' cy='28' r='24'/%3E%3Ccircle cx='82' cy='18' r='30'/%3E%3Ccircle cx='120' cy='32' r='20'/%3E%3C/g%3E%3Cg fill='%23ffffff'%3E%3Crect x='0' y='26' width='150' height='34' rx='17'/%3E%3Ccircle cx='44' cy='28' r='24'/%3E%3Ccircle cx='82' cy='18' r='30'/%3E%3Ccircle cx='120' cy='32' r='20'/%3E%3C/g%3E%3Crect x='14' y='46' width='122' height='9' rx='4.5' fill='%23e6f4fd'/%3E%3C/g%3E%3Cg transform='translate(262 10) scale(0.4)'%3E%3Cg fill='%23ffffff' stroke='%23a9d8f5' stroke-width='10.0'%3E%3Crect x='0' y='26' width='150' height='34' rx='17'/%3E%3Ccircle cx='44' cy='28' r='24'/%3E%3Ccircle cx='82' cy='18' r='30'/%3E%3Ccircle cx='120' cy='32' r='20'/%3E%3C/g%3E%3Cg fill='%23ffffff'%3E%3Crect x='0' y='26' width='150' height='34' rx='17'/%3E%3Ccircle cx='44' cy='28' r='24'/%3E%3Ccircle cx='82' cy='18' r='30'/%3E%3Ccircle cx='120' cy='32' r='20'/%3E%3C/g%3E%3Crect x='14' y='46' width='122' height='9' rx='4.5' fill='%23e6f4fd'/%3E%3C/g%3E%3Cg transform='translate(420 21) scale(0.5)'%3E%3Cg fill='%23ffffff' stroke='%23a9d8f5' stroke-width='8.0'%3E%3Crect x='0' y='26' width='150' height='34' rx='17'/%3E%3Ccircle cx='44' cy='28' r='24'/%3E%3Ccircle cx='82' cy='18' r='30'/%3E%3Ccircle cx='120' cy='32' r='20'/%3E%3C/g%3E%3Cg fill='%23ffffff'%3E%3Crect x='0' y='26' width='150' height='34' rx='17'/%3E%3Ccircle cx='44' cy='28' r='24'/%3E%3Ccircle cx='82' cy='18' r='30'/%3E%3Ccircle cx='120' cy='32' r='20'/%3E%3C/g%3E%3Crect x='14' y='46' width='122' height='9' rx='4.5' fill='%23e6f4fd'/%3E%3C/g%3E%3C/svg%3E");
   --blok: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='1' y='1' width='30' height='30' rx='5' fill='%23f7c13a' stroke='%238a4b08' stroke-width='2'/%3E%3Cpath d='M4.6 25V7.2Q4.6 4.6 7.2 4.6H25' fill='none' stroke='%23ffe38a' stroke-width='1.8' stroke-linecap='round'/%3E%3Cpath d='M27.4 7V24.8Q27.4 27.4 24.8 27.4H7' fill='none' stroke='%23e0901c' stroke-width='1.8' stroke-linecap='round'/%3E%3Cg fill='%238a4b08'%3E%3Ccircle cx='7.6' cy='7.6' r='1.4'/%3E%3Ccircle cx='24.4' cy='7.6' r='1.4'/%3E%3Ccircle cx='7.6' cy='24.4' r='1.4'/%3E%3Ccircle cx='24.4' cy='24.4' r='1.4'/%3E%3C/g%3E%3C/svg%3E");
   --blokken: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 48' preserveAspectRatio='none'%3E%3Cg transform='translate(48 7) scale(0.8) translate(-32 -7.6)'%3E%3Cellipse cx='32' cy='7.6' rx='5.2' ry='6.8' fill='%23f9d24a' stroke='%23a86a00' stroke-width='1.6'/%3E%3Crect x='30.7' y='3.9' width='2.6' height='7.4' rx='1.3' fill='%23d99a12'/%3E%3Cpath d='M29 5.2Q29.4 3.4 30.6 2.8' fill='none' stroke='%23fff6c8' stroke-width='1.2' stroke-linecap='round'/%3E%3C/g%3E%3Cg transform='translate(0 16)'%3E%3Crect x='1' y='1' width='30' height='30' rx='4' fill='%23e0874a' stroke='%237a3512' stroke-width='2'/%3E%3Cpath d='M2 11.3H30M2 21H30M16 2V11.3M9 11.3V21M23 11.3V21M16 21V30' fill='none' stroke='%237a3512' stroke-width='1.6'/%3E%3Cpath d='M4.4 4.6H13M19 4.6H27.6M4.4 14.4H6.4M12 14.4H20M25.6 14.4H27.6M4.4 24.2H13M19 24.2H27.6' fill='none' stroke='%23f6b27e' stroke-width='1.6' stroke-linecap='round'/%3E%3C/g%3E%3Cg transform='translate(32 16)'%3E%3Crect x='1' y='1' width='30' height='30' rx='5' fill='%23f7c13a' stroke='%238a4b08' stroke-width='2'/%3E%3Cpath d='M4.6 25V7.2Q4.6 4.6 7.2 4.6H25' fill='none' stroke='%23ffe38a' stroke-width='1.8' stroke-linecap='round'/%3E%3Cpath d='M27.4 7V24.8Q27.4 27.4 24.8 27.4H7' fill='none' stroke='%23e0901c' stroke-width='1.8' stroke-linecap='round'/%3E%3Cg fill='%238a4b08'%3E%3Ccircle cx='7.6' cy='7.6' r='1.4'/%3E%3Ccircle cx='24.4' cy='7.6' r='1.4'/%3E%3Ccircle cx='7.6' cy='24.4' r='1.4'/%3E%3Ccircle cx='24.4' cy='24.4' r='1.4'/%3E%3C/g%3E%3Cg transform='translate(1.2 1.2)' fill='none' stroke='%238a4b08' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12.6 12.6C12.6 10.2 14.1 8.6 16.2 8.6C18.4 8.6 19.9 10 19.9 12C19.9 14 18.7 14.8 17.5 15.6C16.6 16.2 16.2 16.8 16.2 18V18.8'/%3E%3C/g%3E%3Ccircle cx='17.4' cy='24.3' r='1.9' fill='%238a4b08'/%3E%3Cg fill='none' stroke='%23fff8e0' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12.6 12.6C12.6 10.2 14.1 8.6 16.2 8.6C18.4 8.6 19.9 10 19.9 12C19.9 14 18.7 14.8 17.5 15.6C16.6 16.2 16.2 16.8 16.2 18V18.8'/%3E%3C/g%3E%3Ccircle cx='16.2' cy='23.1' r='1.9' fill='%23fff8e0'/%3E%3C/g%3E%3Cg transform='translate(64 16)'%3E%3Crect x='1' y='1' width='30' height='30' rx='4' fill='%23e0874a' stroke='%237a3512' stroke-width='2'/%3E%3Cpath d='M2 11.3H30M2 21H30M16 2V11.3M9 11.3V21M23 11.3V21M16 21V30' fill='none' stroke='%237a3512' stroke-width='1.6'/%3E%3Cpath d='M4.4 4.6H13M19 4.6H27.6M4.4 14.4H6.4M12 14.4H20M25.6 14.4H27.6M4.4 24.2H13M19 24.2H27.6' fill='none' stroke='%23f6b27e' stroke-width='1.6' stroke-linecap='round'/%3E%3C/g%3E%3Cg transform='translate(96 16)'%3E%3Crect x='1' y='1' width='30' height='30' rx='4' fill='%23e0874a' stroke='%237a3512' stroke-width='2'/%3E%3Cpath d='M2 11.3H30M2 21H30M16 2V11.3M9 11.3V21M23 11.3V21M16 21V30' fill='none' stroke='%237a3512' stroke-width='1.6'/%3E%3Cpath d='M4.4 4.6H13M19 4.6H27.6M4.4 14.4H6.4M12 14.4H20M25.6 14.4H27.6M4.4 24.2H13M19 24.2H27.6' fill='none' stroke='%23f6b27e' stroke-width='1.6' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E");
-  --embleem: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cellipse cx='32' cy='7.6' rx='5.2' ry='6.8' fill='%23f9d24a' stroke='%23a86a00' stroke-width='1.6'/%3E%3Crect x='30.7' y='3.9' width='2.6' height='7.4' rx='1.3' fill='%23d99a12'/%3E%3Cpath d='M29 5.2Q29.4 3.4 30.6 2.8' fill='none' stroke='%23fff6c8' stroke-width='1.2' stroke-linecap='round'/%3E%3Cpath d='M21.5 10.5 18 7.5M42.5 10.5 46 7.5M20.5 14.5H16.5M43.5 14.5H47.5' fill='none' stroke='%23e0901c' stroke-width='2' stroke-linecap='round'/%3E%3Cg transform='translate(8 15.5) scale(1.5)'%3E%3Crect x='1' y='1' width='30' height='30' rx='5' fill='%23f7c13a' stroke='%238a4b08' stroke-width='2'/%3E%3Cpath d='M4.6 25V7.2Q4.6 4.6 7.2 4.6H25' fill='none' stroke='%23ffe38a' stroke-width='1.8' stroke-linecap='round'/%3E%3Cpath d='M27.4 7V24.8Q27.4 27.4 24.8 27.4H7' fill='none' stroke='%23e0901c' stroke-width='1.8' stroke-linecap='round'/%3E%3Cg fill='%238a4b08'%3E%3Ccircle cx='7.6' cy='7.6' r='1.4'/%3E%3Ccircle cx='24.4' cy='7.6' r='1.4'/%3E%3Ccircle cx='7.6' cy='24.4' r='1.4'/%3E%3Ccircle cx='24.4' cy='24.4' r='1.4'/%3E%3C/g%3E%3Cg transform='translate(1.2 1.2)' fill='none' stroke='%238a4b08' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12.6 12.6C12.6 10.2 14.1 8.6 16.2 8.6C18.4 8.6 19.9 10 19.9 12C19.9 14 18.7 14.8 17.5 15.6C16.6 16.2 16.2 16.8 16.2 18V18.8'/%3E%3C/g%3E%3Ccircle cx='17.4' cy='24.3' r='1.9' fill='%238a4b08'/%3E%3Cg fill='none' stroke='%23fff8e0' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12.6 12.6C12.6 10.2 14.1 8.6 16.2 8.6C18.4 8.6 19.9 10 19.9 12C19.9 14 18.7 14.8 17.5 15.6C16.6 16.2 16.2 16.8 16.2 18V18.8'/%3E%3C/g%3E%3Ccircle cx='16.2' cy='23.1' r='1.9' fill='%23fff8e0'/%3E%3C/g%3E%3C/svg%3E");
+  /* Het embleem in twee lagen die elk apart bewegen (zie de kopanimatie). Samen zijn ze het vraagtekenblok met de munt erboven. */
+  --embleem-blok: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M21.5 10.5 18 7.5M42.5 10.5 46 7.5M20.5 14.5H16.5M43.5 14.5H47.5' fill='none' stroke='%23e0901c' stroke-width='2' stroke-linecap='round'/%3E%3Cg transform='translate(8 15.5) scale(1.5)'%3E%3Crect x='1' y='1' width='30' height='30' rx='5' fill='%23f7c13a' stroke='%238a4b08' stroke-width='2'/%3E%3Cpath d='M4.6 25V7.2Q4.6 4.6 7.2 4.6H25' fill='none' stroke='%23ffe38a' stroke-width='1.8' stroke-linecap='round'/%3E%3Cpath d='M27.4 7V24.8Q27.4 27.4 24.8 27.4H7' fill='none' stroke='%23e0901c' stroke-width='1.8' stroke-linecap='round'/%3E%3Cg fill='%238a4b08'%3E%3Ccircle cx='7.6' cy='7.6' r='1.4'/%3E%3Ccircle cx='24.4' cy='7.6' r='1.4'/%3E%3Ccircle cx='7.6' cy='24.4' r='1.4'/%3E%3Ccircle cx='24.4' cy='24.4' r='1.4'/%3E%3C/g%3E%3Cg transform='translate(1.2 1.2)' fill='none' stroke='%238a4b08' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12.6 12.6C12.6 10.2 14.1 8.6 16.2 8.6C18.4 8.6 19.9 10 19.9 12C19.9 14 18.7 14.8 17.5 15.6C16.6 16.2 16.2 16.8 16.2 18V18.8'/%3E%3C/g%3E%3Ccircle cx='17.4' cy='24.3' r='1.9' fill='%238a4b08'/%3E%3Cg fill='none' stroke='%23fff8e0' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12.6 12.6C12.6 10.2 14.1 8.6 16.2 8.6C18.4 8.6 19.9 10 19.9 12C19.9 14 18.7 14.8 17.5 15.6C16.6 16.2 16.2 16.8 16.2 18V18.8'/%3E%3C/g%3E%3Ccircle cx='16.2' cy='23.1' r='1.9' fill='%23fff8e0'/%3E%3C/g%3E%3C/svg%3E");
+  --embleem-munt: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cellipse cx='32' cy='7.6' rx='5.2' ry='6.8' fill='%23f9d24a' stroke='%23a86a00' stroke-width='1.6'/%3E%3Crect x='30.7' y='3.9' width='2.6' height='7.4' rx='1.3' fill='%23d99a12'/%3E%3Cpath d='M29 5.2Q29.4 3.4 30.6 2.8' fill='none' stroke='%23fff6c8' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
 /* Op smalle schermen krijgt het papier zoveel mogelijk plaats: een smallere buis met dezelfde glans. */
@@ -548,4 +812,106 @@
   font-size: 16px;
   line-height: 1.5;
   color: #c62f28;
+}
+
+/* ---------- Mario: kopanimatie ----------
+ * Af en toe springt er iemand onzichtbaar tegen het vraagtekenblok in het embleem.
+ * Het blok wipt 2 px op en de munt erboven springt 3 px mee en draait één keer rond, zoals een munt in het spel.
+ * Dat duurt ongeveer een seconde; de rest van de cyclus van 16 s staat alles stil.
+ * Het embleem bestaat daarvoor uit twee lagen: het blok met de stralen (--embleem-blok) en de munt (--embleem-munt).
+ * Samen geven ze precies het vroegere embleem, dus ook zonder animatie (prefers-reduced-motion) ziet het er hetzelfde uit.
+ * Mario zet geen --embleem, dus de doos van het embleem zelf tekent niets.
+ */
+[data-stijl='mario'] .embleem {
+  --mario-cyclus: 16s;
+  position: relative;
+}
+
+[data-stijl='mario'] .embleem::before,
+[data-stijl='mario'] .embleem::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: center / contain no-repeat;
+  pointer-events: none;
+}
+
+[data-stijl='mario'] .embleem::before {
+  background-image: var(--embleem-blok);
+  animation: mario-blok-tik var(--mario-cyclus) infinite;
+}
+
+/*
+ * De munt draait om haar eigen middellijn: die valt samen met het midden van het embleem (x = 32).
+ * Lineair tussen de tussenstappen, zodat ze gelijkmatig ronddraait en een kleine boog beschrijft.
+ */
+[data-stijl='mario'] .embleem::after {
+  background-image: var(--embleem-munt);
+  animation: mario-munt-sprong var(--mario-cyclus) linear infinite;
+}
+
+/* Het blok: lang stil, dan 2 px omhoog en zacht terug, samen ongeveer twee derde van een seconde. */
+@keyframes mario-blok-tik {
+  0%,
+  87% {
+    transform: translateY(0);
+    animation-timing-function: ease-out;
+  }
+
+  88.5% {
+    transform: translateY(-2px);
+    animation-timing-function: ease-in-out;
+  }
+
+  91%,
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/*
+ * De munt: tegelijk met het blok een boogje van 3 px hoog en één volle draai, in vier gelijke stappen van 0,24 s.
+ * Na 360 graden staat ze er weer precies zoals in het begin, dus de herhaling springt niet.
+ */
+@keyframes mario-munt-sprong {
+  0%,
+  87% {
+    transform: translateY(0) rotateY(0deg);
+  }
+
+  88.5% {
+    transform: translateY(-2.25px) rotateY(90deg);
+  }
+
+  90% {
+    transform: translateY(-3px) rotateY(180deg);
+  }
+
+  91.5% {
+    transform: translateY(-2.25px) rotateY(270deg);
+  }
+
+  93%,
+  100% {
+    transform: translateY(0) rotateY(360deg);
+  }
+}
+
+/* ---------- Alle stijlen: kop en band stil bij minder beweging ----------
+ * Wie op het toestel minder beweging vraagt, krijgt de kop en de band van elke stijl
+ * stilstaand te zien. Elke kopanimatie is zo gebouwd dat het beeld zonder animatie klopt:
+ * open ogen, het blok op zijn plaats, de sterren voluit en de band zoals hij getekend is.
+ */
+@media (prefers-reduced-motion: reduce) {
+  [data-stijl] .kop,
+  [data-stijl] .kop::before,
+  [data-stijl] .kop::after,
+  [data-stijl] .kop *,
+  [data-stijl] .kop *::before,
+  [data-stijl] .kop *::after,
+  [data-stijl] .band,
+  [data-stijl] .band::before,
+  [data-stijl] .band::after {
+    animation: none !important;
+  }
 }

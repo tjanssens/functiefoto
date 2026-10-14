@@ -44,5 +44,6 @@ Gewone ES-modules zonder bundler; alles in het Nederlands benoemd.
 - **Tekentabel:** enkel rijen van graad 1 of 2, telkens met de herkomst (teller, noemer, onder de wortel, buiten de wortel, na kwadrateren). De f-rij wordt exact afgeleid en daarna numeriek nagecontroleerd (`controleerTabel`); een verschil wordt in de pagina gemarkeerd.
 - **Stappen:** elke stap heeft een titel, formules en precies één zin uitleg. Schoolnotatie: BV, KV, ]a, b[, decimale komma.
 - **Stijlen** kleuren alleen het scherm rond het "papier"; grafiek, tabel en berekening blijven neutraal. Een nieuwe stijl = tokens + versiering in `css/stijlen.css` en een item in `STIJLEN` (`js/instellingen.js`).
+- **Kopanimaties** (blok "kopanimatie" per stijl): alleen in de kop en de band, alleen CSS met transform en opacity op absolute pseudo-elementen met `pointer-events: none`, lange cycli die meestal stilstaan of heel traag gaan, keyframes `<stijl>-...`. Het stilstaande beeld moet kloppen: de gezamenlijke regel onderaan `css/stijlen.css` zet alles stil bij `prefers-reduced-motion`.
 - **Geen sleutels in de code.** De API-sleutel wordt op het toestel ingevuld en blijft in localStorage.
 - Nederlandse teksten zonder gedachtestreepjes.
