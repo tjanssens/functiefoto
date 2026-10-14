@@ -50,509 +50,8 @@
             Tekenblad
           </button>
           <img id="foto-voorbeeld" class="foto-voorbeeld" alt="Je foto van de functie" hidden>
-          <button id="annuleer-lezen" class="knop" type="button" hidden>Stoppen</button>
         </div>
         <p id="foto-status" class="status" role="status" aria-live="polite" hidden></p>
-        <!-- De laadanimatie van elke stijl: te zien zolang Claude leest (js/app.js, css/stijlen.css). -->
-        <div id="laden" class="laden" aria-hidden="true" hidden>
-          <svg class="laden-athene" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120" aria-hidden="true" focusable="false">
-            <defs>
-              <!-- De kop knipt gezicht en achterhoofd af. De strook erboven laat de vallende bril door. -->
-              <clipPath id="athene-kopvorm">
-                <circle cx="60" cy="28" r="14.5"/>
-                <rect x="47" y="-60" width="26" height="82"/>
-              </clipPath>
-              <pattern id="athene-meander" width="10" height="10" patternUnits="userSpaceOnUse" x="5" y="109">
-                <path d="M0 9.2H10M8.3 9.2V0.8H1.7V6.7H5.8V4.2H4.2" fill="none" stroke="#a84b24" stroke-width="1.3"/>
-              </pattern>
-            </defs>
-
-            <g id="athene-vloer">
-              <path d="M5 107.5H195" stroke="#c9bfae"/>
-              <rect x="5" y="109" width="190" height="10" fill="url(#athene-meander)"/>
-            </g>
-
-            <g id="athene-zuil" fill="#f1ece2" stroke="#a29b8e">
-              <rect x="39" y="104" width="38" height="3.5" rx="1"/>
-              <rect x="43" y="95" width="30" height="9"/>
-              <path d="M48 96.5V102.5M53 96.5V102.5M58 96.5V102.5M63 96.5V102.5M68 96.5V102.5" stroke="#d6cebf"/>
-              <rect x="39" y="91" width="38" height="4.5" rx="1"/>
-              <circle cx="39.5" cy="93.5" r="3.6"/>
-              <circle cx="76.5" cy="93.5" r="3.6"/>
-              <circle cx="39.5" cy="93.5" r="1.3"/>
-              <circle cx="76.5" cy="93.5" r="1.3"/>
-              <rect x="36" y="88" width="44" height="3.2" rx="0.8"/>
-            </g>
-
-            <g id="athene-stele" fill="#f1ece2" stroke="#a29b8e">
-              <rect x="112" y="52" width="56" height="52"/>
-              <rect x="108.5" y="103.5" width="63" height="4" rx="1"/>
-              <rect x="108.5" y="47.5" width="63" height="4.5" rx="1"/>
-              <text x="141" y="100" text-anchor="middle" font-family="Gentium Book Plus, Georgia, serif" font-size="8.5" letter-spacing="2" fill="#a29b8e" stroke="none">ΑΘΕ</text>
-            </g>
-
-            <g id="athene-boekrol">
-              <g id="athene-blad">
-                <rect x="117" y="48" width="46" height="34.5" fill="#f6eedb" stroke="#bfae8a" stroke-width="0.8"/>
-                <text x="121" y="58.5" font-family="Gentium Book Plus, Georgia, serif" font-style="italic" font-size="8" fill="#231d18">f(x) =</text>
-                <path d="M145.5 56h13M121 66.5h13M121 74.5h8M131.5 74.5h5" stroke="#8a7e6c" stroke-width="1.3" stroke-linecap="round"/>
-                <path d="M144 62.5v15M140.5 74h19" stroke="#8a7e6c" stroke-width="0.7"/>
-                <path d="M142.5 64Q150 86.5 157.5 64" fill="none" stroke="#a84b24" stroke-width="1.3" stroke-linecap="round"/>
-              </g>
-              <g id="athene-rol-onder">
-                <rect x="115" y="81.5" width="50" height="6" rx="3" fill="#e6d7b5" stroke="#a08c66" stroke-width="0.8"/>
-                <rect x="111.5" y="82.3" width="4" height="4.4" rx="1.2" fill="#a84b24"/>
-                <rect x="164.5" y="82.3" width="4" height="4.4" rx="1.2" fill="#a84b24"/>
-              </g>
-              <g id="athene-rol-boven">
-                <rect x="115" y="43" width="50" height="6" rx="3" fill="#e6d7b5" stroke="#a08c66" stroke-width="0.8"/>
-                <rect x="111.5" y="43.8" width="4" height="4.4" rx="1.2" fill="#a84b24"/>
-                <rect x="164.5" y="43.8" width="4" height="4.4" rx="1.2" fill="#a84b24"/>
-              </g>
-            </g>
-
-            <!-- De uil is getekend rond x = 60 met de pootjes op y = 74, en staat op schaal 1,25 op de zuil. -->
-            <g transform="matrix(1.25 0 0 1.25 -17 -4.5)">
-              <g id="athene-uil">
-                <g id="athene-landing">
-                  <path d="M53 74V71M55.5 74V70.5M58 74V71M62 74V71M64.5 74V70.5M67 74V71" stroke="#5c5549" stroke-width="1.6" stroke-linecap="round"/>
-                  <ellipse cx="60" cy="56" rx="16" ry="18" fill="#736c60"/>
-                  <ellipse cx="60" cy="60" rx="10" ry="12.5" fill="#8f877a"/>
-                  <path d="M56 52.5v2.4M64 52.5v2.4M60 56.5v2.4M55.5 60.5v2.4M64.5 60.5v2.4M60 64.5v2.4M56.5 68v2M63.5 68v2" stroke="#6a6357" stroke-width="1.4" stroke-linecap="round"/>
-                  <g fill="#cdc7ba">
-                    <circle cx="51.5" cy="45.5" r="0.9"/>
-                    <circle cx="68.5" cy="45.5" r="0.9"/>
-                    <circle cx="54" cy="48.5" r="0.8"/>
-                    <circle cx="66" cy="48.5" r="0.8"/>
-                  </g>
-                  <!-- Beide vleugels zijn dezelfde tekening; de rechtse staat gespiegeld rond x = 60. -->
-                  <g id="athene-vleugel-links">
-                    <path d="M47.5 42.5C41 49 41 63 48.5 72.5C51 63 52 51 47.5 42.5Z" fill="#655e52"/>
-                    <g fill="#cdc7ba">
-                      <circle cx="46.3" cy="50" r="0.9"/>
-                      <circle cx="47.6" cy="56.5" r="0.9"/>
-                      <circle cx="46.4" cy="63" r="0.9"/>
-                    </g>
-                  </g>
-                  <g transform="matrix(-1 0 0 1 120 0)">
-                    <g id="athene-vleugel-rechts">
-                      <path d="M47.5 42.5C41 49 41 63 48.5 72.5C51 63 52 51 47.5 42.5Z" fill="#655e52"/>
-                      <g fill="#cdc7ba">
-                        <circle cx="46.3" cy="50" r="0.9"/>
-                        <circle cx="47.6" cy="56.5" r="0.9"/>
-                        <circle cx="46.4" cy="63" r="0.9"/>
-                      </g>
-                    </g>
-                  </g>
-                  <g id="athene-kop">
-                    <path d="M47.5 22 49 12.5 55 19.5ZM72.5 22 71 12.5 65 19.5Z" fill="#736c60"/>
-                    <circle cx="60" cy="28" r="14.5" fill="#736c60"/>
-                    <g clip-path="url(#athene-kopvorm)">
-                      <g id="athene-achterhoofd" fill="#cdc7ba">
-                        <circle cx="55" cy="19" r="0.9"/>
-                        <circle cx="60" cy="18" r="0.9"/>
-                        <circle cx="65" cy="19" r="0.9"/>
-                        <circle cx="51.5" cy="23.5" r="0.9"/>
-                        <circle cx="56.5" cy="23" r="0.9"/>
-                        <circle cx="63.5" cy="23" r="0.9"/>
-                        <circle cx="68.5" cy="23.5" r="0.9"/>
-                        <circle cx="50" cy="28.5" r="0.9"/>
-                        <circle cx="55" cy="28" r="0.9"/>
-                        <circle cx="60" cy="27.5" r="0.9"/>
-                        <circle cx="65" cy="28" r="0.9"/>
-                        <circle cx="70" cy="28.5" r="0.9"/>
-                        <circle cx="53" cy="32.5" r="0.9"/>
-                        <circle cx="58" cy="32.5" r="0.9"/>
-                        <circle cx="62" cy="32.5" r="0.9"/>
-                        <circle cx="67" cy="32.5" r="0.9"/>
-                        <circle cx="55.5" cy="37" r="0.9"/>
-                        <circle cx="60" cy="37.5" r="0.9"/>
-                        <circle cx="64.5" cy="37" r="0.9"/>
-                      </g>
-                      <g id="athene-gezicht">
-                        <ellipse cx="60" cy="29.5" rx="13" ry="10.5" fill="#9b9385"/>
-                        <path id="athene-wenkbrauwen" d="M48.5 22.5Q53.5 19 59 22.5M71.5 22.5Q66.5 19 61 22.5" fill="none" stroke="#ece6da" stroke-width="2" stroke-linecap="round"/>
-                        <g id="athene-oog-links">
-                          <circle cx="54" cy="28" r="5.6" fill="#d9ad4a" stroke="#4b443a" stroke-width="0.8"/>
-                          <circle id="athene-pupil-links" cx="54" cy="28" r="2.5" fill="#1e1915"/>
-                          <circle cx="52.3" cy="26.2" r="0.9" fill="#fff"/>
-                        </g>
-                        <g id="athene-knipoog">
-                          <g id="athene-oog-rechts">
-                            <circle cx="66" cy="28" r="5.6" fill="#d9ad4a" stroke="#4b443a" stroke-width="0.8"/>
-                            <circle id="athene-pupil-rechts" cx="66" cy="28" r="2.5" fill="#1e1915"/>
-                            <circle cx="64.3" cy="26.2" r="0.9" fill="#fff"/>
-                          </g>
-                        </g>
-                        <path d="M60 31 58.2 33.8Q60 37 61.8 33.8Z" fill="#d8caa6"/>
-                        <g id="athene-bril">
-                          <circle cx="54" cy="28" r="6.1" fill="#fff" fill-opacity="0.15" stroke="#231d18" stroke-width="1.3"/>
-                          <circle cx="66" cy="28" r="6.1" fill="#fff" fill-opacity="0.15" stroke="#231d18" stroke-width="1.3"/>
-                          <path d="M58.6 24.6Q60 23.2 61.4 24.6" fill="none" stroke="#231d18" stroke-width="1.3"/>
-                          <path id="athene-glans" d="M67.8 24.6l2 2" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </g>
-                <g id="athene-vraag">
-                  <circle cx="75.5" cy="18" r="1.2" fill="#f7f1e6" stroke="#5f564c" stroke-width="0.7"/>
-                  <circle cx="79.5" cy="15" r="1.7" fill="#f7f1e6" stroke="#5f564c" stroke-width="0.7"/>
-                  <ellipse cx="91" cy="13" rx="9" ry="7.5" fill="#f7f1e6" stroke="#5f564c" stroke-width="0.8"/>
-                  <text x="91" y="17.5" text-anchor="middle" font-family="Gentium Book Plus, Georgia, serif" font-size="13" fill="#a84b24">;</text>
-                </g>
-              </g>
-            </g>
-          </svg>
-          <svg class="laden-minecraft" aria-hidden="true" focusable="false" viewBox="0 0 50 30" width="200" height="120" shape-rendering="crispEdges">
-            <defs>
-              <radialGradient id="minecraft-schaduwverloop">
-                <stop offset="0" stop-color="#000" stop-opacity="0.38"/>
-                <stop offset="1" stop-color="#000" stop-opacity="0"/>
-              </radialGradient>
-            </defs>
-            <!-- Schaduw onder het blok en twee stofwolkjes bij het landen (de rechtse gespiegeld) -->
-            <ellipse id="minecraft-blokschaduw" cx="20" cy="27.4" rx="10" ry="1.8" fill="url(#minecraft-schaduwverloop)" shape-rendering="auto"/>
-            <g transform="translate(12 24)"><g class="minecraft-stofwolk"><rect x="-1" y="-1" width="2" height="2" fill="#fff"/><rect x="1" y="0" width="2" height="2" fill="#f2f2f2"/><rect x="-2" y="1" width="1" height="1" fill="#8b8b8b"/><rect x="2" y="-2" width="1" height="1" fill="#8b8b8b"/></g></g>
-            <g transform="matrix(-1 0 0 1 28 24)"><g class="minecraft-stofwolk"><rect x="-1" y="-1" width="2" height="2" fill="#fff"/><rect x="1" y="0" width="2" height="2" fill="#f2f2f2"/><rect x="-2" y="1" width="1" height="1" fill="#8b8b8b"/><rect x="2" y="-2" width="1" height="1" fill="#8b8b8b"/></g></g>
-            <!-- Het blok: steen met wiskundige tekens als erts, obsidiaan voor de grondige fase, vier stappen barsten en een witte flits -->
-            <g transform="translate(12 10)">
-              <g id="minecraft-blok">
-                <g id="minecraft-blok-wissel">
-                  <rect x="-0.75" y="-0.75" width="17.5" height="17.5" fill="#000"/>
-                  <g id="minecraft-erts"><path fill="#8b8b8b" d="M0 0h11v1h-11zM13 0h3v1h-3zM0 1h2v1h-2zM5 1h2v1h-2zM10 1h3v1h-3zM0 2h1v1h-1zM5 2h2v1h-2zM10 2h6v1h-6zM0 3h2v1h-2zM7 3h4v1h-4zM12 3h4v1h-4zM0 4h2v1h-2zM5 4h5v1h-5zM13 4h3v1h-3zM0 5h2v1h-2zM3 5h1v1h-1zM5 5h2v1h-2zM15 5h1v1h-1zM0 6h1v1h-1zM2 6h9v1h-9zM12 6h4v1h-4zM0 7h2v1h-2zM6 7h10v1h-10zM0 8h2v1h-2zM4 8h1v1h-1zM8 8h8v1h-8zM0 9h4v1h-4zM8 9h6v1h-6zM0 10h5v1h-5zM8 10h2v1h-2zM12 10h1v1h-1zM15 10h1v1h-1zM0 11h3v1h-3zM8 11h3v1h-3zM12 11h1v1h-1zM0 12h1v1h-1zM2 12h1v1h-1zM4 12h7v1h-7zM14 12h2v1h-2zM0 13h2v1h-2zM5 13h6v1h-6zM14 13h2v1h-2zM0 14h2v1h-2zM5 14h6v1h-6zM12 14h1v1h-1zM14 14h1v1h-1zM0 15h3v1h-3zM11 15h5v1h-5z"/><path fill="#757575" d="M7 1h3v1h-3zM13 1h3v1h-3zM5 3h2v1h-2zM1 6h1v1h-1zM2 7h4v1h-4zM4 9h1v1h-1zM3 11h2v1h-2zM1 12h1v1h-1z"/><path fill="#a2a2a2" d="M4 1h1v1h-1zM1 2h1v1h-1zM3 2h1v1h-1zM7 2h3v1h-3zM7 5h3v1h-3zM13 5h2v1h-2zM13 10h2v1h-2zM14 11h2v1h-2zM4 15h7v1h-7z"/><path fill="#606060" d="M11 0h2v1h-2zM2 1h2v1h-2zM2 8h2v1h-2zM14 9h2v1h-2zM10 10h2v1h-2zM15 14h1v1h-1z"/><path fill="#f6f6f6" d="M2 2h1v1h-1zM4 2h1v1h-1zM3 3h1v1h-1zM11 3h1v1h-1zM2 4h1v1h-1zM4 4h1v1h-1zM10 4h3v1h-3zM11 5h1v1h-1zM5 8h3v1h-3zM5 10h3v1h-3zM11 11h1v1h-1zM13 11h1v1h-1zM3 12h1v1h-1zM12 12h1v1h-1zM2 13h3v1h-3zM11 13h1v1h-1zM13 13h1v1h-1zM3 14h1v1h-1z"/><path fill="#4d4d4d" d="M2 3h1v1h-1zM4 3h1v1h-1zM3 4h1v1h-1zM2 5h1v1h-1zM4 5h1v1h-1zM10 5h1v1h-1zM12 5h1v1h-1zM11 6h1v1h-1zM5 9h3v1h-3zM5 11h3v1h-3zM11 12h1v1h-1zM13 12h1v1h-1zM12 13h1v1h-1zM2 14h1v1h-1zM4 14h1v1h-1zM11 14h1v1h-1zM13 14h1v1h-1zM3 15h1v1h-1z"/></g>
-                  <g id="minecraft-obsidiaan"><path fill="#1d1430" d="M1 0h4v1h-4zM8 0h1v1h-1zM10 0h6v1h-6zM0 1h2v1h-2zM5 1h1v1h-1zM8 1h8v1h-8zM3 2h1v1h-1zM5 2h11v1h-11zM0 3h2v1h-2zM5 3h2v1h-2zM8 3h3v1h-3zM14 3h2v1h-2zM0 4h2v1h-2zM5 4h1v1h-1zM7 4h3v1h-3zM13 4h3v1h-3zM0 5h2v1h-2zM3 5h1v1h-1zM5 5h1v1h-1zM9 5h1v1h-1zM13 5h2v1h-2zM0 6h2v1h-2zM7 6h4v1h-4zM12 6h1v1h-1zM0 7h6v1h-6zM9 7h7v1h-7zM0 8h5v1h-5zM8 8h8v1h-8zM0 9h5v1h-5zM9 9h5v1h-5zM15 9h1v1h-1zM0 10h5v1h-5zM10 10h6v1h-6zM0 11h5v1h-5zM8 11h3v1h-3zM12 11h1v1h-1zM14 11h2v1h-2zM0 12h3v1h-3zM4 12h5v1h-5zM10 12h1v1h-1zM14 12h2v1h-2zM0 13h2v1h-2zM5 13h3v1h-3zM9 13h2v1h-2zM14 13h2v1h-2zM5 14h6v1h-6zM0 15h3v1h-3zM4 15h12v1h-12z"/><path fill="#2c1e48" d="M5 0h3v1h-3zM2 1h3v1h-3zM6 5h3v1h-3zM15 5h1v1h-1zM14 6h2v1h-2zM6 7h3v1h-3zM14 9h1v1h-1zM0 14h1v1h-1zM12 14h1v1h-1zM14 14h2v1h-2z"/><path fill="#3f2b66" d="M9 0h1v1h-1zM0 2h2v1h-2zM9 12h1v1h-1zM8 13h1v1h-1z"/><path fill="#110b1d" d="M0 0h1v1h-1zM6 1h2v1h-2zM7 3h1v1h-1zM13 3h1v1h-1zM2 6h5v1h-5zM8 10h2v1h-2zM1 14h1v1h-1z"/><path fill="#6c50a8" d="M12 3h1v1h-1zM6 4h1v1h-1zM13 6h1v1h-1zM8 9h1v1h-1z"/><path fill="#c9b6f5" d="M2 2h1v1h-1zM4 2h1v1h-1zM3 3h1v1h-1zM11 3h1v1h-1zM2 4h1v1h-1zM4 4h1v1h-1zM10 4h3v1h-3zM11 5h1v1h-1zM5 8h3v1h-3zM5 10h3v1h-3zM11 11h1v1h-1zM13 11h1v1h-1zM3 12h1v1h-1zM12 12h1v1h-1zM2 13h3v1h-3zM11 13h1v1h-1zM13 13h1v1h-1zM3 14h1v1h-1z"/><path fill="#0a0612" d="M2 3h1v1h-1zM4 3h1v1h-1zM3 4h1v1h-1zM2 5h1v1h-1zM4 5h1v1h-1zM10 5h1v1h-1zM12 5h1v1h-1zM11 6h1v1h-1zM5 9h3v1h-3zM5 11h3v1h-3zM11 12h1v1h-1zM13 12h1v1h-1zM12 13h1v1h-1zM2 14h1v1h-1zM4 14h1v1h-1zM11 14h1v1h-1zM13 14h1v1h-1zM3 15h1v1h-1z"/></g>
-                  <path id="minecraft-barst-1" class="minecraft-barst" d="M15 3h1v1h-1zM12 4h2v1h-2zM15 4h1v1h-1zM14 5h2v1h-2zM14 6h1v1h-1zM13 7h1v1h-1z"/>
-                  <path id="minecraft-barst-2" class="minecraft-barst" d="M9 2h1v1h-1zM10 3h2v1h-2zM11 5h1v1h-1zM10 6h1v1h-1zM12 8h1v1h-1zM11 9h1v1h-1z"/>
-                  <path id="minecraft-barst-3" class="minecraft-barst" d="M8 2h1v1h-1zM6 3h2v1h-2zM9 6h1v1h-1zM7 7h2v1h-2zM10 9h1v1h-1zM8 10h2v1h-2zM11 10h1v1h-1zM12 11h1v1h-1zM12 12h1v1h-1z"/>
-                  <path id="minecraft-barst-4" class="minecraft-barst" d="M3 1h1v1h-1zM4 2h2v1h-2zM6 7h1v1h-1zM3 8h3v1h-3zM2 9h1v1h-1zM2 10h1v1h-1zM1 11h1v1h-1zM7 11h1v1h-1zM6 12h1v1h-1zM5 13h1v1h-1zM11 13h1v1h-1zM11 14h1v1h-1zM10 15h1v1h-1z"/>
-                  <rect id="minecraft-flits" width="16" height="16" fill="#fff"/>
-                </g>
-              </g>
-            </g>
-            <!-- Scherven: drie naar links en dezelfde drie gespiegeld naar rechts -->
-            <g id="minecraft-scherven"><g><rect class="minecraft-scherf minecraft-scherf-a minecraft-scherf-licht" x="13" y="13" width="2" height="2"/><rect class="minecraft-scherf minecraft-scherf-b minecraft-scherf-donker" x="15" y="16" width="2" height="2"/><rect class="minecraft-scherf minecraft-scherf-c minecraft-scherf-licht" x="16" y="20" width="2" height="2"/></g><g transform="matrix(-1 0 0 1 40 0)"><rect class="minecraft-scherf minecraft-scherf-a minecraft-scherf-licht" x="13" y="13" width="2" height="2"/><rect class="minecraft-scherf minecraft-scherf-b minecraft-scherf-donker" x="15" y="16" width="2" height="2"/><rect class="minecraft-scherf minecraft-scherf-c minecraft-scherf-licht" x="16" y="20" width="2" height="2"/></g></g>
-            <!-- De buit: om de beurt x, y en een wortelteken, in pixelschrift met een schaduw zoals de titel -->
-            <ellipse id="minecraft-buitschaduw" cx="20" cy="27.4" rx="4" ry="1.2" fill="url(#minecraft-schaduwverloop)" shape-rendering="auto"/>
-            <g transform="translate(20 22.5) scale(1.5)">
-              <g id="minecraft-buit">
-                <g id="minecraft-buit-draai">
-                  <rect x="-4" y="-4" width="8" height="8" fill="none"/>
-                  <g id="minecraft-teken-x" class="minecraft-teken"><path fill="#3f3f3f" d="M-2 -2h1v1h-1zM2 -2h1v1h-1zM-1 -1h1v1h-1zM1 -1h1v1h-1zM0 0h1v1h-1zM-1 1h1v1h-1zM1 1h1v1h-1zM-2 2h1v1h-1zM2 2h1v1h-1z"/><path fill="#fff" d="M-3 -3h1v1h-1zM1 -3h1v1h-1zM-2 -2h1v1h-1zM0 -2h1v1h-1zM-1 -1h1v1h-1zM-2 0h1v1h-1zM0 0h1v1h-1zM-3 1h1v1h-1zM1 1h1v1h-1z"/></g>
-                  <g id="minecraft-teken-y" class="minecraft-teken"><path fill="#3f3f3f" d="M-2 -2.5h1v1h-1zM2 -2.5h1v1h-1zM-2 -1.5h1v1h-1zM2 -1.5h1v1h-1zM-1 -0.5h1v1h-1zM1 -0.5h1v1h-1zM0 0.5h1v1h-1zM-1 1.5h1v1h-1zM-2 2.5h1v1h-1z"/><path fill="#fff" d="M-3 -3.5h1v1h-1zM1 -3.5h1v1h-1zM-3 -2.5h1v1h-1zM1 -2.5h1v1h-1zM-2 -1.5h1v1h-1zM0 -1.5h1v1h-1zM-1 -0.5h1v1h-1zM-2 0.5h1v1h-1zM-3 1.5h1v1h-1z"/></g>
-                  <g id="minecraft-teken-wortel" class="minecraft-teken"><path fill="#3f3f3f" d="M1 -3h3v1h-3zM1 -2h1v1h-1zM0 -1h1v1h-1zM0 0h1v1h-1zM-3 1h1v1h-1zM-1 1h1v1h-1zM-2 2h2v1h-2zM-1 3h1v1h-1z"/><path fill="#fff" d="M0 -4h3v1h-3zM0 -3h1v1h-1zM-1 -2h1v1h-1zM-1 -1h1v1h-1zM-4 0h1v1h-1zM-2 0h1v1h-1zM-3 1h2v1h-2zM-2 2h1v1h-1z"/></g>
-                </g>
-              </g>
-            </g>
-            <!-- Het houweel, ijzer en diamant op dezelfde plaats. De onzichtbare rechthoeken geven elke draaiende groep een vaste doos: 16 bij 16 met het handvat rechtsonder, en 44 bij 44 rond het midden van het houweel -->
-            <g transform="translate(25 2)">
-              <g id="minecraft-houweel">
-                <g id="minecraft-houweel-wissel">
-                  <rect x="-14" y="-13" width="44" height="44" fill="none"/>
-                  <g id="minecraft-houweel-ijzer">
-                    <rect width="16" height="16" fill="none"/><path fill="#2b2b2b" d="M4 3h6v1h-6zM2 4h2v1h-2zM10 4h2v1h-2zM1 5h1v1h-1zM12 5h1v1h-1zM1 6h1v1h-1zM5 6h6v1h-6zM13 6h1v1h-1zM0 7h1v1h-1zM4 7h1v1h-1zM6 7h1v1h-1zM8 7h1v1h-1zM11 7h1v1h-1zM14 7h1v1h-1zM0 8h1v1h-1zM3 8h1v1h-1zM7 8h1v1h-1zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM0 9h1v1h-1zM3 9h1v1h-1zM8 9h1v1h-1zM11 9h1v1h-1zM13 9h2v1h-2zM0 10h1v1h-1zM3 10h1v1h-1zM9 10h1v1h-1zM12 10h1v1h-1zM0 11h1v1h-1zM3 11h1v1h-1zM10 11h1v1h-1zM13 11h1v1h-1zM1 12h1v1h-1zM3 12h1v1h-1zM11 12h1v1h-1zM14 12h1v1h-1zM1 13h2v1h-2zM12 13h1v1h-1zM15 13h1v1h-1zM13 14h1v1h-1zM15 14h1v1h-1zM14 15h1v1h-1z"/><path fill="#f4f4f4" d="M4 4h6v1h-6zM2 5h2v1h-2zM2 6h1v1h-1zM1 7h1v1h-1zM1 8h1v1h-1zM1 9h1v1h-1zM1 10h1v1h-1z"/><path fill="#cfcfcf" d="M4 5h7v1h-7zM3 6h2v1h-2zM11 6h1v1h-1zM2 7h2v1h-2zM2 8h1v1h-1zM2 9h1v1h-1zM1 11h1v1h-1z"/><path fill="#9a9a9a" d="M11 5h1v1h-1zM12 6h1v1h-1zM12 7h2v1h-2zM13 8h1v1h-1zM2 10h1v1h-1zM2 11h1v1h-1zM2 12h1v1h-1z"/><path fill="#b5844f" d="M7 7h1v1h-1zM9 8h1v1h-1zM10 9h1v1h-1zM11 10h1v1h-1zM12 11h1v1h-1zM13 12h1v1h-1zM14 13h1v1h-1z"/><path fill="#6e4520" d="M8 8h1v1h-1zM9 9h1v1h-1zM10 10h1v1h-1zM11 11h1v1h-1zM12 12h1v1h-1zM13 13h1v1h-1zM14 14h1v1h-1z"/>
-                  </g>
-                  <g id="minecraft-houweel-diamant">
-                    <rect width="16" height="16" fill="none"/><path fill="#0d3b3d" d="M4 3h6v1h-6zM2 4h2v1h-2zM10 4h2v1h-2zM1 5h1v1h-1zM12 5h1v1h-1zM1 6h1v1h-1zM5 6h6v1h-6zM13 6h1v1h-1zM0 7h1v1h-1zM4 7h1v1h-1zM6 7h1v1h-1zM8 7h1v1h-1zM11 7h1v1h-1zM14 7h1v1h-1zM0 8h1v1h-1zM3 8h1v1h-1zM7 8h1v1h-1zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM0 9h1v1h-1zM3 9h1v1h-1zM8 9h1v1h-1zM11 9h1v1h-1zM13 9h2v1h-2zM0 10h1v1h-1zM3 10h1v1h-1zM9 10h1v1h-1zM12 10h1v1h-1zM0 11h1v1h-1zM3 11h1v1h-1zM10 11h1v1h-1zM13 11h1v1h-1zM1 12h1v1h-1zM3 12h1v1h-1zM11 12h1v1h-1zM14 12h1v1h-1zM1 13h2v1h-2zM12 13h1v1h-1zM15 13h1v1h-1zM13 14h1v1h-1zM15 14h1v1h-1zM14 15h1v1h-1z"/><path fill="#c9fff7" d="M4 4h6v1h-6zM2 5h2v1h-2zM2 6h1v1h-1zM1 7h1v1h-1zM1 8h1v1h-1zM1 9h1v1h-1zM1 10h1v1h-1z"/><path fill="#4fe3d2" d="M4 5h7v1h-7zM3 6h2v1h-2zM11 6h1v1h-1zM2 7h2v1h-2zM2 8h1v1h-1zM2 9h1v1h-1zM1 11h1v1h-1z"/><path fill="#1f9e98" d="M11 5h1v1h-1zM12 6h1v1h-1zM12 7h2v1h-2zM13 8h1v1h-1zM2 10h1v1h-1zM2 11h1v1h-1zM2 12h1v1h-1z"/><path fill="#b5844f" d="M7 7h1v1h-1zM9 8h1v1h-1zM10 9h1v1h-1zM11 10h1v1h-1zM12 11h1v1h-1zM13 12h1v1h-1zM14 13h1v1h-1z"/><path fill="#6e4520" d="M8 8h1v1h-1zM9 9h1v1h-1zM10 10h1v1h-1zM11 11h1v1h-1zM12 12h1v1h-1zM13 13h1v1h-1zM14 14h1v1h-1z"/><g fill="#c77dff"><path class="minecraft-glans" d="M4 3h3v1h-3zM3 4h3v1h-3zM2 5h3v1h-3zM1 6h3v1h-3zM0 7h3v1h-3zM0 8h2v1h-2zM0 9h1v1h-1z"/><path class="minecraft-glans" d="M9 3h1v1h-1zM8 4h3v1h-3zM7 5h3v1h-3zM6 6h3v1h-3zM6 7h2v1h-2zM3 9h1v1h-1zM2 10h2v1h-2zM1 11h3v1h-3zM1 12h2v1h-2zM1 13h1v1h-1z"/><path class="minecraft-glans" d="M12 5h1v1h-1zM11 6h3v1h-3zM11 7h2v1h-2zM9 8h2v1h-2zM8 9h3v1h-3zM9 10h1v1h-1z"/><path class="minecraft-glans" d="M14 8h1v1h-1zM13 9h2v1h-2zM12 10h1v1h-1zM11 11h3v1h-3zM11 12h2v1h-2z"/><path class="minecraft-glans" d="M14 13h2v1h-2zM13 14h3v1h-3zM14 15h1v1h-1z"/></g>
-                  </g>
-                </g>
-              </g>
-              <!-- Vonkjes bij de wissel naar diamant -->
-              <path class="minecraft-vonk" fill="#fff" d="M-1 2h1v1h1v1h-1v1h-1v-1h-1v-1h1z"/><path class="minecraft-vonk" fill="#fff" d="M14 -2h1v1h1v1h-1v1h-1v-1h-1v-1h1z"/><path class="minecraft-vonk" fill="#fff" d="M3 15h1v1h1v1h-1v1h-1v-1h-1v-1h1z"/><path class="minecraft-vonk" fill="#fff" d="M18 9h1v1h1v1h-1v1h-1v-1h-1v-1h1z"/>
-            </g>
-          </svg>
-          <svg class="laden-galileo" viewBox="0 0 200 120" width="200" height="120" aria-hidden="true">
-            <defs>
-              <!-- Bogen van de zes galerijen: één boog per tegel, vijf naast elkaar. -->
-              <pattern id="galileo-arcade" width="5.6" height="10.5" x="54" y="34" patternUnits="userSpaceOnUse">
-                <path d="M1 10.5V4.4a1.8 1.8 0 0 1 3.6 0v6.1" fill="none" stroke="#6b5641" stroke-width=".55"/>
-              </pattern>
-              <!-- Alles van de toren onder de grondlijn valt weg: zo zakt hij scheef in de grond. -->
-              <clipPath id="galileo-boven-grond">
-                <rect x="-10" y="-10" width="220" height="120.5"/>
-              </clipPath>
-            </defs>
-
-            <!-- Grond: een inktlijn met wat arcering eronder. -->
-            <g id="galileo-grond" fill="none" stroke="#b49a6d" stroke-linecap="round">
-              <path d="M6 110.5H194" stroke-width="1.1"/>
-              <path d="M14 115.6l3-2.6M31 116.4l3-2.6M47 114.8l3-2.6M63 116.2l3-2.6M80 115l3-2.6M99 116.4l3-2.6M118 115.2l3-2.6M136 116.2l3-2.6M153 114.8l3-2.6M170 116l3-2.6M186 115l3-2.6" stroke-width=".7" opacity=".75"/>
-            </g>
-
-            <!-- De hele proef schuift opzij als de kijker komt. -->
-            <g id="galileo-proef">
-              <!-- De toren van Pisa. Het onzichtbare anker heeft als middelpunt de voet (68, 110),
-                   zodat transform-origin 50% 50% altijd op de voet ligt, ook als de plank draait. -->
-              <g id="galileo-toren-uitsnede" clip-path="url(#galileo-boven-grond)">
-                <g id="galileo-toren">
-                  <rect id="galileo-toren-anker" x="8" y="10" width="120" height="200" fill="none"/>
-                  <g id="galileo-toren-tekening" stroke="#3a2a1a" stroke-linecap="round">
-                    <rect id="galileo-toren-voet" x="52.5" y="97" width="31" height="21" fill="#f2e6c9" stroke-width=".9"/>
-                    <path id="galileo-toren-blinde-bogen" d="M54.1 112V102.6a2.3 2.3 0 0 1 4.6 0V112M61.8 112V102.6a2.3 2.3 0 0 1 4.6 0V112M69.6 112V102.6a2.3 2.3 0 0 1 4.6 0V112M77.3 112V102.6a2.3 2.3 0 0 1 4.6 0V112" fill="none" stroke="#6b5641" stroke-width=".6"/>
-                    <rect id="galileo-toren-romp" x="54" y="34" width="28" height="63" fill="#f2e6c9" stroke-width=".9"/>
-                    <rect id="galileo-toren-galerijen" x="54" y="34" width="28" height="63" fill="url(#galileo-arcade)" stroke="none"/>
-                    <path id="galileo-toren-lijsten" d="M53.2 44.5H82.8M53.2 55H82.8M53.2 65.5H82.8M53.2 76H82.8M53.2 86.5H82.8M52 97H84M53.4 34H82.6" fill="none" stroke-width=".8"/>
-                    <path id="galileo-toren-schaduw" d="M79.4 35V96.5M80.7 35V96.5M81.5 35V96.5M81 98V117M82.5 98V117M75.6 24.6V33.4M76.4 24.6V33.4" fill="none" stroke="#6b5641" stroke-width=".4"/>
-                    <rect id="galileo-toren-klokkenstoel" x="59" y="24" width="18" height="10" fill="#f2e6c9" stroke-width=".9"/>
-                    <path id="galileo-toren-klokbogen" d="M61.6 34V28.6a1.4 1.4 0 0 1 2.8 0V34M66.6 34V28.6a1.4 1.4 0 0 1 2.8 0V34M71.6 34V28.6a1.4 1.4 0 0 1 2.8 0V34" fill="none" stroke="#6b5641" stroke-width=".55"/>
-                    <rect id="galileo-toren-borstwering" x="60.5" y="21.6" width="15" height="2.4" fill="#f2e6c9" stroke-width=".8"/>
-                  </g>
-                  <!-- Het valluik: een plankje op de bovenste galerij. Het draait tegen de helling in,
-                       zodat het waterpas ligt, en klapt om zijn scharnier (82, 34) naar beneden. -->
-                  <g id="galileo-plank">
-                    <rect id="galileo-plank-hout" x="82" y="32.8" width="38" height="2.4" rx=".6" fill="#a8843e" stroke="#3a2a1a" stroke-width=".5"/>
-                  </g>
-                </g>
-              </g>
-
-              <!-- Stroboscoop: om de kwart valtijd een beeld. De afstanden groeien als 1 : 3 : 5 : 7. -->
-              <g id="galileo-spoor" fill="none" stroke="#6b5641" stroke-width=".6" stroke-dasharray="1.3 1.1">
-                <g id="galileo-spoor-0"><circle cx="98" cy="31.5" r="3"/><circle cx="119" cy="28.5" r="6"/></g>
-                <g id="galileo-spoor-1"><circle cx="98" cy="36.22" r="3"/><circle cx="119" cy="33.22" r="6"/></g>
-                <g id="galileo-spoor-2"><circle cx="98" cy="50.38" r="3"/><circle cx="119" cy="47.38" r="6"/></g>
-                <g id="galileo-spoor-3"><circle cx="98" cy="73.97" r="3"/><circle cx="119" cy="70.97" r="6"/></g>
-              </g>
-
-              <!-- Een zware ijzeren kogel en een licht koperen balletje, met de onderkant even hoog. -->
-              <g id="galileo-kogel-groot" class="galileo-kogel">
-                <circle cx="119" cy="28.5" r="6" fill="#3d3326"/>
-                <circle cx="117" cy="26.4" r="1.7" fill="#f2e6c9" opacity=".55"/>
-              </g>
-              <g id="galileo-kogel-klein" class="galileo-kogel">
-                <circle cx="98" cy="31.5" r="3" fill="#7a3b1d"/>
-                <circle cx="97" cy="30.4" r=".9" fill="#f2e6c9" opacity=".6"/>
-              </g>
-
-              <!-- Stof bij de landing. -->
-              <path id="galileo-stof" d="M93.4 108.4l-2.8-2.2M92.6 110.6h-3.4M102.6 108.4l2.4-2M111.6 108l-3.2-2.6M126.4 108l3.4-2.6M127.4 110.6h4" fill="none" stroke="#3a2a1a" stroke-width=".75" stroke-linecap="round"/>
-
-              <!-- Het besluit, als een vergelijking op de grond: klein = groot. -->
-              <path id="galileo-is" d="M104 102.3h6M104 105.4h6" fill="none" stroke="#7a3b1d" stroke-width="1.5" stroke-linecap="round"/>
-            </g>
-
-            <!-- Grondig: een kijker op een driepoot. Het anker heeft als middelpunt het draaipunt (170, 82). -->
-            <g id="galileo-kijker">
-              <path id="galileo-kijker-driepoot" d="M170 83.5L157 110.5M170 83.5L171.5 110.5M170 83.5L184 110.5" fill="none" stroke="#3a2a1a" stroke-width="1" stroke-linecap="round"/>
-              <g id="galileo-kijker-buis">
-                <rect id="galileo-kijker-anker" x="110" y="22" width="120" height="120" fill="none"/>
-                <g id="galileo-kijker-uittrek">
-                  <rect id="galileo-kijker-binnenbuis" x="137" y="79.7" width="23" height="4.6" fill="#5a2c16" stroke="#3a2a1a" stroke-width=".5"/>
-                  <rect id="galileo-kijker-lens" x="135.6" y="79" width="2.2" height="6" rx=".5" fill="#a8843e" stroke="#3a2a1a" stroke-width=".5"/>
-                </g>
-                <path id="galileo-kijker-hoofdbuis" d="M151 78.5L181 79.6V84.4L151 85.5Z" fill="#7a3b1d" stroke="#3a2a1a" stroke-width=".6" stroke-linejoin="round"/>
-                <path id="galileo-kijker-banden" d="M153 78.6v6.8M166 79.1v5.8M179 79.6v4.8" fill="none" stroke="#a8843e" stroke-width="1.3"/>
-                <rect id="galileo-kijker-oculair" x="181" y="80.6" width="4" height="2.8" rx=".5" fill="#3a2a1a"/>
-              </g>
-              <circle id="galileo-kijker-scharnier" cx="170" cy="82" r="1.3" fill="#a8843e" stroke="#3a2a1a" stroke-width=".5"/>
-            </g>
-          </svg>
-          <svg class="laden-escher" aria-hidden="true" viewBox="0 0 200 120" width="200" height="120" xmlns="http://www.w3.org/2000/svg">
-            <defs><pattern id="escher-arcering" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(30)"><rect width="3" height="3" fill="#fbfaf6"/><path d="M0 1.5H3" stroke="#111" stroke-width="0.7"/></pattern></defs>
-            <g class="escher-trap" stroke="#111" stroke-width="1" stroke-linejoin="round">
-              <polygon class="escher-binnenplaats" points="76.6,38.8 139,55.5 76.6,72.2 61,55.5" fill="url(#escher-arcering)" stroke="none"/>
-              <g class="escher-trede" style="--i: 4"><polygon points="57.9,28 76.6,38.8 76.6,44.2 57.9,33.4" fill="#111"/><polygon points="95.3,28 76.6,38.8 76.6,44.2 95.3,33.4" fill="#7a7a74"/><polygon points="76.6,17.2 95.3,28 76.6,38.8 57.9,28" fill="#fff"/></g>
-              <g class="escher-trede" style="--i: 5"><polygon points="76.6,34.9 92.2,43.9 92.2,49.3 76.6,40.3" fill="#111"/><polygon points="110.9,33.1 92.2,43.9 92.2,49.3 110.9,38.5" fill="#7a7a74"/><polygon points="95.3,24.1 110.9,33.1 92.2,43.9 76.6,34.9" fill="#fff"/></g>
-              <g class="escher-trede" style="--i: 6"><polygon points="92.2,40.1 107.8,49.1 107.8,54.5 92.2,45.5" fill="#111"/><polygon points="126.5,38.3 107.8,49.1 107.8,54.5 126.5,43.7" fill="#7a7a74"/><polygon points="110.9,29.3 126.5,38.3 107.8,49.1 92.2,40.1" fill="#fff"/></g>
-              <g class="escher-trede" style="--i: 7"><polygon points="107.8,45.2 123.4,54.2 123.4,59.6 107.8,50.6" fill="#111"/><polygon points="142.1,43.4 123.4,54.2 123.4,59.6 142.1,48.8" fill="#7a7a74"/><polygon points="126.5,34.4 142.1,43.4 123.4,54.2 107.8,45.2" fill="#fff"/></g>
-              <g class="escher-trede" style="--i: 8"><polygon points="123.4,50.4 139,59.4 139,64.8 123.4,55.8" fill="#111"/><polygon points="157.7,48.6 139,59.4 139,64.8 157.7,54" fill="#7a7a74"/><polygon points="142.1,39.6 157.7,48.6 139,59.4 123.4,50.4" fill="#fff"/></g>
-              <g class="escher-trede" style="--i: 9"><polygon points="139,55.5 157.7,66.3 157.7,71.7 139,60.9" fill="#111"/><polygon points="176.4,55.5 157.7,66.3 157.7,71.7 176.4,60.9" fill="#7a7a74"/><polygon points="157.7,44.7 176.4,55.5 157.7,66.3 139,55.5" fill="#fff"/></g>
-              <g class="escher-trede" style="--i: 10"><polygon points="123.4,60.7 142.1,71.5 142.1,80.2 123.4,69.4" fill="#111"/><polygon points="157.7,62.5 142.1,71.5 142.1,80.2 157.7,71.2" fill="#7a7a74"/><polygon points="139,51.7 157.7,62.5 142.1,71.5 123.4,60.7" fill="#fff"/></g>
-              <g class="escher-trede" style="--i: 3"><polygon points="42.3,40.9 61,51.7 61,87.4 42.3,76.6" fill="#111"/><polygon points="76.6,42.7 61,51.7 61,87.4 76.6,78.4" fill="#7a7a74"/><polygon points="57.9,31.9 76.6,42.7 61,51.7 42.3,40.9" fill="#fff"/></g>
-              <g class="escher-trede" style="--i: 11"><polygon points="107.8,65.8 126.5,76.6 126.5,89.2 107.8,78.4" fill="#111"/><polygon points="142.1,67.6 126.5,76.6 126.5,89.2 142.1,80.2" fill="#7a7a74"/><polygon points="123.4,56.8 142.1,67.6 126.5,76.6 107.8,65.8" fill="#fff"/></g>
-              <g class="escher-trede" style="--i: 2"><polygon points="23.6,55.5 42.3,66.3 42.3,98.2 23.6,87.4" fill="#111"/><polygon points="61,55.5 42.3,66.3 42.3,98.2 61,87.4" fill="#7a7a74"/><polygon points="42.3,44.7 61,55.5 42.3,66.3 23.6,55.5" fill="#fff"/><path d="M25.8 59.2L40.1 67.4" stroke="#fbfaf6" stroke-width="0.9"/></g>
-              <g class="escher-trede" style="--i: 12"><polygon points="92.2,70.9 110.9,81.7 110.9,98.2 92.2,87.4" fill="#111"/><polygon points="126.5,72.7 110.9,81.7 110.9,98.2 126.5,89.2" fill="#7a7a74"/><polygon points="107.8,61.9 126.5,72.7 110.9,81.7 92.2,70.9" fill="#fff"/></g>
-              <g class="escher-trede" style="--i: 13"><polygon points="76.6,76.1 95.3,86.9 95.3,107.2 76.6,96.4" fill="#111"/><polygon points="110.9,77.9 95.3,86.9 95.3,107.2 110.9,98.2" fill="#7a7a74"/><polygon points="92.2,67.1 110.9,77.9 95.3,86.9 76.6,76.1" fill="#fff"/></g>
-              <g class="escher-trede" style="--i: 1"><polygon points="42.3,70.2 57.9,79.2 57.9,107.2 42.3,98.2" fill="#111"/><polygon points="76.6,68.4 57.9,79.2 57.9,107.2 76.6,96.4" fill="#7a7a74"/><polygon points="61,59.4 76.6,68.4 57.9,79.2 42.3,70.2" fill="#fff"/><path d="M44.5 73.8L55.7 80.3" stroke="#fbfaf6" stroke-width="0.9"/></g>
-              <g class="escher-trede" style="--i: 0"><polygon points="57.9,83 76.6,93.8 76.6,118 57.9,107.2" fill="#111"/><polygon points="95.3,83 76.6,93.8 76.6,118 95.3,107.2" fill="#7a7a74"/><polygon points="76.6,72.2 95.3,83 76.6,93.8 57.9,83" fill="#fff"/><path d="M60.1 86.7L74.4 95" stroke="#fbfaf6" stroke-width="0.9"/></g>
-            </g>
-            <g class="escher-loper escher-loper-1">
-              <g class="escher-pad" transform="translate(76.6 83)">
-                <g class="escher-lijf" stroke="#111" stroke-width="0.8" stroke-linejoin="round">
-                  <path class="escher-been escher-been-l" d="M-3.7 -5.1v3" stroke-width="1.6" stroke-linecap="round"/>
-                  <path class="escher-been escher-been-r" d="M3.7 -5.1v3" stroke-width="1.6" stroke-linecap="round"/>
-                  <polygon points="-7.4,-7.2 0,-3 0,-11.5 -7.4,-15.8" fill="#1f4037"/>
-                  <polygon points="0,-3 7.4,-7.2 7.4,-15.8 0,-11.5" fill="#2f5d50"/>
-                  <polygon points="0,-11.5 7.4,-15.8 0,-20 -7.4,-15.8" fill="#6f9c8e"/>
-                  <g class="escher-ogen escher-ogen-r" fill="#fff" stroke="none" opacity="0"><circle cx="2.2" cy="-9.9" r="1.1"/><circle cx="5.2" cy="-11.6" r="1.1"/></g>
-                  <g class="escher-ogen escher-ogen-l" fill="#fff" stroke="none" opacity="0"><circle cx="-2.2" cy="-9.9" r="1.1"/><circle cx="-5.2" cy="-11.6" r="1.1"/></g>
-                  <g class="escher-ogen escher-ogen-v" fill="#fff" stroke="none"><circle cx="-2.2" cy="-9.9" r="1.1"/><circle cx="2.2" cy="-9.9" r="1.1"/></g>
-                </g>
-                <g class="escher-vraag" stroke="#111"><path d="M4.9 -25.8 1.6 -19.4 8.8 -23.5Z" fill="#fff" stroke-width="0.8" stroke-linejoin="round"/><circle cx="10.2" cy="-30" r="7.4" fill="#fff" stroke-width="0.8"/><path d="M7.8 -32a2.5 2.5 0 1 1 3.7 2.2c-0.9 0.5 -1.3 1 -1.3 2.1" fill="none" stroke-width="1.5" stroke-linecap="round"/><circle cx="10.2" cy="-25.8" r="0.95" fill="#111" stroke="none"/></g>
-              </g>
-            </g>
-            <g class="escher-loper escher-loper-2">
-              <g class="escher-pad" transform="translate(76.6 28)">
-                <g class="escher-lijf" stroke="#111" stroke-width="0.8" stroke-linejoin="round">
-                  <path class="escher-been escher-been-l" d="M-3.7 -5.1v3" stroke-width="1.6" stroke-linecap="round"/>
-                  <path class="escher-been escher-been-r" d="M3.7 -5.1v3" stroke-width="1.6" stroke-linecap="round"/>
-                  <polygon points="-7.4,-7.2 0,-3 0,-11.5 -7.4,-15.8" fill="#111"/>
-                  <polygon points="0,-3 7.4,-7.2 7.4,-15.8 0,-11.5" fill="#7a7a74"/>
-                  <polygon points="0,-11.5 7.4,-15.8 0,-20 -7.4,-15.8" fill="#fff"/>
-                  <g class="escher-ogen escher-ogen-r" fill="#fff" stroke="none" opacity="0"><circle cx="2.2" cy="-9.9" r="1.1"/><circle cx="5.2" cy="-11.6" r="1.1"/></g>
-                  <g class="escher-ogen escher-ogen-l" fill="#fff" stroke="none" opacity="0"><circle cx="-2.2" cy="-9.9" r="1.1"/><circle cx="-5.2" cy="-11.6" r="1.1"/></g>
-                  <g class="escher-ogen escher-ogen-v" fill="#fff" stroke="none"><circle cx="-2.2" cy="-9.9" r="1.1"/><circle cx="2.2" cy="-9.9" r="1.1"/></g>
-                </g>
-                <g class="escher-vraag" opacity="0" stroke="#111"><path d="M10.6 -15.4 7.9 -11.6 11.6 -10.9Z" fill="#fff" stroke-width="0.8" stroke-linejoin="round"/><circle cx="17" cy="-14" r="7.4" fill="#fff" stroke-width="0.8"/><path d="M14.6 -16a2.5 2.5 0 1 1 3.7 2.2c-0.9 0.5 -1.3 1 -1.3 2.1" fill="none" stroke-width="1.5" stroke-linecap="round"/><circle cx="17" cy="-9.8" r="0.95" fill="#111" stroke="none"/></g>
-              </g>
-            </g>
-          </svg>
-          <svg class="laden-mario" aria-hidden="true" focusable="false" viewBox="0 0 200 120" width="200" height="120" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <!-- Dezelfde strepen glans als het kader (de groene buis) in de stijl. -->
-              <linearGradient id="mario-buisglans" x1="0" x2="1" y1="0" y2="0">
-                <stop offset="0" stop-color="#3f9a52"/>
-                <stop offset="0.07" stop-color="#3f9a52"/>
-                <stop offset="0.07" stop-color="#a8e89a"/>
-                <stop offset="0.13" stop-color="#a8e89a"/>
-                <stop offset="0.13" stop-color="#dff7cf"/>
-                <stop offset="0.23" stop-color="#dff7cf"/>
-                <stop offset="0.23" stop-color="#8fdc84"/>
-                <stop offset="0.33" stop-color="#8fdc84"/>
-                <stop offset="0.33" stop-color="#6ccf6e"/>
-                <stop offset="0.74" stop-color="#6ccf6e"/>
-                <stop offset="0.74" stop-color="#4fb05c"/>
-                <stop offset="0.84" stop-color="#4fb05c"/>
-                <stop offset="0.84" stop-color="#6ccf6e"/>
-                <stop offset="0.91" stop-color="#6ccf6e"/>
-                <stop offset="0.91" stop-color="#3f9a52"/>
-                <stop offset="1" stop-color="#3f9a52"/>
-              </linearGradient>
-              <!-- Bakstenen van de grond, zoals onder de heuvels van de stijl. -->
-              <pattern id="mario-grondsteen" x="2" y="105" width="16" height="14" patternUnits="userSpaceOnUse">
-                <rect width="16" height="14" fill="#b86a36"/>
-                <rect x="1" y="1" width="14" height="12" rx="3" fill="#dc9a62"/>
-                <path d="M4 4V9" stroke="#f2c08f" stroke-width="1.6" stroke-linecap="round"/>
-              </pattern>
-              <!-- De buis komt uit de grond: alles onder het gras blijft verborgen. -->
-              <clipPath id="mario-bovengrond">
-                <rect x="0" y="0" width="200" height="101"/>
-              </clipPath>
-              <!-- Het venster van het tellertje: de cijferstroken schuiven erachter. -->
-              <clipPath id="mario-tellervenster">
-                <rect x="158" y="6" width="32" height="16"/>
-              </clipPath>
-            </defs>
-
-            <!-- Een wolkje links boven, zoals de wolken van de stijl. -->
-            <g class="mario-wolk">
-              <g transform="translate(8 7) scale(0.27)">
-                <g fill="#fff" stroke="#a9d8f5" stroke-width="9">
-                  <rect x="0" y="26" width="150" height="34" rx="17"/>
-                  <circle cx="44" cy="28" r="24"/>
-                  <circle cx="82" cy="18" r="30"/>
-                  <circle cx="120" cy="32" r="20"/>
-                </g>
-                <g fill="#fff">
-                  <rect x="0" y="26" width="150" height="34" rx="17"/>
-                  <circle cx="44" cy="28" r="24"/>
-                  <circle cx="82" cy="18" r="30"/>
-                  <circle cx="120" cy="32" r="20"/>
-                </g>
-                <rect x="14" y="46" width="122" height="9" rx="4.5" fill="#e6f4fd"/>
-              </g>
-            </g>
-
-            <!-- De baan van de munt: een echte parabool, als stippellijn getekend. -->
-            <g class="mario-spoor" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0 7">
-              <path d="M32 50Q99 -36.2 166 84" stroke="#fff"/>
-              <path class="mario-spoor-goud" d="M32 50Q99 -36.2 166 84" stroke="#ffd23a"/>
-            </g>
-
-            <!-- Grondig: sterrenstof dat de ster volgt, op dezelfde baan maar iets later. -->
-            <g class="mario-sterrenstof">
-              <g class="mario-vlucht-x mario-volger-1">
-                <g class="mario-vlucht-y mario-volger-1">
-                  <path class="mario-fonkel" d="M32 43.2L33.7 48.3L38.8 50L33.7 51.7L32 56.8L30.3 51.7L25.2 50L30.3 48.3Z" fill="#fff6b0" stroke="#e0a21c" stroke-width="0.8" stroke-linejoin="round"/>
-                </g>
-              </g>
-              <g class="mario-vlucht-x mario-volger-2">
-                <g class="mario-vlucht-y mario-volger-2">
-                  <path class="mario-fonkel" d="M32 45L33.3 48.7L37 50L33.3 51.3L32 55L30.7 51.3L27 50L30.7 48.7Z" fill="#fff6b0" stroke="#e0a21c" stroke-width="0.7" stroke-linejoin="round"/>
-                </g>
-              </g>
-            </g>
-
-            <!-- De munt (en bij grondig de ster): vertrekt in het blok, vliegt over de parabool en valt in de buis. -->
-            <g class="mario-vlucht">
-              <g class="mario-vlucht-x">
-                <g class="mario-vlucht-y">
-                  <g class="mario-munt">
-                    <ellipse cx="32" cy="50" rx="6" ry="8" fill="#f9d24a" stroke="#a86a00" stroke-width="1.6"/>
-                    <rect x="30.5" y="45.6" width="3" height="8.8" rx="1.5" fill="#d99a12"/>
-                    <path d="M28.6 47.2Q29 45 30.4 44.3" fill="none" stroke="#fff6c8" stroke-width="1.3" stroke-linecap="round"/>
-                  </g>
-                  <g class="mario-ster">
-                    <path d="M32 41.1L34.6 47L41 47.7L36.2 52L37.6 58.3L32 55L26.4 58.3L27.8 52L23 47.7L29.4 47Z" fill="#ffd23a" stroke="#a86a00" stroke-width="1.6" stroke-linejoin="round"/>
-                    <path d="M29.6 48.6L31.3 46" fill="none" stroke="#fffbe0" stroke-width="1.5" stroke-linecap="round"/>
-                  </g>
-                </g>
-              </g>
-            </g>
-
-            <!-- Het vraagtekenblok: valt bij de opkomst uit de lucht en wipt bij elke munt op. -->
-            <g class="mario-blok-val">
-              <g class="mario-blok-tik">
-                <path class="mario-stralen" d="M18.5 37.5 15 34M45.5 37.5 49 34M15.5 44H11.5M48.5 44H52.5" fill="none" stroke="#e0901c" stroke-width="2" stroke-linecap="round"/>
-                <g transform="translate(18 40) scale(0.875)">
-                  <rect x="1" y="1" width="30" height="30" rx="5" fill="#f7c13a" stroke="#8a4b08" stroke-width="2"/>
-                  <path d="M4.6 25V7.2Q4.6 4.6 7.2 4.6H25" fill="none" stroke="#ffe38a" stroke-width="1.8" stroke-linecap="round"/>
-                  <path d="M27.4 7V24.8Q27.4 27.4 24.8 27.4H7" fill="none" stroke="#e0901c" stroke-width="1.8" stroke-linecap="round"/>
-                  <g fill="#8a4b08">
-                    <circle cx="7.6" cy="7.6" r="1.4"/>
-                    <circle cx="24.4" cy="7.6" r="1.4"/>
-                    <circle cx="7.6" cy="24.4" r="1.4"/>
-                    <circle cx="24.4" cy="24.4" r="1.4"/>
-                  </g>
-                  <path d="M13.8 13.8C13.8 11.4 15.3 9.8 17.4 9.8C19.6 9.8 21.1 11.2 21.1 13.2C21.1 15.2 19.9 16 18.7 16.8C17.8 17.4 17.4 18 17.4 19.2V20" fill="none" stroke="#8a4b08" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <circle cx="17.4" cy="24.3" r="1.9" fill="#8a4b08"/>
-                  <path d="M12.6 12.6C12.6 10.2 14.1 8.6 16.2 8.6C18.4 8.6 19.9 10 19.9 12C19.9 14 18.7 14.8 17.5 15.6C16.6 16.2 16.2 16.8 16.2 18V18.8" fill="none" stroke="#fff8e0" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <circle cx="16.2" cy="23.1" r="1.9" fill="#fff8e0"/>
-                </g>
-              </g>
-            </g>
-
-            <!-- De groene buis: komt bij de opkomst uit de grond en slikt elke munt met een hapje. -->
-            <g clip-path="url(#mario-bovengrond)">
-              <g class="mario-buis">
-                <rect x="150" y="75" width="32" height="28" fill="url(#mario-buisglans)" stroke="#1f5f30" stroke-width="2"/>
-                <rect x="151" y="76" width="30" height="3" fill="#1f5f30" opacity="0.35"/>
-                <g class="mario-buisrand">
-                  <rect x="145" y="62" width="42" height="14" rx="2.5" fill="url(#mario-buisglans)" stroke="#1f5f30" stroke-width="2"/>
-                </g>
-              </g>
-            </g>
-
-            <!-- De grond: gras op bakstenen. -->
-            <g class="mario-grond">
-              <rect x="2" y="104" width="196" height="15" rx="3" fill="url(#mario-grondsteen)" stroke="#7a3512" stroke-width="1.5"/>
-              <rect x="2" y="99.5" width="196" height="6" rx="3" fill="#6cc04a" stroke="#3f8a48" stroke-width="1.5"/>
-            </g>
-
-            <!-- Het tellertje rechtsboven: een munt (of ster), een maalteken en twee cijferstroken. -->
-            <g class="mario-teller">
-              <g class="mario-teller-munt">
-                <ellipse cx="142" cy="14.4" rx="4.6" ry="6.2" fill="#f9d24a" stroke="#a86a00" stroke-width="1.4"/>
-                <rect x="141" y="11" width="2" height="6.8" rx="1" fill="#d99a12"/>
-              </g>
-              <path class="mario-teller-ster" d="M142 7.8L143.8 11.9L148.3 12.4L144.9 15.4L145.9 19.7L142 17.5L138.1 19.7L139.1 15.4L135.7 12.4L140.2 11.9Z" fill="#ffd23a" stroke="#a86a00" stroke-width="1.3" stroke-linejoin="round"/>
-              <path d="M152.5 13L158 18.5M158 13L152.5 18.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="square"/>
-              <path d="M151 11.5L156.5 17M156.5 11.5L151 17" fill="none" stroke="#1d2747" stroke-width="2" stroke-linecap="square"/>
-              <g class="mario-cijfers">
-                <g clip-path="url(#mario-tellervenster)">
-                  <g class="mario-tientallen">
-                    <g fill="#fff"><text x="162.5" y="21.5">0</text><text x="162.5" y="37.5">1</text><text x="162.5" y="53.5">2</text><text x="162.5" y="69.5">3</text><text x="162.5" y="85.5">4</text><text x="162.5" y="101.5">5</text><text x="162.5" y="117.5">6</text><text x="162.5" y="133.5">7</text><text x="162.5" y="149.5">8</text><text x="162.5" y="165.5">9</text><text x="162.5" y="181.5">0</text></g>
-                    <g fill="#1d2747"><text x="161" y="20">0</text><text x="161" y="36">1</text><text x="161" y="52">2</text><text x="161" y="68">3</text><text x="161" y="84">4</text><text x="161" y="100">5</text><text x="161" y="116">6</text><text x="161" y="132">7</text><text x="161" y="148">8</text><text x="161" y="164">9</text><text x="161" y="180">0</text></g>
-                  </g>
-                  <g class="mario-eenheden">
-                    <g fill="#fff"><text x="174.5" y="21.5">0</text><text x="174.5" y="37.5">1</text><text x="174.5" y="53.5">2</text><text x="174.5" y="69.5">3</text><text x="174.5" y="85.5">4</text><text x="174.5" y="101.5">5</text><text x="174.5" y="117.5">6</text><text x="174.5" y="133.5">7</text><text x="174.5" y="149.5">8</text><text x="174.5" y="165.5">9</text><text x="174.5" y="181.5">0</text></g>
-                    <g fill="#1d2747"><text x="173" y="20">0</text><text x="173" y="36">1</text><text x="173" y="52">2</text><text x="173" y="68">3</text><text x="173" y="84">4</text><text x="173" y="100">5</text><text x="173" y="116">6</text><text x="173" y="132">7</text><text x="173" y="148">8</text><text x="173" y="164">9</text><text x="173" y="180">0</text></g>
-                  </g>
-                </g>
-              </g>
-            </g>
-          </svg>
-        </div>
-
         <form id="functie-form" class="functie-form" novalidate>
           <label for="functie" class="veld-label">Functie</label>
           <div class="invoer-rij">
@@ -608,6 +107,512 @@
       </div>
     </footer>
   </div>
+
+  <!-- Zolang Claude leest: de laadanimatie van elke stijl, de melding en Stoppen (js/app.js, css/stijlen.css). -->
+  <dialog id="lezen" class="lezen" aria-labelledby="lezen-tekst">
+    <div class="lezen-inhoud">
+      <div id="laden" class="laden" aria-hidden="true">
+        <svg class="laden-athene" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120" aria-hidden="true" focusable="false">
+          <defs>
+            <!-- De kop knipt gezicht en achterhoofd af. De strook erboven laat de vallende bril door. -->
+            <clipPath id="athene-kopvorm">
+              <circle cx="60" cy="28" r="14.5"/>
+              <rect x="47" y="-60" width="26" height="82"/>
+            </clipPath>
+            <pattern id="athene-meander" width="10" height="10" patternUnits="userSpaceOnUse" x="5" y="109">
+              <path d="M0 9.2H10M8.3 9.2V0.8H1.7V6.7H5.8V4.2H4.2" fill="none" stroke="#a84b24" stroke-width="1.3"/>
+            </pattern>
+          </defs>
+
+          <g id="athene-vloer">
+            <path d="M5 107.5H195" stroke="#c9bfae"/>
+            <rect x="5" y="109" width="190" height="10" fill="url(#athene-meander)"/>
+          </g>
+
+          <g id="athene-zuil" fill="#f1ece2" stroke="#a29b8e">
+            <rect x="39" y="104" width="38" height="3.5" rx="1"/>
+            <rect x="43" y="95" width="30" height="9"/>
+            <path d="M48 96.5V102.5M53 96.5V102.5M58 96.5V102.5M63 96.5V102.5M68 96.5V102.5" stroke="#d6cebf"/>
+            <rect x="39" y="91" width="38" height="4.5" rx="1"/>
+            <circle cx="39.5" cy="93.5" r="3.6"/>
+            <circle cx="76.5" cy="93.5" r="3.6"/>
+            <circle cx="39.5" cy="93.5" r="1.3"/>
+            <circle cx="76.5" cy="93.5" r="1.3"/>
+            <rect x="36" y="88" width="44" height="3.2" rx="0.8"/>
+          </g>
+
+          <g id="athene-stele" fill="#f1ece2" stroke="#a29b8e">
+            <rect x="112" y="52" width="56" height="52"/>
+            <rect x="108.5" y="103.5" width="63" height="4" rx="1"/>
+            <rect x="108.5" y="47.5" width="63" height="4.5" rx="1"/>
+            <text x="141" y="100" text-anchor="middle" font-family="Gentium Book Plus, Georgia, serif" font-size="8.5" letter-spacing="2" fill="#a29b8e" stroke="none">ΑΘΕ</text>
+          </g>
+
+          <g id="athene-boekrol">
+            <g id="athene-blad">
+              <rect x="117" y="48" width="46" height="34.5" fill="#f6eedb" stroke="#bfae8a" stroke-width="0.8"/>
+              <text x="121" y="58.5" font-family="Gentium Book Plus, Georgia, serif" font-style="italic" font-size="8" fill="#231d18">f(x) =</text>
+              <path d="M145.5 56h13M121 66.5h13M121 74.5h8M131.5 74.5h5" stroke="#8a7e6c" stroke-width="1.3" stroke-linecap="round"/>
+              <path d="M144 62.5v15M140.5 74h19" stroke="#8a7e6c" stroke-width="0.7"/>
+              <path d="M142.5 64Q150 86.5 157.5 64" fill="none" stroke="#a84b24" stroke-width="1.3" stroke-linecap="round"/>
+            </g>
+            <g id="athene-rol-onder">
+              <rect x="115" y="81.5" width="50" height="6" rx="3" fill="#e6d7b5" stroke="#a08c66" stroke-width="0.8"/>
+              <rect x="111.5" y="82.3" width="4" height="4.4" rx="1.2" fill="#a84b24"/>
+              <rect x="164.5" y="82.3" width="4" height="4.4" rx="1.2" fill="#a84b24"/>
+            </g>
+            <g id="athene-rol-boven">
+              <rect x="115" y="43" width="50" height="6" rx="3" fill="#e6d7b5" stroke="#a08c66" stroke-width="0.8"/>
+              <rect x="111.5" y="43.8" width="4" height="4.4" rx="1.2" fill="#a84b24"/>
+              <rect x="164.5" y="43.8" width="4" height="4.4" rx="1.2" fill="#a84b24"/>
+            </g>
+          </g>
+
+          <!-- De uil is getekend rond x = 60 met de pootjes op y = 74, en staat op schaal 1,25 op de zuil. -->
+          <g transform="matrix(1.25 0 0 1.25 -17 -4.5)">
+            <g id="athene-uil">
+              <g id="athene-landing">
+                <path d="M53 74V71M55.5 74V70.5M58 74V71M62 74V71M64.5 74V70.5M67 74V71" stroke="#5c5549" stroke-width="1.6" stroke-linecap="round"/>
+                <ellipse cx="60" cy="56" rx="16" ry="18" fill="#736c60"/>
+                <ellipse cx="60" cy="60" rx="10" ry="12.5" fill="#8f877a"/>
+                <path d="M56 52.5v2.4M64 52.5v2.4M60 56.5v2.4M55.5 60.5v2.4M64.5 60.5v2.4M60 64.5v2.4M56.5 68v2M63.5 68v2" stroke="#6a6357" stroke-width="1.4" stroke-linecap="round"/>
+                <g fill="#cdc7ba">
+                  <circle cx="51.5" cy="45.5" r="0.9"/>
+                  <circle cx="68.5" cy="45.5" r="0.9"/>
+                  <circle cx="54" cy="48.5" r="0.8"/>
+                  <circle cx="66" cy="48.5" r="0.8"/>
+                </g>
+                <!-- Beide vleugels zijn dezelfde tekening; de rechtse staat gespiegeld rond x = 60. -->
+                <g id="athene-vleugel-links">
+                  <path d="M47.5 42.5C41 49 41 63 48.5 72.5C51 63 52 51 47.5 42.5Z" fill="#655e52"/>
+                  <g fill="#cdc7ba">
+                    <circle cx="46.3" cy="50" r="0.9"/>
+                    <circle cx="47.6" cy="56.5" r="0.9"/>
+                    <circle cx="46.4" cy="63" r="0.9"/>
+                  </g>
+                </g>
+                <g transform="matrix(-1 0 0 1 120 0)">
+                  <g id="athene-vleugel-rechts">
+                    <path d="M47.5 42.5C41 49 41 63 48.5 72.5C51 63 52 51 47.5 42.5Z" fill="#655e52"/>
+                    <g fill="#cdc7ba">
+                      <circle cx="46.3" cy="50" r="0.9"/>
+                      <circle cx="47.6" cy="56.5" r="0.9"/>
+                      <circle cx="46.4" cy="63" r="0.9"/>
+                    </g>
+                  </g>
+                </g>
+                <g id="athene-kop">
+                  <path d="M47.5 22 49 12.5 55 19.5ZM72.5 22 71 12.5 65 19.5Z" fill="#736c60"/>
+                  <circle cx="60" cy="28" r="14.5" fill="#736c60"/>
+                  <g clip-path="url(#athene-kopvorm)">
+                    <g id="athene-achterhoofd" fill="#cdc7ba">
+                      <circle cx="55" cy="19" r="0.9"/>
+                      <circle cx="60" cy="18" r="0.9"/>
+                      <circle cx="65" cy="19" r="0.9"/>
+                      <circle cx="51.5" cy="23.5" r="0.9"/>
+                      <circle cx="56.5" cy="23" r="0.9"/>
+                      <circle cx="63.5" cy="23" r="0.9"/>
+                      <circle cx="68.5" cy="23.5" r="0.9"/>
+                      <circle cx="50" cy="28.5" r="0.9"/>
+                      <circle cx="55" cy="28" r="0.9"/>
+                      <circle cx="60" cy="27.5" r="0.9"/>
+                      <circle cx="65" cy="28" r="0.9"/>
+                      <circle cx="70" cy="28.5" r="0.9"/>
+                      <circle cx="53" cy="32.5" r="0.9"/>
+                      <circle cx="58" cy="32.5" r="0.9"/>
+                      <circle cx="62" cy="32.5" r="0.9"/>
+                      <circle cx="67" cy="32.5" r="0.9"/>
+                      <circle cx="55.5" cy="37" r="0.9"/>
+                      <circle cx="60" cy="37.5" r="0.9"/>
+                      <circle cx="64.5" cy="37" r="0.9"/>
+                    </g>
+                    <g id="athene-gezicht">
+                      <ellipse cx="60" cy="29.5" rx="13" ry="10.5" fill="#9b9385"/>
+                      <path id="athene-wenkbrauwen" d="M48.5 22.5Q53.5 19 59 22.5M71.5 22.5Q66.5 19 61 22.5" fill="none" stroke="#ece6da" stroke-width="2" stroke-linecap="round"/>
+                      <g id="athene-oog-links">
+                        <circle cx="54" cy="28" r="5.6" fill="#d9ad4a" stroke="#4b443a" stroke-width="0.8"/>
+                        <circle id="athene-pupil-links" cx="54" cy="28" r="2.5" fill="#1e1915"/>
+                        <circle cx="52.3" cy="26.2" r="0.9" fill="#fff"/>
+                      </g>
+                      <g id="athene-knipoog">
+                        <g id="athene-oog-rechts">
+                          <circle cx="66" cy="28" r="5.6" fill="#d9ad4a" stroke="#4b443a" stroke-width="0.8"/>
+                          <circle id="athene-pupil-rechts" cx="66" cy="28" r="2.5" fill="#1e1915"/>
+                          <circle cx="64.3" cy="26.2" r="0.9" fill="#fff"/>
+                        </g>
+                      </g>
+                      <path d="M60 31 58.2 33.8Q60 37 61.8 33.8Z" fill="#d8caa6"/>
+                      <g id="athene-bril">
+                        <circle cx="54" cy="28" r="6.1" fill="#fff" fill-opacity="0.15" stroke="#231d18" stroke-width="1.3"/>
+                        <circle cx="66" cy="28" r="6.1" fill="#fff" fill-opacity="0.15" stroke="#231d18" stroke-width="1.3"/>
+                        <path d="M58.6 24.6Q60 23.2 61.4 24.6" fill="none" stroke="#231d18" stroke-width="1.3"/>
+                        <path id="athene-glans" d="M67.8 24.6l2 2" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </g>
+              <g id="athene-vraag">
+                <circle cx="75.5" cy="18" r="1.2" fill="#f7f1e6" stroke="#5f564c" stroke-width="0.7"/>
+                <circle cx="79.5" cy="15" r="1.7" fill="#f7f1e6" stroke="#5f564c" stroke-width="0.7"/>
+                <ellipse cx="91" cy="13" rx="9" ry="7.5" fill="#f7f1e6" stroke="#5f564c" stroke-width="0.8"/>
+                <text x="91" y="17.5" text-anchor="middle" font-family="Gentium Book Plus, Georgia, serif" font-size="13" fill="#a84b24">;</text>
+              </g>
+            </g>
+          </g>
+        </svg>
+        <svg class="laden-minecraft" aria-hidden="true" focusable="false" viewBox="0 0 50 30" width="200" height="120" shape-rendering="crispEdges">
+          <defs>
+            <radialGradient id="minecraft-schaduwverloop">
+              <stop offset="0" stop-color="#000" stop-opacity="0.38"/>
+              <stop offset="1" stop-color="#000" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <!-- Schaduw onder het blok en twee stofwolkjes bij het landen (de rechtse gespiegeld) -->
+          <ellipse id="minecraft-blokschaduw" cx="20" cy="27.4" rx="10" ry="1.8" fill="url(#minecraft-schaduwverloop)" shape-rendering="auto"/>
+          <g transform="translate(12 24)"><g class="minecraft-stofwolk"><rect x="-1" y="-1" width="2" height="2" fill="#fff"/><rect x="1" y="0" width="2" height="2" fill="#f2f2f2"/><rect x="-2" y="1" width="1" height="1" fill="#8b8b8b"/><rect x="2" y="-2" width="1" height="1" fill="#8b8b8b"/></g></g>
+          <g transform="matrix(-1 0 0 1 28 24)"><g class="minecraft-stofwolk"><rect x="-1" y="-1" width="2" height="2" fill="#fff"/><rect x="1" y="0" width="2" height="2" fill="#f2f2f2"/><rect x="-2" y="1" width="1" height="1" fill="#8b8b8b"/><rect x="2" y="-2" width="1" height="1" fill="#8b8b8b"/></g></g>
+          <!-- Het blok: steen met wiskundige tekens als erts, obsidiaan voor de grondige fase, vier stappen barsten en een witte flits -->
+          <g transform="translate(12 10)">
+            <g id="minecraft-blok">
+              <g id="minecraft-blok-wissel">
+                <rect x="-0.75" y="-0.75" width="17.5" height="17.5" fill="#000"/>
+                <g id="minecraft-erts"><path fill="#8b8b8b" d="M0 0h11v1h-11zM13 0h3v1h-3zM0 1h2v1h-2zM5 1h2v1h-2zM10 1h3v1h-3zM0 2h1v1h-1zM5 2h2v1h-2zM10 2h6v1h-6zM0 3h2v1h-2zM7 3h4v1h-4zM12 3h4v1h-4zM0 4h2v1h-2zM5 4h5v1h-5zM13 4h3v1h-3zM0 5h2v1h-2zM3 5h1v1h-1zM5 5h2v1h-2zM15 5h1v1h-1zM0 6h1v1h-1zM2 6h9v1h-9zM12 6h4v1h-4zM0 7h2v1h-2zM6 7h10v1h-10zM0 8h2v1h-2zM4 8h1v1h-1zM8 8h8v1h-8zM0 9h4v1h-4zM8 9h6v1h-6zM0 10h5v1h-5zM8 10h2v1h-2zM12 10h1v1h-1zM15 10h1v1h-1zM0 11h3v1h-3zM8 11h3v1h-3zM12 11h1v1h-1zM0 12h1v1h-1zM2 12h1v1h-1zM4 12h7v1h-7zM14 12h2v1h-2zM0 13h2v1h-2zM5 13h6v1h-6zM14 13h2v1h-2zM0 14h2v1h-2zM5 14h6v1h-6zM12 14h1v1h-1zM14 14h1v1h-1zM0 15h3v1h-3zM11 15h5v1h-5z"/><path fill="#757575" d="M7 1h3v1h-3zM13 1h3v1h-3zM5 3h2v1h-2zM1 6h1v1h-1zM2 7h4v1h-4zM4 9h1v1h-1zM3 11h2v1h-2zM1 12h1v1h-1z"/><path fill="#a2a2a2" d="M4 1h1v1h-1zM1 2h1v1h-1zM3 2h1v1h-1zM7 2h3v1h-3zM7 5h3v1h-3zM13 5h2v1h-2zM13 10h2v1h-2zM14 11h2v1h-2zM4 15h7v1h-7z"/><path fill="#606060" d="M11 0h2v1h-2zM2 1h2v1h-2zM2 8h2v1h-2zM14 9h2v1h-2zM10 10h2v1h-2zM15 14h1v1h-1z"/><path fill="#f6f6f6" d="M2 2h1v1h-1zM4 2h1v1h-1zM3 3h1v1h-1zM11 3h1v1h-1zM2 4h1v1h-1zM4 4h1v1h-1zM10 4h3v1h-3zM11 5h1v1h-1zM5 8h3v1h-3zM5 10h3v1h-3zM11 11h1v1h-1zM13 11h1v1h-1zM3 12h1v1h-1zM12 12h1v1h-1zM2 13h3v1h-3zM11 13h1v1h-1zM13 13h1v1h-1zM3 14h1v1h-1z"/><path fill="#4d4d4d" d="M2 3h1v1h-1zM4 3h1v1h-1zM3 4h1v1h-1zM2 5h1v1h-1zM4 5h1v1h-1zM10 5h1v1h-1zM12 5h1v1h-1zM11 6h1v1h-1zM5 9h3v1h-3zM5 11h3v1h-3zM11 12h1v1h-1zM13 12h1v1h-1zM12 13h1v1h-1zM2 14h1v1h-1zM4 14h1v1h-1zM11 14h1v1h-1zM13 14h1v1h-1zM3 15h1v1h-1z"/></g>
+                <g id="minecraft-obsidiaan"><path fill="#1d1430" d="M1 0h4v1h-4zM8 0h1v1h-1zM10 0h6v1h-6zM0 1h2v1h-2zM5 1h1v1h-1zM8 1h8v1h-8zM3 2h1v1h-1zM5 2h11v1h-11zM0 3h2v1h-2zM5 3h2v1h-2zM8 3h3v1h-3zM14 3h2v1h-2zM0 4h2v1h-2zM5 4h1v1h-1zM7 4h3v1h-3zM13 4h3v1h-3zM0 5h2v1h-2zM3 5h1v1h-1zM5 5h1v1h-1zM9 5h1v1h-1zM13 5h2v1h-2zM0 6h2v1h-2zM7 6h4v1h-4zM12 6h1v1h-1zM0 7h6v1h-6zM9 7h7v1h-7zM0 8h5v1h-5zM8 8h8v1h-8zM0 9h5v1h-5zM9 9h5v1h-5zM15 9h1v1h-1zM0 10h5v1h-5zM10 10h6v1h-6zM0 11h5v1h-5zM8 11h3v1h-3zM12 11h1v1h-1zM14 11h2v1h-2zM0 12h3v1h-3zM4 12h5v1h-5zM10 12h1v1h-1zM14 12h2v1h-2zM0 13h2v1h-2zM5 13h3v1h-3zM9 13h2v1h-2zM14 13h2v1h-2zM5 14h6v1h-6zM0 15h3v1h-3zM4 15h12v1h-12z"/><path fill="#2c1e48" d="M5 0h3v1h-3zM2 1h3v1h-3zM6 5h3v1h-3zM15 5h1v1h-1zM14 6h2v1h-2zM6 7h3v1h-3zM14 9h1v1h-1zM0 14h1v1h-1zM12 14h1v1h-1zM14 14h2v1h-2z"/><path fill="#3f2b66" d="M9 0h1v1h-1zM0 2h2v1h-2zM9 12h1v1h-1zM8 13h1v1h-1z"/><path fill="#110b1d" d="M0 0h1v1h-1zM6 1h2v1h-2zM7 3h1v1h-1zM13 3h1v1h-1zM2 6h5v1h-5zM8 10h2v1h-2zM1 14h1v1h-1z"/><path fill="#6c50a8" d="M12 3h1v1h-1zM6 4h1v1h-1zM13 6h1v1h-1zM8 9h1v1h-1z"/><path fill="#c9b6f5" d="M2 2h1v1h-1zM4 2h1v1h-1zM3 3h1v1h-1zM11 3h1v1h-1zM2 4h1v1h-1zM4 4h1v1h-1zM10 4h3v1h-3zM11 5h1v1h-1zM5 8h3v1h-3zM5 10h3v1h-3zM11 11h1v1h-1zM13 11h1v1h-1zM3 12h1v1h-1zM12 12h1v1h-1zM2 13h3v1h-3zM11 13h1v1h-1zM13 13h1v1h-1zM3 14h1v1h-1z"/><path fill="#0a0612" d="M2 3h1v1h-1zM4 3h1v1h-1zM3 4h1v1h-1zM2 5h1v1h-1zM4 5h1v1h-1zM10 5h1v1h-1zM12 5h1v1h-1zM11 6h1v1h-1zM5 9h3v1h-3zM5 11h3v1h-3zM11 12h1v1h-1zM13 12h1v1h-1zM12 13h1v1h-1zM2 14h1v1h-1zM4 14h1v1h-1zM11 14h1v1h-1zM13 14h1v1h-1zM3 15h1v1h-1z"/></g>
+                <path id="minecraft-barst-1" class="minecraft-barst" d="M15 3h1v1h-1zM12 4h2v1h-2zM15 4h1v1h-1zM14 5h2v1h-2zM14 6h1v1h-1zM13 7h1v1h-1z"/>
+                <path id="minecraft-barst-2" class="minecraft-barst" d="M9 2h1v1h-1zM10 3h2v1h-2zM11 5h1v1h-1zM10 6h1v1h-1zM12 8h1v1h-1zM11 9h1v1h-1z"/>
+                <path id="minecraft-barst-3" class="minecraft-barst" d="M8 2h1v1h-1zM6 3h2v1h-2zM9 6h1v1h-1zM7 7h2v1h-2zM10 9h1v1h-1zM8 10h2v1h-2zM11 10h1v1h-1zM12 11h1v1h-1zM12 12h1v1h-1z"/>
+                <path id="minecraft-barst-4" class="minecraft-barst" d="M3 1h1v1h-1zM4 2h2v1h-2zM6 7h1v1h-1zM3 8h3v1h-3zM2 9h1v1h-1zM2 10h1v1h-1zM1 11h1v1h-1zM7 11h1v1h-1zM6 12h1v1h-1zM5 13h1v1h-1zM11 13h1v1h-1zM11 14h1v1h-1zM10 15h1v1h-1z"/>
+                <rect id="minecraft-flits" width="16" height="16" fill="#fff"/>
+              </g>
+            </g>
+          </g>
+          <!-- Scherven: drie naar links en dezelfde drie gespiegeld naar rechts -->
+          <g id="minecraft-scherven"><g><rect class="minecraft-scherf minecraft-scherf-a minecraft-scherf-licht" x="13" y="13" width="2" height="2"/><rect class="minecraft-scherf minecraft-scherf-b minecraft-scherf-donker" x="15" y="16" width="2" height="2"/><rect class="minecraft-scherf minecraft-scherf-c minecraft-scherf-licht" x="16" y="20" width="2" height="2"/></g><g transform="matrix(-1 0 0 1 40 0)"><rect class="minecraft-scherf minecraft-scherf-a minecraft-scherf-licht" x="13" y="13" width="2" height="2"/><rect class="minecraft-scherf minecraft-scherf-b minecraft-scherf-donker" x="15" y="16" width="2" height="2"/><rect class="minecraft-scherf minecraft-scherf-c minecraft-scherf-licht" x="16" y="20" width="2" height="2"/></g></g>
+          <!-- De buit: om de beurt x, y en een wortelteken, in pixelschrift met een schaduw zoals de titel -->
+          <ellipse id="minecraft-buitschaduw" cx="20" cy="27.4" rx="4" ry="1.2" fill="url(#minecraft-schaduwverloop)" shape-rendering="auto"/>
+          <g transform="translate(20 22.5) scale(1.5)">
+            <g id="minecraft-buit">
+              <g id="minecraft-buit-draai">
+                <rect x="-4" y="-4" width="8" height="8" fill="none"/>
+                <g id="minecraft-teken-x" class="minecraft-teken"><path fill="#3f3f3f" d="M-2 -2h1v1h-1zM2 -2h1v1h-1zM-1 -1h1v1h-1zM1 -1h1v1h-1zM0 0h1v1h-1zM-1 1h1v1h-1zM1 1h1v1h-1zM-2 2h1v1h-1zM2 2h1v1h-1z"/><path fill="#fff" d="M-3 -3h1v1h-1zM1 -3h1v1h-1zM-2 -2h1v1h-1zM0 -2h1v1h-1zM-1 -1h1v1h-1zM-2 0h1v1h-1zM0 0h1v1h-1zM-3 1h1v1h-1zM1 1h1v1h-1z"/></g>
+                <g id="minecraft-teken-y" class="minecraft-teken"><path fill="#3f3f3f" d="M-2 -2.5h1v1h-1zM2 -2.5h1v1h-1zM-2 -1.5h1v1h-1zM2 -1.5h1v1h-1zM-1 -0.5h1v1h-1zM1 -0.5h1v1h-1zM0 0.5h1v1h-1zM-1 1.5h1v1h-1zM-2 2.5h1v1h-1z"/><path fill="#fff" d="M-3 -3.5h1v1h-1zM1 -3.5h1v1h-1zM-3 -2.5h1v1h-1zM1 -2.5h1v1h-1zM-2 -1.5h1v1h-1zM0 -1.5h1v1h-1zM-1 -0.5h1v1h-1zM-2 0.5h1v1h-1zM-3 1.5h1v1h-1z"/></g>
+                <g id="minecraft-teken-wortel" class="minecraft-teken"><path fill="#3f3f3f" d="M1 -3h3v1h-3zM1 -2h1v1h-1zM0 -1h1v1h-1zM0 0h1v1h-1zM-3 1h1v1h-1zM-1 1h1v1h-1zM-2 2h2v1h-2zM-1 3h1v1h-1z"/><path fill="#fff" d="M0 -4h3v1h-3zM0 -3h1v1h-1zM-1 -2h1v1h-1zM-1 -1h1v1h-1zM-4 0h1v1h-1zM-2 0h1v1h-1zM-3 1h2v1h-2zM-2 2h1v1h-1z"/></g>
+              </g>
+            </g>
+          </g>
+          <!-- Het houweel, ijzer en diamant op dezelfde plaats. De onzichtbare rechthoeken geven elke draaiende groep een vaste doos: 16 bij 16 met het handvat rechtsonder, en 44 bij 44 rond het midden van het houweel -->
+          <g transform="translate(25 2)">
+            <g id="minecraft-houweel">
+              <g id="minecraft-houweel-wissel">
+                <rect x="-14" y="-13" width="44" height="44" fill="none"/>
+                <g id="minecraft-houweel-ijzer">
+                  <rect width="16" height="16" fill="none"/><path fill="#2b2b2b" d="M4 3h6v1h-6zM2 4h2v1h-2zM10 4h2v1h-2zM1 5h1v1h-1zM12 5h1v1h-1zM1 6h1v1h-1zM5 6h6v1h-6zM13 6h1v1h-1zM0 7h1v1h-1zM4 7h1v1h-1zM6 7h1v1h-1zM8 7h1v1h-1zM11 7h1v1h-1zM14 7h1v1h-1zM0 8h1v1h-1zM3 8h1v1h-1zM7 8h1v1h-1zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM0 9h1v1h-1zM3 9h1v1h-1zM8 9h1v1h-1zM11 9h1v1h-1zM13 9h2v1h-2zM0 10h1v1h-1zM3 10h1v1h-1zM9 10h1v1h-1zM12 10h1v1h-1zM0 11h1v1h-1zM3 11h1v1h-1zM10 11h1v1h-1zM13 11h1v1h-1zM1 12h1v1h-1zM3 12h1v1h-1zM11 12h1v1h-1zM14 12h1v1h-1zM1 13h2v1h-2zM12 13h1v1h-1zM15 13h1v1h-1zM13 14h1v1h-1zM15 14h1v1h-1zM14 15h1v1h-1z"/><path fill="#f4f4f4" d="M4 4h6v1h-6zM2 5h2v1h-2zM2 6h1v1h-1zM1 7h1v1h-1zM1 8h1v1h-1zM1 9h1v1h-1zM1 10h1v1h-1z"/><path fill="#cfcfcf" d="M4 5h7v1h-7zM3 6h2v1h-2zM11 6h1v1h-1zM2 7h2v1h-2zM2 8h1v1h-1zM2 9h1v1h-1zM1 11h1v1h-1z"/><path fill="#9a9a9a" d="M11 5h1v1h-1zM12 6h1v1h-1zM12 7h2v1h-2zM13 8h1v1h-1zM2 10h1v1h-1zM2 11h1v1h-1zM2 12h1v1h-1z"/><path fill="#b5844f" d="M7 7h1v1h-1zM9 8h1v1h-1zM10 9h1v1h-1zM11 10h1v1h-1zM12 11h1v1h-1zM13 12h1v1h-1zM14 13h1v1h-1z"/><path fill="#6e4520" d="M8 8h1v1h-1zM9 9h1v1h-1zM10 10h1v1h-1zM11 11h1v1h-1zM12 12h1v1h-1zM13 13h1v1h-1zM14 14h1v1h-1z"/>
+                </g>
+                <g id="minecraft-houweel-diamant">
+                  <rect width="16" height="16" fill="none"/><path fill="#0d3b3d" d="M4 3h6v1h-6zM2 4h2v1h-2zM10 4h2v1h-2zM1 5h1v1h-1zM12 5h1v1h-1zM1 6h1v1h-1zM5 6h6v1h-6zM13 6h1v1h-1zM0 7h1v1h-1zM4 7h1v1h-1zM6 7h1v1h-1zM8 7h1v1h-1zM11 7h1v1h-1zM14 7h1v1h-1zM0 8h1v1h-1zM3 8h1v1h-1zM7 8h1v1h-1zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM0 9h1v1h-1zM3 9h1v1h-1zM8 9h1v1h-1zM11 9h1v1h-1zM13 9h2v1h-2zM0 10h1v1h-1zM3 10h1v1h-1zM9 10h1v1h-1zM12 10h1v1h-1zM0 11h1v1h-1zM3 11h1v1h-1zM10 11h1v1h-1zM13 11h1v1h-1zM1 12h1v1h-1zM3 12h1v1h-1zM11 12h1v1h-1zM14 12h1v1h-1zM1 13h2v1h-2zM12 13h1v1h-1zM15 13h1v1h-1zM13 14h1v1h-1zM15 14h1v1h-1zM14 15h1v1h-1z"/><path fill="#c9fff7" d="M4 4h6v1h-6zM2 5h2v1h-2zM2 6h1v1h-1zM1 7h1v1h-1zM1 8h1v1h-1zM1 9h1v1h-1zM1 10h1v1h-1z"/><path fill="#4fe3d2" d="M4 5h7v1h-7zM3 6h2v1h-2zM11 6h1v1h-1zM2 7h2v1h-2zM2 8h1v1h-1zM2 9h1v1h-1zM1 11h1v1h-1z"/><path fill="#1f9e98" d="M11 5h1v1h-1zM12 6h1v1h-1zM12 7h2v1h-2zM13 8h1v1h-1zM2 10h1v1h-1zM2 11h1v1h-1zM2 12h1v1h-1z"/><path fill="#b5844f" d="M7 7h1v1h-1zM9 8h1v1h-1zM10 9h1v1h-1zM11 10h1v1h-1zM12 11h1v1h-1zM13 12h1v1h-1zM14 13h1v1h-1z"/><path fill="#6e4520" d="M8 8h1v1h-1zM9 9h1v1h-1zM10 10h1v1h-1zM11 11h1v1h-1zM12 12h1v1h-1zM13 13h1v1h-1zM14 14h1v1h-1z"/><g fill="#c77dff"><path class="minecraft-glans" d="M4 3h3v1h-3zM3 4h3v1h-3zM2 5h3v1h-3zM1 6h3v1h-3zM0 7h3v1h-3zM0 8h2v1h-2zM0 9h1v1h-1z"/><path class="minecraft-glans" d="M9 3h1v1h-1zM8 4h3v1h-3zM7 5h3v1h-3zM6 6h3v1h-3zM6 7h2v1h-2zM3 9h1v1h-1zM2 10h2v1h-2zM1 11h3v1h-3zM1 12h2v1h-2zM1 13h1v1h-1z"/><path class="minecraft-glans" d="M12 5h1v1h-1zM11 6h3v1h-3zM11 7h2v1h-2zM9 8h2v1h-2zM8 9h3v1h-3zM9 10h1v1h-1z"/><path class="minecraft-glans" d="M14 8h1v1h-1zM13 9h2v1h-2zM12 10h1v1h-1zM11 11h3v1h-3zM11 12h2v1h-2z"/><path class="minecraft-glans" d="M14 13h2v1h-2zM13 14h3v1h-3zM14 15h1v1h-1z"/></g>
+                </g>
+              </g>
+            </g>
+            <!-- Vonkjes bij de wissel naar diamant -->
+            <path class="minecraft-vonk" fill="#fff" d="M-1 2h1v1h1v1h-1v1h-1v-1h-1v-1h1z"/><path class="minecraft-vonk" fill="#fff" d="M14 -2h1v1h1v1h-1v1h-1v-1h-1v-1h1z"/><path class="minecraft-vonk" fill="#fff" d="M3 15h1v1h1v1h-1v1h-1v-1h-1v-1h1z"/><path class="minecraft-vonk" fill="#fff" d="M18 9h1v1h1v1h-1v1h-1v-1h-1v-1h1z"/>
+          </g>
+        </svg>
+        <svg class="laden-galileo" viewBox="0 0 200 120" width="200" height="120" aria-hidden="true">
+          <defs>
+            <!-- Bogen van de zes galerijen: één boog per tegel, vijf naast elkaar. -->
+            <pattern id="galileo-arcade" width="5.6" height="10.5" x="54" y="34" patternUnits="userSpaceOnUse">
+              <path d="M1 10.5V4.4a1.8 1.8 0 0 1 3.6 0v6.1" fill="none" stroke="#6b5641" stroke-width=".55"/>
+            </pattern>
+            <!-- Alles van de toren onder de grondlijn valt weg: zo zakt hij scheef in de grond. -->
+            <clipPath id="galileo-boven-grond">
+              <rect x="-10" y="-10" width="220" height="120.5"/>
+            </clipPath>
+          </defs>
+
+          <!-- Grond: een inktlijn met wat arcering eronder. -->
+          <g id="galileo-grond" fill="none" stroke="#b49a6d" stroke-linecap="round">
+            <path d="M6 110.5H194" stroke-width="1.1"/>
+            <path d="M14 115.6l3-2.6M31 116.4l3-2.6M47 114.8l3-2.6M63 116.2l3-2.6M80 115l3-2.6M99 116.4l3-2.6M118 115.2l3-2.6M136 116.2l3-2.6M153 114.8l3-2.6M170 116l3-2.6M186 115l3-2.6" stroke-width=".7" opacity=".75"/>
+          </g>
+
+          <!-- De hele proef schuift opzij als de kijker komt. -->
+          <g id="galileo-proef">
+            <!-- De toren van Pisa. Het onzichtbare anker heeft als middelpunt de voet (68, 110),
+                 zodat transform-origin 50% 50% altijd op de voet ligt, ook als de plank draait. -->
+            <g id="galileo-toren-uitsnede" clip-path="url(#galileo-boven-grond)">
+              <g id="galileo-toren">
+                <rect id="galileo-toren-anker" x="8" y="10" width="120" height="200" fill="none"/>
+                <g id="galileo-toren-tekening" stroke="#3a2a1a" stroke-linecap="round">
+                  <rect id="galileo-toren-voet" x="52.5" y="97" width="31" height="21" fill="#f2e6c9" stroke-width=".9"/>
+                  <path id="galileo-toren-blinde-bogen" d="M54.1 112V102.6a2.3 2.3 0 0 1 4.6 0V112M61.8 112V102.6a2.3 2.3 0 0 1 4.6 0V112M69.6 112V102.6a2.3 2.3 0 0 1 4.6 0V112M77.3 112V102.6a2.3 2.3 0 0 1 4.6 0V112" fill="none" stroke="#6b5641" stroke-width=".6"/>
+                  <rect id="galileo-toren-romp" x="54" y="34" width="28" height="63" fill="#f2e6c9" stroke-width=".9"/>
+                  <rect id="galileo-toren-galerijen" x="54" y="34" width="28" height="63" fill="url(#galileo-arcade)" stroke="none"/>
+                  <path id="galileo-toren-lijsten" d="M53.2 44.5H82.8M53.2 55H82.8M53.2 65.5H82.8M53.2 76H82.8M53.2 86.5H82.8M52 97H84M53.4 34H82.6" fill="none" stroke-width=".8"/>
+                  <path id="galileo-toren-schaduw" d="M79.4 35V96.5M80.7 35V96.5M81.5 35V96.5M81 98V117M82.5 98V117M75.6 24.6V33.4M76.4 24.6V33.4" fill="none" stroke="#6b5641" stroke-width=".4"/>
+                  <rect id="galileo-toren-klokkenstoel" x="59" y="24" width="18" height="10" fill="#f2e6c9" stroke-width=".9"/>
+                  <path id="galileo-toren-klokbogen" d="M61.6 34V28.6a1.4 1.4 0 0 1 2.8 0V34M66.6 34V28.6a1.4 1.4 0 0 1 2.8 0V34M71.6 34V28.6a1.4 1.4 0 0 1 2.8 0V34" fill="none" stroke="#6b5641" stroke-width=".55"/>
+                  <rect id="galileo-toren-borstwering" x="60.5" y="21.6" width="15" height="2.4" fill="#f2e6c9" stroke-width=".8"/>
+                </g>
+                <!-- Het valluik: een plankje op de bovenste galerij. Het draait tegen de helling in,
+                     zodat het waterpas ligt, en klapt om zijn scharnier (82, 34) naar beneden. -->
+                <g id="galileo-plank">
+                  <rect id="galileo-plank-hout" x="82" y="32.8" width="38" height="2.4" rx=".6" fill="#a8843e" stroke="#3a2a1a" stroke-width=".5"/>
+                </g>
+              </g>
+            </g>
+
+            <!-- Stroboscoop: om de kwart valtijd een beeld. De afstanden groeien als 1 : 3 : 5 : 7. -->
+            <g id="galileo-spoor" fill="none" stroke="#6b5641" stroke-width=".6" stroke-dasharray="1.3 1.1">
+              <g id="galileo-spoor-0"><circle cx="98" cy="31.5" r="3"/><circle cx="119" cy="28.5" r="6"/></g>
+              <g id="galileo-spoor-1"><circle cx="98" cy="36.22" r="3"/><circle cx="119" cy="33.22" r="6"/></g>
+              <g id="galileo-spoor-2"><circle cx="98" cy="50.38" r="3"/><circle cx="119" cy="47.38" r="6"/></g>
+              <g id="galileo-spoor-3"><circle cx="98" cy="73.97" r="3"/><circle cx="119" cy="70.97" r="6"/></g>
+            </g>
+
+            <!-- Een zware ijzeren kogel en een licht koperen balletje, met de onderkant even hoog. -->
+            <g id="galileo-kogel-groot" class="galileo-kogel">
+              <circle cx="119" cy="28.5" r="6" fill="#3d3326"/>
+              <circle cx="117" cy="26.4" r="1.7" fill="#f2e6c9" opacity=".55"/>
+            </g>
+            <g id="galileo-kogel-klein" class="galileo-kogel">
+              <circle cx="98" cy="31.5" r="3" fill="#7a3b1d"/>
+              <circle cx="97" cy="30.4" r=".9" fill="#f2e6c9" opacity=".6"/>
+            </g>
+
+            <!-- Stof bij de landing. -->
+            <path id="galileo-stof" d="M93.4 108.4l-2.8-2.2M92.6 110.6h-3.4M102.6 108.4l2.4-2M111.6 108l-3.2-2.6M126.4 108l3.4-2.6M127.4 110.6h4" fill="none" stroke="#3a2a1a" stroke-width=".75" stroke-linecap="round"/>
+
+            <!-- Het besluit, als een vergelijking op de grond: klein = groot. -->
+            <path id="galileo-is" d="M104 102.3h6M104 105.4h6" fill="none" stroke="#7a3b1d" stroke-width="1.5" stroke-linecap="round"/>
+          </g>
+
+          <!-- Grondig: een kijker op een driepoot. Het anker heeft als middelpunt het draaipunt (170, 82). -->
+          <g id="galileo-kijker">
+            <path id="galileo-kijker-driepoot" d="M170 83.5L157 110.5M170 83.5L171.5 110.5M170 83.5L184 110.5" fill="none" stroke="#3a2a1a" stroke-width="1" stroke-linecap="round"/>
+            <g id="galileo-kijker-buis">
+              <rect id="galileo-kijker-anker" x="110" y="22" width="120" height="120" fill="none"/>
+              <g id="galileo-kijker-uittrek">
+                <rect id="galileo-kijker-binnenbuis" x="137" y="79.7" width="23" height="4.6" fill="#5a2c16" stroke="#3a2a1a" stroke-width=".5"/>
+                <rect id="galileo-kijker-lens" x="135.6" y="79" width="2.2" height="6" rx=".5" fill="#a8843e" stroke="#3a2a1a" stroke-width=".5"/>
+              </g>
+              <path id="galileo-kijker-hoofdbuis" d="M151 78.5L181 79.6V84.4L151 85.5Z" fill="#7a3b1d" stroke="#3a2a1a" stroke-width=".6" stroke-linejoin="round"/>
+              <path id="galileo-kijker-banden" d="M153 78.6v6.8M166 79.1v5.8M179 79.6v4.8" fill="none" stroke="#a8843e" stroke-width="1.3"/>
+              <rect id="galileo-kijker-oculair" x="181" y="80.6" width="4" height="2.8" rx=".5" fill="#3a2a1a"/>
+            </g>
+            <circle id="galileo-kijker-scharnier" cx="170" cy="82" r="1.3" fill="#a8843e" stroke="#3a2a1a" stroke-width=".5"/>
+          </g>
+        </svg>
+        <svg class="laden-escher" aria-hidden="true" viewBox="0 0 200 120" width="200" height="120" xmlns="http://www.w3.org/2000/svg">
+          <defs><pattern id="escher-arcering" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(30)"><rect width="3" height="3" fill="#fbfaf6"/><path d="M0 1.5H3" stroke="#111" stroke-width="0.7"/></pattern></defs>
+          <g class="escher-trap" stroke="#111" stroke-width="1" stroke-linejoin="round">
+            <polygon class="escher-binnenplaats" points="76.6,38.8 139,55.5 76.6,72.2 61,55.5" fill="url(#escher-arcering)" stroke="none"/>
+            <g class="escher-trede" style="--i: 4"><polygon points="57.9,28 76.6,38.8 76.6,44.2 57.9,33.4" fill="#111"/><polygon points="95.3,28 76.6,38.8 76.6,44.2 95.3,33.4" fill="#7a7a74"/><polygon points="76.6,17.2 95.3,28 76.6,38.8 57.9,28" fill="#fff"/></g>
+            <g class="escher-trede" style="--i: 5"><polygon points="76.6,34.9 92.2,43.9 92.2,49.3 76.6,40.3" fill="#111"/><polygon points="110.9,33.1 92.2,43.9 92.2,49.3 110.9,38.5" fill="#7a7a74"/><polygon points="95.3,24.1 110.9,33.1 92.2,43.9 76.6,34.9" fill="#fff"/></g>
+            <g class="escher-trede" style="--i: 6"><polygon points="92.2,40.1 107.8,49.1 107.8,54.5 92.2,45.5" fill="#111"/><polygon points="126.5,38.3 107.8,49.1 107.8,54.5 126.5,43.7" fill="#7a7a74"/><polygon points="110.9,29.3 126.5,38.3 107.8,49.1 92.2,40.1" fill="#fff"/></g>
+            <g class="escher-trede" style="--i: 7"><polygon points="107.8,45.2 123.4,54.2 123.4,59.6 107.8,50.6" fill="#111"/><polygon points="142.1,43.4 123.4,54.2 123.4,59.6 142.1,48.8" fill="#7a7a74"/><polygon points="126.5,34.4 142.1,43.4 123.4,54.2 107.8,45.2" fill="#fff"/></g>
+            <g class="escher-trede" style="--i: 8"><polygon points="123.4,50.4 139,59.4 139,64.8 123.4,55.8" fill="#111"/><polygon points="157.7,48.6 139,59.4 139,64.8 157.7,54" fill="#7a7a74"/><polygon points="142.1,39.6 157.7,48.6 139,59.4 123.4,50.4" fill="#fff"/></g>
+            <g class="escher-trede" style="--i: 9"><polygon points="139,55.5 157.7,66.3 157.7,71.7 139,60.9" fill="#111"/><polygon points="176.4,55.5 157.7,66.3 157.7,71.7 176.4,60.9" fill="#7a7a74"/><polygon points="157.7,44.7 176.4,55.5 157.7,66.3 139,55.5" fill="#fff"/></g>
+            <g class="escher-trede" style="--i: 10"><polygon points="123.4,60.7 142.1,71.5 142.1,80.2 123.4,69.4" fill="#111"/><polygon points="157.7,62.5 142.1,71.5 142.1,80.2 157.7,71.2" fill="#7a7a74"/><polygon points="139,51.7 157.7,62.5 142.1,71.5 123.4,60.7" fill="#fff"/></g>
+            <g class="escher-trede" style="--i: 3"><polygon points="42.3,40.9 61,51.7 61,87.4 42.3,76.6" fill="#111"/><polygon points="76.6,42.7 61,51.7 61,87.4 76.6,78.4" fill="#7a7a74"/><polygon points="57.9,31.9 76.6,42.7 61,51.7 42.3,40.9" fill="#fff"/></g>
+            <g class="escher-trede" style="--i: 11"><polygon points="107.8,65.8 126.5,76.6 126.5,89.2 107.8,78.4" fill="#111"/><polygon points="142.1,67.6 126.5,76.6 126.5,89.2 142.1,80.2" fill="#7a7a74"/><polygon points="123.4,56.8 142.1,67.6 126.5,76.6 107.8,65.8" fill="#fff"/></g>
+            <g class="escher-trede" style="--i: 2"><polygon points="23.6,55.5 42.3,66.3 42.3,98.2 23.6,87.4" fill="#111"/><polygon points="61,55.5 42.3,66.3 42.3,98.2 61,87.4" fill="#7a7a74"/><polygon points="42.3,44.7 61,55.5 42.3,66.3 23.6,55.5" fill="#fff"/><path d="M25.8 59.2L40.1 67.4" stroke="#fbfaf6" stroke-width="0.9"/></g>
+            <g class="escher-trede" style="--i: 12"><polygon points="92.2,70.9 110.9,81.7 110.9,98.2 92.2,87.4" fill="#111"/><polygon points="126.5,72.7 110.9,81.7 110.9,98.2 126.5,89.2" fill="#7a7a74"/><polygon points="107.8,61.9 126.5,72.7 110.9,81.7 92.2,70.9" fill="#fff"/></g>
+            <g class="escher-trede" style="--i: 13"><polygon points="76.6,76.1 95.3,86.9 95.3,107.2 76.6,96.4" fill="#111"/><polygon points="110.9,77.9 95.3,86.9 95.3,107.2 110.9,98.2" fill="#7a7a74"/><polygon points="92.2,67.1 110.9,77.9 95.3,86.9 76.6,76.1" fill="#fff"/></g>
+            <g class="escher-trede" style="--i: 1"><polygon points="42.3,70.2 57.9,79.2 57.9,107.2 42.3,98.2" fill="#111"/><polygon points="76.6,68.4 57.9,79.2 57.9,107.2 76.6,96.4" fill="#7a7a74"/><polygon points="61,59.4 76.6,68.4 57.9,79.2 42.3,70.2" fill="#fff"/><path d="M44.5 73.8L55.7 80.3" stroke="#fbfaf6" stroke-width="0.9"/></g>
+            <g class="escher-trede" style="--i: 0"><polygon points="57.9,83 76.6,93.8 76.6,118 57.9,107.2" fill="#111"/><polygon points="95.3,83 76.6,93.8 76.6,118 95.3,107.2" fill="#7a7a74"/><polygon points="76.6,72.2 95.3,83 76.6,93.8 57.9,83" fill="#fff"/><path d="M60.1 86.7L74.4 95" stroke="#fbfaf6" stroke-width="0.9"/></g>
+          </g>
+          <g class="escher-loper escher-loper-1">
+            <g class="escher-pad" transform="translate(76.6 83)">
+              <g class="escher-lijf" stroke="#111" stroke-width="0.8" stroke-linejoin="round">
+                <path class="escher-been escher-been-l" d="M-3.7 -5.1v3" stroke-width="1.6" stroke-linecap="round"/>
+                <path class="escher-been escher-been-r" d="M3.7 -5.1v3" stroke-width="1.6" stroke-linecap="round"/>
+                <polygon points="-7.4,-7.2 0,-3 0,-11.5 -7.4,-15.8" fill="#1f4037"/>
+                <polygon points="0,-3 7.4,-7.2 7.4,-15.8 0,-11.5" fill="#2f5d50"/>
+                <polygon points="0,-11.5 7.4,-15.8 0,-20 -7.4,-15.8" fill="#6f9c8e"/>
+                <g class="escher-ogen escher-ogen-r" fill="#fff" stroke="none" opacity="0"><circle cx="2.2" cy="-9.9" r="1.1"/><circle cx="5.2" cy="-11.6" r="1.1"/></g>
+                <g class="escher-ogen escher-ogen-l" fill="#fff" stroke="none" opacity="0"><circle cx="-2.2" cy="-9.9" r="1.1"/><circle cx="-5.2" cy="-11.6" r="1.1"/></g>
+                <g class="escher-ogen escher-ogen-v" fill="#fff" stroke="none"><circle cx="-2.2" cy="-9.9" r="1.1"/><circle cx="2.2" cy="-9.9" r="1.1"/></g>
+              </g>
+              <g class="escher-vraag" stroke="#111"><path d="M4.9 -25.8 1.6 -19.4 8.8 -23.5Z" fill="#fff" stroke-width="0.8" stroke-linejoin="round"/><circle cx="10.2" cy="-30" r="7.4" fill="#fff" stroke-width="0.8"/><path d="M7.8 -32a2.5 2.5 0 1 1 3.7 2.2c-0.9 0.5 -1.3 1 -1.3 2.1" fill="none" stroke-width="1.5" stroke-linecap="round"/><circle cx="10.2" cy="-25.8" r="0.95" fill="#111" stroke="none"/></g>
+            </g>
+          </g>
+          <g class="escher-loper escher-loper-2">
+            <g class="escher-pad" transform="translate(76.6 28)">
+              <g class="escher-lijf" stroke="#111" stroke-width="0.8" stroke-linejoin="round">
+                <path class="escher-been escher-been-l" d="M-3.7 -5.1v3" stroke-width="1.6" stroke-linecap="round"/>
+                <path class="escher-been escher-been-r" d="M3.7 -5.1v3" stroke-width="1.6" stroke-linecap="round"/>
+                <polygon points="-7.4,-7.2 0,-3 0,-11.5 -7.4,-15.8" fill="#111"/>
+                <polygon points="0,-3 7.4,-7.2 7.4,-15.8 0,-11.5" fill="#7a7a74"/>
+                <polygon points="0,-11.5 7.4,-15.8 0,-20 -7.4,-15.8" fill="#fff"/>
+                <g class="escher-ogen escher-ogen-r" fill="#fff" stroke="none" opacity="0"><circle cx="2.2" cy="-9.9" r="1.1"/><circle cx="5.2" cy="-11.6" r="1.1"/></g>
+                <g class="escher-ogen escher-ogen-l" fill="#fff" stroke="none" opacity="0"><circle cx="-2.2" cy="-9.9" r="1.1"/><circle cx="-5.2" cy="-11.6" r="1.1"/></g>
+                <g class="escher-ogen escher-ogen-v" fill="#fff" stroke="none"><circle cx="-2.2" cy="-9.9" r="1.1"/><circle cx="2.2" cy="-9.9" r="1.1"/></g>
+              </g>
+              <g class="escher-vraag" opacity="0" stroke="#111"><path d="M10.6 -15.4 7.9 -11.6 11.6 -10.9Z" fill="#fff" stroke-width="0.8" stroke-linejoin="round"/><circle cx="17" cy="-14" r="7.4" fill="#fff" stroke-width="0.8"/><path d="M14.6 -16a2.5 2.5 0 1 1 3.7 2.2c-0.9 0.5 -1.3 1 -1.3 2.1" fill="none" stroke-width="1.5" stroke-linecap="round"/><circle cx="17" cy="-9.8" r="0.95" fill="#111" stroke="none"/></g>
+            </g>
+          </g>
+        </svg>
+        <svg class="laden-mario" aria-hidden="true" focusable="false" viewBox="0 0 200 120" width="200" height="120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- Dezelfde strepen glans als het kader (de groene buis) in de stijl. -->
+            <linearGradient id="mario-buisglans" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0" stop-color="#3f9a52"/>
+              <stop offset="0.07" stop-color="#3f9a52"/>
+              <stop offset="0.07" stop-color="#a8e89a"/>
+              <stop offset="0.13" stop-color="#a8e89a"/>
+              <stop offset="0.13" stop-color="#dff7cf"/>
+              <stop offset="0.23" stop-color="#dff7cf"/>
+              <stop offset="0.23" stop-color="#8fdc84"/>
+              <stop offset="0.33" stop-color="#8fdc84"/>
+              <stop offset="0.33" stop-color="#6ccf6e"/>
+              <stop offset="0.74" stop-color="#6ccf6e"/>
+              <stop offset="0.74" stop-color="#4fb05c"/>
+              <stop offset="0.84" stop-color="#4fb05c"/>
+              <stop offset="0.84" stop-color="#6ccf6e"/>
+              <stop offset="0.91" stop-color="#6ccf6e"/>
+              <stop offset="0.91" stop-color="#3f9a52"/>
+              <stop offset="1" stop-color="#3f9a52"/>
+            </linearGradient>
+            <!-- Bakstenen van de grond, zoals onder de heuvels van de stijl. -->
+            <pattern id="mario-grondsteen" x="2" y="105" width="16" height="14" patternUnits="userSpaceOnUse">
+              <rect width="16" height="14" fill="#b86a36"/>
+              <rect x="1" y="1" width="14" height="12" rx="3" fill="#dc9a62"/>
+              <path d="M4 4V9" stroke="#f2c08f" stroke-width="1.6" stroke-linecap="round"/>
+            </pattern>
+            <!-- De buis komt uit de grond: alles onder het gras blijft verborgen. -->
+            <clipPath id="mario-bovengrond">
+              <rect x="0" y="0" width="200" height="101"/>
+            </clipPath>
+            <!-- Het venster van het tellertje: de cijferstroken schuiven erachter. -->
+            <clipPath id="mario-tellervenster">
+              <rect x="158" y="6" width="32" height="16"/>
+            </clipPath>
+          </defs>
+
+          <!-- Een wolkje links boven, zoals de wolken van de stijl. -->
+          <g class="mario-wolk">
+            <g transform="translate(8 7) scale(0.27)">
+              <g fill="#fff" stroke="#a9d8f5" stroke-width="9">
+                <rect x="0" y="26" width="150" height="34" rx="17"/>
+                <circle cx="44" cy="28" r="24"/>
+                <circle cx="82" cy="18" r="30"/>
+                <circle cx="120" cy="32" r="20"/>
+              </g>
+              <g fill="#fff">
+                <rect x="0" y="26" width="150" height="34" rx="17"/>
+                <circle cx="44" cy="28" r="24"/>
+                <circle cx="82" cy="18" r="30"/>
+                <circle cx="120" cy="32" r="20"/>
+              </g>
+              <rect x="14" y="46" width="122" height="9" rx="4.5" fill="#e6f4fd"/>
+            </g>
+          </g>
+
+          <!-- De baan van de munt: een echte parabool, als stippellijn getekend. -->
+          <g class="mario-spoor" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0 7">
+            <path d="M32 50Q99 -36.2 166 84" stroke="#fff"/>
+            <path class="mario-spoor-goud" d="M32 50Q99 -36.2 166 84" stroke="#ffd23a"/>
+          </g>
+
+          <!-- Grondig: sterrenstof dat de ster volgt, op dezelfde baan maar iets later. -->
+          <g class="mario-sterrenstof">
+            <g class="mario-vlucht-x mario-volger-1">
+              <g class="mario-vlucht-y mario-volger-1">
+                <path class="mario-fonkel" d="M32 43.2L33.7 48.3L38.8 50L33.7 51.7L32 56.8L30.3 51.7L25.2 50L30.3 48.3Z" fill="#fff6b0" stroke="#e0a21c" stroke-width="0.8" stroke-linejoin="round"/>
+              </g>
+            </g>
+            <g class="mario-vlucht-x mario-volger-2">
+              <g class="mario-vlucht-y mario-volger-2">
+                <path class="mario-fonkel" d="M32 45L33.3 48.7L37 50L33.3 51.3L32 55L30.7 51.3L27 50L30.7 48.7Z" fill="#fff6b0" stroke="#e0a21c" stroke-width="0.7" stroke-linejoin="round"/>
+              </g>
+            </g>
+          </g>
+
+          <!-- De munt (en bij grondig de ster): vertrekt in het blok, vliegt over de parabool en valt in de buis. -->
+          <g class="mario-vlucht">
+            <g class="mario-vlucht-x">
+              <g class="mario-vlucht-y">
+                <g class="mario-munt">
+                  <ellipse cx="32" cy="50" rx="6" ry="8" fill="#f9d24a" stroke="#a86a00" stroke-width="1.6"/>
+                  <rect x="30.5" y="45.6" width="3" height="8.8" rx="1.5" fill="#d99a12"/>
+                  <path d="M28.6 47.2Q29 45 30.4 44.3" fill="none" stroke="#fff6c8" stroke-width="1.3" stroke-linecap="round"/>
+                </g>
+                <g class="mario-ster">
+                  <path d="M32 41.1L34.6 47L41 47.7L36.2 52L37.6 58.3L32 55L26.4 58.3L27.8 52L23 47.7L29.4 47Z" fill="#ffd23a" stroke="#a86a00" stroke-width="1.6" stroke-linejoin="round"/>
+                  <path d="M29.6 48.6L31.3 46" fill="none" stroke="#fffbe0" stroke-width="1.5" stroke-linecap="round"/>
+                </g>
+              </g>
+            </g>
+          </g>
+
+          <!-- Het vraagtekenblok: valt bij de opkomst uit de lucht en wipt bij elke munt op. -->
+          <g class="mario-blok-val">
+            <g class="mario-blok-tik">
+              <path class="mario-stralen" d="M18.5 37.5 15 34M45.5 37.5 49 34M15.5 44H11.5M48.5 44H52.5" fill="none" stroke="#e0901c" stroke-width="2" stroke-linecap="round"/>
+              <g transform="translate(18 40) scale(0.875)">
+                <rect x="1" y="1" width="30" height="30" rx="5" fill="#f7c13a" stroke="#8a4b08" stroke-width="2"/>
+                <path d="M4.6 25V7.2Q4.6 4.6 7.2 4.6H25" fill="none" stroke="#ffe38a" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M27.4 7V24.8Q27.4 27.4 24.8 27.4H7" fill="none" stroke="#e0901c" stroke-width="1.8" stroke-linecap="round"/>
+                <g fill="#8a4b08">
+                  <circle cx="7.6" cy="7.6" r="1.4"/>
+                  <circle cx="24.4" cy="7.6" r="1.4"/>
+                  <circle cx="7.6" cy="24.4" r="1.4"/>
+                  <circle cx="24.4" cy="24.4" r="1.4"/>
+                </g>
+                <path d="M13.8 13.8C13.8 11.4 15.3 9.8 17.4 9.8C19.6 9.8 21.1 11.2 21.1 13.2C21.1 15.2 19.9 16 18.7 16.8C17.8 17.4 17.4 18 17.4 19.2V20" fill="none" stroke="#8a4b08" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="17.4" cy="24.3" r="1.9" fill="#8a4b08"/>
+                <path d="M12.6 12.6C12.6 10.2 14.1 8.6 16.2 8.6C18.4 8.6 19.9 10 19.9 12C19.9 14 18.7 14.8 17.5 15.6C16.6 16.2 16.2 16.8 16.2 18V18.8" fill="none" stroke="#fff8e0" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="16.2" cy="23.1" r="1.9" fill="#fff8e0"/>
+              </g>
+            </g>
+          </g>
+
+          <!-- De groene buis: komt bij de opkomst uit de grond en slikt elke munt met een hapje. -->
+          <g clip-path="url(#mario-bovengrond)">
+            <g class="mario-buis">
+              <rect x="150" y="75" width="32" height="28" fill="url(#mario-buisglans)" stroke="#1f5f30" stroke-width="2"/>
+              <rect x="151" y="76" width="30" height="3" fill="#1f5f30" opacity="0.35"/>
+              <g class="mario-buisrand">
+                <rect x="145" y="62" width="42" height="14" rx="2.5" fill="url(#mario-buisglans)" stroke="#1f5f30" stroke-width="2"/>
+              </g>
+            </g>
+          </g>
+
+          <!-- De grond: gras op bakstenen. -->
+          <g class="mario-grond">
+            <rect x="2" y="104" width="196" height="15" rx="3" fill="url(#mario-grondsteen)" stroke="#7a3512" stroke-width="1.5"/>
+            <rect x="2" y="99.5" width="196" height="6" rx="3" fill="#6cc04a" stroke="#3f8a48" stroke-width="1.5"/>
+          </g>
+
+          <!-- Het tellertje rechtsboven: een munt (of ster), een maalteken en twee cijferstroken. -->
+          <g class="mario-teller">
+            <g class="mario-teller-munt">
+              <ellipse cx="142" cy="14.4" rx="4.6" ry="6.2" fill="#f9d24a" stroke="#a86a00" stroke-width="1.4"/>
+              <rect x="141" y="11" width="2" height="6.8" rx="1" fill="#d99a12"/>
+            </g>
+            <path class="mario-teller-ster" d="M142 7.8L143.8 11.9L148.3 12.4L144.9 15.4L145.9 19.7L142 17.5L138.1 19.7L139.1 15.4L135.7 12.4L140.2 11.9Z" fill="#ffd23a" stroke="#a86a00" stroke-width="1.3" stroke-linejoin="round"/>
+            <path d="M152.5 13L158 18.5M158 13L152.5 18.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="square"/>
+            <path d="M151 11.5L156.5 17M156.5 11.5L151 17" fill="none" stroke="#1d2747" stroke-width="2" stroke-linecap="square"/>
+            <g class="mario-cijfers">
+              <g clip-path="url(#mario-tellervenster)">
+                <g class="mario-tientallen">
+                  <g fill="#fff"><text x="162.5" y="21.5">0</text><text x="162.5" y="37.5">1</text><text x="162.5" y="53.5">2</text><text x="162.5" y="69.5">3</text><text x="162.5" y="85.5">4</text><text x="162.5" y="101.5">5</text><text x="162.5" y="117.5">6</text><text x="162.5" y="133.5">7</text><text x="162.5" y="149.5">8</text><text x="162.5" y="165.5">9</text><text x="162.5" y="181.5">0</text></g>
+                  <g fill="#1d2747"><text x="161" y="20">0</text><text x="161" y="36">1</text><text x="161" y="52">2</text><text x="161" y="68">3</text><text x="161" y="84">4</text><text x="161" y="100">5</text><text x="161" y="116">6</text><text x="161" y="132">7</text><text x="161" y="148">8</text><text x="161" y="164">9</text><text x="161" y="180">0</text></g>
+                </g>
+                <g class="mario-eenheden">
+                  <g fill="#fff"><text x="174.5" y="21.5">0</text><text x="174.5" y="37.5">1</text><text x="174.5" y="53.5">2</text><text x="174.5" y="69.5">3</text><text x="174.5" y="85.5">4</text><text x="174.5" y="101.5">5</text><text x="174.5" y="117.5">6</text><text x="174.5" y="133.5">7</text><text x="174.5" y="149.5">8</text><text x="174.5" y="165.5">9</text><text x="174.5" y="181.5">0</text></g>
+                  <g fill="#1d2747"><text x="173" y="20">0</text><text x="173" y="36">1</text><text x="173" y="52">2</text><text x="173" y="68">3</text><text x="173" y="84">4</text><text x="173" y="100">5</text><text x="173" y="116">6</text><text x="173" y="132">7</text><text x="173" y="148">8</text><text x="173" y="164">9</text><text x="173" y="180">0</text></g>
+                </g>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <p id="lezen-tekst" class="lezen-tekst" role="status" aria-live="polite"></p>
+      <button id="annuleer-lezen" class="knop" type="button">Stoppen</button>
+    </div>
+  </dialog>
 
   <dialog id="tekenblad" class="tekenblad" aria-label="Tekenblad">
     <div class="tekenblad-balk">

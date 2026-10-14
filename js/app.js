@@ -21,6 +21,8 @@ const el = {
   foto: $('foto'),
   fotoVoorbeeld: $('foto-voorbeeld'),
   fotoStatus: $('foto-status'),
+  lezen: $('lezen'),
+  lezenTekst: $('lezen-tekst'),
   laden: $('laden'),
   annuleer: $('annuleer-lezen'),
   form: $('functie-form'),
@@ -125,6 +127,18 @@ function toonAfbeelding(afbeelding, bron) {
   el.fotoVoorbeeld.hidden = false;
 }
 
+/** Opent het venster met de laadanimatie van de stijl en de melding. */
+function toonLezen(tekst) {
+  el.lezenTekst.textContent = tekst;
+  // De laadanimatie begint telkens vooraan en in de eerste fase, ook als een vorige lezing nog liep:
+  // even verbergen en de browser dat laten verwerken, dan starten de animaties opnieuw.
+  delete el.laden.dataset.fase;
+  el.laden.hidden = true;
+  void el.laden.offsetWidth;
+  el.laden.hidden = false;
+  if (!el.lezen.open) el.lezen.showModal();
+}
+
 async function leesAfbeelding(afbeelding, bron) {
   const sleutel = instellingen.apiSleutel();
   if (!sleutel) {
@@ -138,20 +152,14 @@ async function leesAfbeelding(afbeelding, bron) {
   const dezeLezing = new AbortController();
   lezen = dezeLezing;
   const isActueel = () => lezen === dezeLezing;
-  el.annuleer.hidden = false;
-  zetStatus(el.fotoStatus, bron.bezig, 'bezig');
-  // De laadanimatie begint telkens vooraan en in de eerste fase, ook als een vorige lezing nog liep:
-  // even verbergen en de browser dat laten verwerken, dan starten de animaties opnieuw.
-  el.laden.hidden = true;
-  delete el.laden.dataset.fase;
-  void el.laden.offsetWidth;
-  el.laden.hidden = false;
+  zetStatus(el.fotoStatus, '');
+  toonLezen(bron.bezig);
   try {
     const resultaat = await leesFunctie(afbeelding, sleutel, dezeLezing.signal, {
       isLeesbaar,
       bijTweedePoging: () => {
         if (!isActueel()) return;
-        zetStatus(el.fotoStatus, 'Dat was niet helemaal duidelijk. Claude kijkt nog eens grondiger…', 'bezig');
+        el.lezenTekst.textContent = 'Dat was niet helemaal duidelijk. Claude kijkt nog eens grondiger…';
         el.laden.dataset.fase = 'grondig';
       },
     });
@@ -181,8 +189,7 @@ async function leesAfbeelding(afbeelding, bron) {
     }
   } finally {
     if (isActueel()) {
-      el.annuleer.hidden = true;
-      el.laden.hidden = true;
+      el.lezen.close();
       lezen = null;
     }
   }
@@ -267,6 +274,11 @@ function start() {
   $('open-tekenblad').addEventListener('click', () => tekenblad.open());
   koppelVerrassing(document.querySelector('.embleem'));
   el.annuleer.addEventListener('click', () => lezen?.abort());
+  // Escape stopt het lezen, net als Stoppen; het venster sluit pas als de lezing echt gestopt is.
+  el.lezen.addEventListener('cancel', (e) => {
+    e.preventDefault();
+    lezen?.abort();
+  });
   $('zoom-in').addEventListener('click', () => grafiek.zoom(1 / ZOOMSTAP));
   $('zoom-uit').addEventListener('click', () => grafiek.zoom(ZOOMSTAP));
   $('zoom-terug').addEventListener('click', () => grafiek.terug());

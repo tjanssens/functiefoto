@@ -284,21 +284,37 @@ select {
 .status[data-soort='bezig'] { color: var(--inkt-zacht); }
 
 /*
- * Laadanimatie onder de melding, zolang Claude de afbeelding leest (js/app.js).
- * Elke stijl heeft er een eigen tekening van 200 bij 120 in; stijlen.css toont die van de gekozen stijl.
- * Ze verschijnt telkens opnieuw als de container zichtbaar wordt, dus de animaties starten dan vooraan.
+ * Venster zolang Claude de afbeelding leest (js/app.js): de laadanimatie, de melding en Stoppen.
+ * Elke stijl heeft een eigen tekening van 200 bij 120, getoond op 250 bij 150 (voor Minecraft precies 5 px per blokje);
+ * stijlen.css toont die van de gekozen stijl.
+ * De animaties starten vooraan telkens het venster opengaat.
  */
-.laden {
-  margin-top: 0.6rem;
+#lezen {
+  width: min(22rem, calc(100vw - 32px));
+}
+
+.lezen-inhoud {
+  display: grid;
+  justify-items: center;
+  gap: 0.9rem;
+  padding: 1.5rem 1.25rem 1.25rem;
+  text-align: center;
 }
 
 .laden > svg {
   display: none;
-  width: 200px;
+  width: 250px;
   max-width: 100%;
   height: auto;
   aspect-ratio: 5 / 3;
   overflow: hidden;
+}
+
+.lezen-tekst {
+  margin: 0;
+  font-family: var(--font-kop);
+  font-weight: 600;
+  text-wrap: balance;
 }
 
 .voorbeeld {

@@ -843,7 +843,7 @@
  *
  * Eén cyclus duurt 4 s: vallen (0 tot 14 %), vijf slagen om de 10 % (20 tot 60 %), breken
  * (60 %), de buit (60 tot 95 %). Alle maten staan in eenheden van de viewBox (50 bij 30,
- * getoond op 200 bij 120 px: één eenheid is één pixel van de tekening, of 4 px).
+ * getoond op 250 bij 150 px: één eenheid is één pixel van de tekening, of 5 px).
  */
 [data-stijl='minecraft'] .laden-minecraft {
   --minecraft-cyclus: 4s;
